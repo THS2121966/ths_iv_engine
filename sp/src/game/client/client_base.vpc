@@ -1248,6 +1248,7 @@ $Project
 	
 	$Folder	"Link Libraries"
 	{
+		$Lib		..\..\fmod\api\lib\fmodex_vc	
 		$Lib		bitmap
 		$Lib		choreoobjects
 		$Lib		dmxloader

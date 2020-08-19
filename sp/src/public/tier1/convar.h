@@ -137,7 +137,7 @@ public:
 	// Returns the DLL identifier
 	virtual CVarDLLIdentifier_t	GetDLLIdentifier() const;
 
-protected:
+public:
 	virtual void				Create( const char *pName, const char *pHelpString = 0, 
 									int flags = 0 );
 
@@ -446,7 +446,6 @@ FORCEINLINE_CVAR Color ConVar::GetColor( void ) const
 	unsigned char *pColorElement = ((unsigned char *)&m_pParent->m_nValue);
 	return Color( pColorElement[0], pColorElement[1], pColorElement[2], pColorElement[3] );
 }
-
 
 //-----------------------------------------------------------------------------
 // Purpose: Return ConVar value as a string, return "" for bogus string pointer, etc.

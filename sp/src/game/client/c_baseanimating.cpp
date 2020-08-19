@@ -69,6 +69,9 @@
 static ConVar cl_SetupAllBones( "cl_SetupAllBones", "0" );
 ConVar r_sequence_debug( "r_sequence_debug", "" );
 
+// ths_dlight_weapon_effect
+static ConVar thsdev_wp_enable_muzzledlight( "thsdev_wp_enable_muzzledlight", "1" );
+
 // If an NPC is moving faster than this, he should play the running footstep sound
 const float RUN_SPEED_ESTIMATE_SQR = 150.0f * 150.0f;
 
@@ -3369,20 +3372,41 @@ void C_BaseAnimating::ProcessMuzzleFlashEvent()
 		//FIXME: We should really use a named attachment for this
 		if ( m_Attachments.Count() > 0 )
 		{
-			Vector vAttachment;
-			QAngle dummyAngles;
-			GetAttachment( 1, vAttachment, dummyAngles );
+			if ( thsdev_wp_enable_muzzledlight.GetBool() )
+			{	
+				Vector vAttachment, vAng;
+				QAngle angles;
+				GetAttachment( 1, vAttachment, angles );
 
-			// Make an elight
-			dlight_t *el = effects->CL_AllocElight( LIGHT_INDEX_MUZZLEFLASH + index );
-			el->origin = vAttachment;
-			el->radius = random->RandomInt( 32, 64 ); 
-			el->decay = el->radius / 0.05f;
-			el->die = gpGlobals->curtime + 0.05f;
-			el->color.r = 255;
-			el->color.g = 192;
-			el->color.b = 64;
-			el->color.exponent = 5;
+				AngleVectors( angles, &vAng );
+				vAttachment += vAng * 2;
+		
+				dlight_t *dl = effects->CL_AllocDlight ( index );
+				dl->origin = vAttachment;
+				dl->color.r = 255;
+				dl->color.g = 192;
+				dl->color.b = 64;
+				dl->die = gpGlobals->curtime + 0.05f;
+				dl->radius = random->RandomFloat( 245.0f, 256.0f );
+				dl->decay = 512.0f;
+			}
+			else
+			{
+				Vector vAttachment;
+				QAngle dummyAngles;
+				GetAttachment( 1, vAttachment, dummyAngles );
+
+				// Make an elight
+				dlight_t *el = effects->CL_AllocElight( LIGHT_INDEX_MUZZLEFLASH + index );
+				el->origin = vAttachment;
+				el->radius = random->RandomInt( 32, 64 ); 
+				el->decay = el->radius / 0.05f;
+				el->die = gpGlobals->curtime + 0.05f;
+				el->color.r = 255;
+				el->color.g = 192;
+				el->color.b = 64;
+				el->color.exponent = 5;
+			}	
 		}
 	}
 }

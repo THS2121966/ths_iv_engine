@@ -2237,7 +2237,6 @@ static void DrawPyroPost( IMaterial *pMaterial,
 	pRenderContext->PopMatrix();
 }
 
-
 static ConVar r_queued_post_processing( "r_queued_post_processing", "0" );
 
 // How much to dice up the screen during post-processing on 360
@@ -2663,6 +2662,25 @@ void DoEnginePostProcessing( int x, int y, int w, int h, bool bFlashlightIsOn, b
 #if defined( _X360 )
 	pRenderContext->PopVertexShaderGPRAllocation();
 #endif
+
+static IMaterial *ths_fg01 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_filmgrain01", TEXTURE_GROUP_OTHER );
+if ( ths_fg01 )
+{
+	UpdateScreenEffectTexture();
+	pRenderContext->DrawScreenSpaceRectangle( ths_fg01, 0, 0, w, h,
+						0, 0, w - 1, h - 1,
+						w, h );
+}
+
+/*static IMaterial *ths_an01 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_flare_an01", TEXTURE_GROUP_OTHER );
+if ( ths_an01 )
+{
+	UpdateScreenEffectTexture();
+	pRenderContext->DrawScreenSpaceRectangle( ths_an01, 0, 0, w, h,
+						0, 0, w - 1, h - 1,
+						w, h );
+}*/
+
 }
 
 // Motion Blur Material Proxy =========================================================================================

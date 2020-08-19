@@ -1,0 +1,6 @@
+..\..\devtools\bin\d3dx9_33.dll 
+..\..\devtools\bin\dx_proxy.dll 
+D:\Games\Steam\steamapps\common\ths_silent_operation01\bin\shadercompile.exe 
+D:\Games\Steam\steamapps\common\ths_silent_operation01\bin\shadercompile_dll.dll 
+D:\Games\Steam\steamapps\common\ths_silent_operation01\bin\vstdlib.dll 
+D:\Games\Steam\steamapps\common\ths_silent_operation01\bin\tier0.dll 

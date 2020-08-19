@@ -100,10 +100,10 @@ static ConVar r_flashlightdrawfrustum( "r_flashlightdrawfrustum", "0" );
 static ConVar r_flashlightmodels( "r_flashlightmodels", "1" );
 static ConVar r_shadowrendertotexture( "r_shadowrendertotexture", "0" );
 #ifdef ASW_PROJECTED_TEXTURES
-static ConVar r_shadow_lightpos_lerptime( "r_shadow_lightpos_lerptime", "0.5" );
-static ConVar r_shadowfromworldlights_debug( "r_shadowfromworldlights_debug", "0", FCVAR_CHEAT );
-static ConVar r_shadow_shortenfactor( "r_shadow_shortenfactor", "2" , 0, "Makes shadows cast from local lights shorter" );
-static ConVar r_shadow_mincastintensity( "r_shadow_mincastintensity", "0.3", FCVAR_CHEAT, "Minimum brightness of a light to be classed as shadow casting", true, 0, false, 0 );
+static ConVar thsdev_r_shadow_lightpos_lerptime( "thsdev_r_shadow_lightpos_lerptime", "0.38" );
+static ConVar thsdev_r_shadowfromworldlights_debug( "thsdev_r_shadowfromworldlights_debug", "0", FCVAR_CHEAT );
+static ConVar thsdev_r_shadow_shortenfactor( "thsdev_r_shadow_shortenfactor", "2" , 0, "Makes shadows cast from local lights shorter" );
+static ConVar thsdev_r_shadow_mincastintensity( "thsdev_r_shadow_mincastintensity", "0.3", FCVAR_CHEAT, "Minimum brightness of a light to be classed as shadow casting", true, 0, false, 0 );
 #endif
 static ConVar r_flashlight_version2( "r_flashlight_version2", "0", FCVAR_CHEAT | FCVAR_DEVELOPMENTONLY );
 
@@ -1368,10 +1368,10 @@ CON_COMMAND_F( r_shadowblobbycutoff, "some shadow stuff", FCVAR_CHEAT )
 
 #ifdef DYNAMIC_RTT_SHADOWS
 void OnShadowFromWorldLights( IConVar *var, const char *pOldValue, float flOldValue );
-static ConVar r_shadowfromworldlights( "r_shadowfromworldlights", "1", FCVAR_NONE, "Enable shadowing from world lights", OnShadowFromWorldLights );
+static ConVar thsdev_r_shadowfromworldlights( "thsdev_r_shadowfromworldlights", "1", FCVAR_NONE, "Enable shadowing from world lights", OnShadowFromWorldLights );
 void OnShadowFromWorldLights( IConVar *var, const char *pOldValue, float flOldValue )
 {
-	s_ClientShadowMgr.SuppressShadowFromWorldLights( !r_shadowfromworldlights.GetBool() );
+	s_ClientShadowMgr.SuppressShadowFromWorldLights( !thsdev_r_shadowfromworldlights.GetBool() );
 }
 #endif
 
@@ -1886,7 +1886,7 @@ void CClientShadowMgr::UpdateShadowDirectionFromLocalLightSource( ClientShadowHa
 	if ( shadow.m_LightPosLerp >= 1.0f )	// skip finding new light source if we're in the middle of a lerp
 	{
 		// Calculate minimum brightness squared
-		float flMinBrightnessSqr = r_shadow_mincastintensity.GetFloat();
+		float flMinBrightnessSqr = thsdev_r_shadow_mincastintensity.GetFloat();
 		flMinBrightnessSqr *= flMinBrightnessSqr;
 
 		if(g_pWorldLights->GetBrightestLightSource(pRenderable->GetRenderOrigin(), lightPos, lightBrightness) == false ||
@@ -1907,7 +1907,7 @@ void CClientShadowMgr::UpdateShadowDirectionFromLocalLightSource( ClientShadowHa
 	else if ( shadow.m_LightPosLerp < 1.0f )
 	{
 		// We're in the middle of a lerp from current to target light. Finish it.
-		shadow.m_LightPosLerp += gpGlobals->frametime * 1.0f/r_shadow_lightpos_lerptime.GetFloat();
+		shadow.m_LightPosLerp += gpGlobals->frametime * 1.0f/thsdev_r_shadow_lightpos_lerptime.GetFloat();
 		shadow.m_LightPosLerp = clamp( shadow.m_LightPosLerp, 0.0f, 1.0f );
 
 		Vector currLightPos( shadow.m_CurrentLightPos );
@@ -1977,12 +1977,12 @@ void CClientShadowMgr::UpdateShadowDirectionFromLocalLightSource( ClientShadowHa
 	Vector vecResult( origin - lightPos );
 	vecResult.NormalizeInPlace();
 
-	vecResult.z *= r_shadow_shortenfactor.GetFloat();
+	vecResult.z *= thsdev_r_shadow_shortenfactor.GetFloat();
 	vecResult.NormalizeInPlace();
 
 	shadow.m_ShadowDir = vecResult;
 
-	if ( r_shadowfromworldlights_debug.GetBool() )
+	if ( thsdev_r_shadowfromworldlights_debug.GetBool() )
 	{
 		NDebugOverlay::Line( lightPos, origin, 255, 255, 0, false, 0.0f );
 	}

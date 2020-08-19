@@ -424,12 +424,12 @@ struct FlashlightState_t
 		m_bDrawShadowFrustum = false;
 #ifdef ASW_PROJECTED_TEXTURES
 		m_flShadowMapResolution = 2048.0f;
-		m_flShadowFilterSize = 0.5f;
+		m_flShadowFilterSize = 0.55f;
 		m_flShadowSlopeScaleDepthBias = 16.0f;
 		m_flShadowDepthBias = 0.0005f;
 #elif defined(MAPBASE)
 		m_flShadowMapResolution = 2048;
-		m_flShadowFilterSize = 1.0f;
+		m_flShadowFilterSize = 0.55f;
 		m_flShadowSlopeScaleDepthBias = 4.0f;
 		m_flShadowDepthBias = 0.00001f;
 #else

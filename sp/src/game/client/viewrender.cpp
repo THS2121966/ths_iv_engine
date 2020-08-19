@@ -77,9 +77,11 @@
 #ifdef MAPBASE
 #include "mapbase/c_func_fake_worldportal.h"
 #endif
-
 // Projective textures
 #include "C_Env_Projected_Texture.h"
+
+// THS_SSE_Integration
+#include "ShaderEditor/ShaderEditorSystem.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
@@ -182,8 +184,7 @@ extern ConVar localplayer_visionflags;
 
 #ifdef MAPBASE
 static ConVar r_nearz_skybox( "r_nearz_skybox", "2.0", FCVAR_CHEAT );
-#endif
-
+#endif  
 //-----------------------------------------------------------------------------
 // Globals
 //-----------------------------------------------------------------------------
@@ -496,11 +497,10 @@ protected:
 
 	void			SSAO_DepthPass();
 	void			DrawDepthOfField();
-
 #ifdef MAPBASE
 	virtual ITexture	*GetRefractionTexture() { return GetWaterRefractionTexture(); }
 	virtual ITexture	*GetReflectionTexture() { return GetWaterReflectionTexture(); }
-#endif
+#endif	  
 };
 
 
@@ -687,11 +687,10 @@ public:
 	void Draw();
 
 	cplane_t m_ReflectionPlane;
-
 #ifdef MAPBASE
 	ITexture	*GetReflectionTexture() { return m_pRenderTarget; }
 	ITexture *m_pRenderTarget;
-#endif
+#endif  
 };
 
 class CRefractiveGlassView : public CSimpleWorldView
@@ -709,11 +708,10 @@ public:
 	void Draw();
 
 	cplane_t m_ReflectionPlane;
-
 #ifdef MAPBASE
 	ITexture	*GetRefractionTexture() { return m_pRenderTarget; }
 	ITexture *m_pRenderTarget;
-#endif
+#endif  
 };
 
 
@@ -805,6 +803,7 @@ CLIENTEFFECT_REGISTER_END()
 #endif
 
 CLIENTEFFECT_REGISTER_BEGIN( PrecachePostProcessingEffects )
+	CLIENTEFFECT_MATERIAL( "effects/stunstick" )
 	CLIENTEFFECT_MATERIAL( "dev/blurfiltery_and_add_nohdr" )
 	CLIENTEFFECT_MATERIAL( "dev/blurfilterx" )
 	CLIENTEFFECT_MATERIAL( "dev/blurfilterx_nohdr" )
@@ -825,6 +824,10 @@ CLIENTEFFECT_REGISTER_BEGIN( PrecachePostProcessingEffects )
 	CLIENTEFFECT_MATERIAL( "dev/engine_post" )
 	CLIENTEFFECT_MATERIAL( "dev/motion_blur" )
 	CLIENTEFFECT_MATERIAL( "dev/upscale" )
+	
+	//THS_screen_space_effects
+	CLIENTEFFECT_MATERIAL( "ths_shaderedit_effects/post_screen/ths_filmgrain01" )
+	//CLIENTEFFECT_MATERIAL( "ths_shaderedit_effects/post_screen/ths_flare_an01" )	
 
 #ifdef TF_CLIENT_DLL
 	CLIENTEFFECT_MATERIAL( "dev/pyro_blur_filter_y" )
@@ -1392,6 +1395,12 @@ void CViewRender::ViewDrawScene( bool bDrew3dSkybox, SkyboxVisibility_t nSkyboxV
 	ParticleMgr()->IncrementFrameCode();
 
 	DrawWorldAndEntities( drawSkybox, view, nClearFlags, pCustomVisibility );
+	
+	VisibleFogVolumeInfo_t fogVolumeInfo;
+	render->GetVisibleFogVolume( view.origin, &fogVolumeInfo );
+	WaterRenderInfo_t info;
+	DetermineWaterRenderInfo( fogVolumeInfo, info );
+	g_ShaderEditorSystem->CustomViewRender( &g_CurrentViewID, fogVolumeInfo, info );	
 
 	// Disable fog for the rest of the stuff
 	DisableFog();
@@ -1996,7 +2005,6 @@ void CViewRender::RenderView( const CViewSetup &view, int nClearFlags, int whatT
 		{
 			CViewSetup viewMiddle = GetView( STEREO_EYE_MONO );
 			DrawMonitors( viewMiddle );	
-
 #ifdef MAPBASE
 			// Any fake world portals?
 			Frustum_t frustum;
@@ -2016,7 +2024,7 @@ void CViewRender::RenderView( const CViewSetup &view, int nClearFlags, int whatT
 
 				pPortalEnt = NextFakeWorldPortal( pPortalEnt, view, portalPlane, frustum );
 			}
-#endif
+#endif  
 		}
 	#endif
 
@@ -2041,6 +2049,7 @@ void CViewRender::RenderView( const CViewSetup &view, int nClearFlags, int whatT
 		if ( ( bDrew3dSkybox = pSkyView->Setup( view, &nClearFlags, &nSkyboxVisible ) ) != false )
 		{
 			AddViewToScene( pSkyView );
+			g_ShaderEditorSystem->UpdateSkymask(false, view.x, view.y, view.width, view.height);			
 		}
 		SafeRelease( pSkyView );
 #endif
@@ -2124,6 +2133,8 @@ void CViewRender::RenderView( const CViewSetup &view, int nClearFlags, int whatT
 		if (!bDrawnViewmodel)
 #endif
 		DrawViewModels( view, whatToDraw & RENDERVIEW_DRAWVIEWMODEL );
+		
+		g_ShaderEditorSystem->UpdateSkymask( bDrew3dSkybox, view.x, view.y, view.width, view.height);		
 
 		DrawUnderwaterOverlay();
 
@@ -2161,6 +2172,8 @@ void CViewRender::RenderView( const CViewSetup &view, int nClearFlags, int whatT
 			}
 			pRenderContext.SafeRelease();
 		}
+		
+		g_ShaderEditorSystem->CustomPostRender();		
 
 		// And here are the screen-space effects
 
@@ -2668,7 +2681,7 @@ void CViewRender::DrawWorldAndEntities( bool bDrawSkybox, const CViewSetup &view
 
 			pReflectiveGlass = NextReflectiveGlass( pReflectiveGlass, viewIn, glassReflectionPlane, frustum, pTextureTargets );
 		}
-#else
+#else	 
 		if ( IsReflectiveGlassInView( viewIn, glassReflectionPlane ) )
 		{								    
 			CRefPtr<CReflectiveGlassView> pGlassReflectionView = new CReflectiveGlassView( this );
@@ -2679,7 +2692,7 @@ void CViewRender::DrawWorldAndEntities( bool bDrawSkybox, const CViewSetup &view
 			pGlassRefractionView->Setup( viewIn, VIEW_CLEAR_DEPTH | VIEW_CLEAR_COLOR, bDrawSkybox, fogVolumeInfo, info, glassReflectionPlane );
 			AddViewToScene( pGlassRefractionView );
 		}
-#endif
+#endif	  
 
 		CRefPtr<CSimpleWorldView> pNoWaterView = new CSimpleWorldView( this );
 		pNoWaterView->Setup( viewIn, nClearFlags, bDrawSkybox, fogVolumeInfo, info, pCustomVisibility );
@@ -3575,8 +3588,7 @@ bool CViewRender::DrawFakeWorldPortal( ITexture *pRenderTarget, C_FuncFakeWorldP
 	ViewDrawScene( bDrew3dSkybox, nSkyMode, monitorView, nClearFlags, VIEW_MONITOR );
 
 	pRenderContext->PopCustomClipPlane();
- 	render->PopView( frustum );
-
+ 	render->PopView( frustum );				 
 	// Reset the world fog parameters.
 	if ( fogEnabled )
 	{
@@ -3589,7 +3601,7 @@ bool CViewRender::DrawFakeWorldPortal( ITexture *pRenderTarget, C_FuncFakeWorldP
 #endif // USE_MONITORS
 	return true;
 }
-#endif
+#endif	  
 
 void CViewRender::DrawMonitors( const CViewSetup &cameraView )
 {
@@ -3633,8 +3645,7 @@ void CViewRender::DrawMonitors( const CViewSetup &cameraView )
 			width = pCameraTarget->GetActualWidth();
 			height = pCameraTarget->GetActualHeight();
 		}
-#endif
-
+#endif  
 		if ( !DrawOneMonitor( pCameraTarget, cameraNum, pCameraEnt, cameraView, player, 0, 0, width, height ) )
 			continue;
 
@@ -5231,8 +5242,8 @@ void CSkyboxView::DrawInternal( view_id_t iSkyBoxViewID, bool bInvokePreAndPostR
 	// with this near plane.  If so, move it in a bit.  It's at 2.0 to give us more precision.  That means you 
 	// need to keep the eye position at least 2 * scale away from the geometry in the skybox
 #ifdef MAPBASE
-	zNear = r_nearz_skybox.GetFloat();
-
+	zNear = r_nearz_skybox.GetFloat();							   
+								   
 	// Use the fog's farz if specified
 	if (m_pSky3dParams->fog.farz > 0)
 	{
@@ -5241,8 +5252,8 @@ void CSkyboxView::DrawInternal( view_id_t iSkyBoxViewID, bool bInvokePreAndPostR
 			m_pSky3dParams->fog.farz );
 	}
 	else
-#else
-	zNear = 2.0;
+#else	 
+	zNear = 2.0;			 
 #endif
 	zFar = MAX_TRACE_LENGTH;
 
@@ -5368,7 +5379,6 @@ void CSkyboxView::DrawInternal( view_id_t iSkyBoxViewID, bool bInvokePreAndPostR
 		}
 	}
 #endif
-
 	m_pMainView->DisableFog();
 
 	CGlowOverlay::UpdateSkyOverlays( zFar, m_bCacheFullSceneState );
@@ -6772,7 +6782,7 @@ bool CReflectiveGlassView::AdjustView( float flWaterHeight )
 	ITexture *pTexture = GetReflectionTexture();
 #else
 	ITexture *pTexture = GetWaterReflectionTexture();
-#endif
+#endif	  
 		   
 	// Use the aspect ratio of the main view! So, don't recompute it here
 	x = y = 0;
@@ -6800,9 +6810,9 @@ void CReflectiveGlassView::PushView( float waterHeight )
 {
 #ifdef MAPBASE
 	render->Push3DView( *this, m_ClearFlags, GetReflectionTexture(), GetFrustum() );
-#else
+#else 
 	render->Push3DView( *this, m_ClearFlags, GetWaterReflectionTexture(), GetFrustum() );
-#endif
+#endif	  
 	 
 	Vector4D plane;
 	VectorCopy( m_ReflectionPlane.normal, plane.AsVector3D() );
@@ -6870,9 +6880,9 @@ bool CRefractiveGlassView::AdjustView( float flWaterHeight )
 {
 #ifdef MAPBASE
 	ITexture *pTexture = GetRefractionTexture();
-#else
+#else 
 	ITexture *pTexture = GetWaterRefractionTexture();
-#endif
+#endif	  
 
 	// Use the aspect ratio of the main view! So, don't recompute it here
 	x = y = 0;
@@ -6886,9 +6896,9 @@ void CRefractiveGlassView::PushView( float waterHeight )
 {
 #ifdef MAPBASE
 	render->Push3DView( *this, m_ClearFlags, GetRefractionTexture(), GetFrustum() );
-#else
+#else	 
 	render->Push3DView( *this, m_ClearFlags, GetWaterRefractionTexture(), GetFrustum() );
-#endif
+#endif	  
 
 	Vector4D plane;
 	VectorMultiply( m_ReflectionPlane.normal, -1, plane.AsVector3D() );

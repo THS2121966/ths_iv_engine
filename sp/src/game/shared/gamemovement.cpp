@@ -35,6 +35,10 @@ extern IFileSystem *filesystem;
 	static ConVar dispcoll_drawplane( "dispcoll_drawplane", "0" );
 #endif
 
+//ths_vblob_convars
+ConVar thsdev_cl_viewbob_enabled	( "thsdev_cl_viewbob_enabled", "1", 0, "Oscillation Toggle", true, 0, true, 1 );
+ConVar thsdev_cl_viewbob_timer		( "thsdev_cl_viewbob_timer", "10", 0, "Speed of Oscillation");
+ConVar thsdev_cl_viewbob_scale		( "thsdev_cl_viewbob_scale", "0.018", 0, "Magnitude of Oscillation");
 
 // tickcount currently isn't set during prediction, although gpGlobals->curtime and
 // gpGlobals->frametime are. We should probably set tickcount (to player->m_nTickBase),
@@ -57,8 +61,7 @@ ConVar option_duck_method("option_duck_method", "1", FCVAR_REPLICATED|FCVAR_ARCH
 
 #ifdef MAPBASE
 ConVar player_crouch_multiplier( "player_crouch_multiplier", "0.33333333", FCVAR_NONE );
-#endif
-
+#endif 
 #ifdef STAGING_ONLY
 #ifdef CLIENT_DLL
 ConVar debug_latch_reset_onduck( "debug_latch_reset_onduck", "1", FCVAR_CHEAT );
@@ -1898,6 +1901,13 @@ void CGameMovement::StayOnGround( void )
 //-----------------------------------------------------------------------------
 void CGameMovement::WalkMove( void )
 {
+ if ( thsdev_cl_viewbob_enabled.GetInt() == 1 && !engine->IsPaused() )
+	{
+		float xoffset = sin( gpGlobals->curtime * thsdev_cl_viewbob_timer.GetFloat() ) * player->GetAbsVelocity().Length() * thsdev_cl_viewbob_scale.GetFloat() / 100;
+		float yoffset = sin( 2 * gpGlobals->curtime * thsdev_cl_viewbob_timer.GetFloat() ) * player->GetAbsVelocity().Length() * thsdev_cl_viewbob_scale.GetFloat() / 400;
+		player->ViewPunch( QAngle( xoffset, yoffset, 0));
+	}
+	
 	int i;
 
 	Vector wishvel;

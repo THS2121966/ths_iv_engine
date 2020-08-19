@@ -41,6 +41,10 @@
 #include "xbox/xbox_console.h"
 #endif
 
+//Fenix: Needed for the custom background loading screens
+#include "GameUI/IGameUI.h"
+#include "mapload_background.h"
+
 #if defined( REPLAY_ENABLED )
 #include "replay/replaycamera.h"
 #include "replay/ireplaysystem.h"
@@ -67,8 +71,7 @@ extern ConVar replay_rendersetting_renderglow;
 
 #ifdef GLOWS_ENABLE
 #include "clienteffectprecachesystem.h"
-#endif
-
+#endif				   
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
@@ -79,6 +82,11 @@ class CHudChat;
 class CHudVote;
 
 static vgui::HContext s_hVGuiContext = DEFAULT_VGUI_CONTEXT;
+
+//Fenix: Needed for the custom background loading screens
+// See interface.h/.cpp for specifics:  basically this ensures that we actually Sys_UnloadModule the dll and that we don't call Sys_LoadModule 
+//  over and over again.
+static CDllDemandLoader g_GameUI( "GameUI" );
 
 ConVar cl_drawhud( "cl_drawhud", "1", FCVAR_CHEAT, "Enable the rendering of the hud" );
 #ifdef DEMO_AUTORECORD
@@ -92,6 +100,10 @@ extern ConVar v_viewmodel_fov;
 extern ConVar voice_modenable;
 
 extern bool IsInCommentaryMode( void );
+
+//Fenix: Needed for the custom background loading screens
+CMapLoadBG *pPanelBg;
+IMaterial *pMatMapBg;
 
 #ifdef GLOWS_ENABLE
 CLIENTEFFECT_REGISTER_BEGIN( PrecachePostProcessingEffectsGlow )
@@ -291,6 +303,10 @@ ClientModeShared::ClientModeShared()
 	m_pWeaponSelection = NULL;
 	m_nRootSize[ 0 ] = m_nRootSize[ 1 ] = -1;
 
+//Fenix: Needed for the custom background loading screens
+pPanelBg = NULL;
+pMatMapBg = NULL;
+
 #if defined( REPLAY_ENABLED )
 	m_pReplayReminderPanel = NULL;
 	m_flReplayStartRecordTime = 0.0f;
@@ -380,6 +396,22 @@ void ClientModeShared::Init()
 
 	HOOK_MESSAGE( VGUIMenu );
 	HOOK_MESSAGE( Rumble );
+	
+//Fenix: Custom background loading screens - Injects the custom panel at the loading screen
+	CreateInterfaceFn gameUIFactory = g_GameUI.GetFactory();
+	if ( gameUIFactory )
+	{
+		IGameUI *pGameUI = ( IGameUI * )gameUIFactory( GAMEUI_INTERFACE_VERSION, NULL );
+		if ( pGameUI )
+		{
+			// insert custom loading panel for the loading dialog
+			pPanelBg = new CMapLoadBG( "Background" );
+			pPanelBg->InvalidateLayout( false, true );
+			pPanelBg->SetVisible(false);
+			pPanelBg->MakePopup( false );
+			pGameUI->SetLoadingBackgroundDialog( pPanelBg->GetVPanel() );
+		}
+	}	
 }
 
 
@@ -777,8 +809,7 @@ bool ClientModeShared::DoPostScreenSpaceEffects( const CViewSetup *pSetup )
 {
 #ifdef GLOWS_ENABLE
 	g_GlowObjectManager.RenderGlowEffects( pSetup, 0 );
-#endif
-
+#endif	
 #if defined( REPLAY_ENABLED )
 	if ( engine->IsPlayingDemo() )
 	{
@@ -848,6 +879,28 @@ void ClientModeShared::LevelInit( const char *newmap )
 	// Reset any player explosion/shock effects
 	CLocalPlayerFilter filter;
 	enginesound->SetPlayerDSP( filter, 0, true );
+	
+//Fenix: Custom background loading screens - decides if use a loading screen for a map or a default one
+
+#ifdef _WIN32
+	char szMapBgName[MAX_PATH];
+#else	// !_WIN32
+	char szMapBgName[PATH_MAX];
+#endif	// _WIN32
+	
+	Q_snprintf( szMapBgName, sizeof( szMapBgName ), "vgui/loading/maps/%s", newmap );
+
+	pMatMapBg = materials->FindMaterial( szMapBgName, TEXTURE_GROUP_OTHER );
+
+	if ( !pMatMapBg->IsErrorMaterial() )
+	{
+		Q_snprintf( szMapBgName, sizeof( szMapBgName ), "loading/maps/%s", newmap );
+		pPanelBg->SetNewBackgroundImage( szMapBgName );
+	}
+	else
+	{
+		pPanelBg->SetNewBackgroundImage( "loading/default" );
+	}	
 
 #ifdef DEMO_AUTORECORD
 	AutoRecord(newmap);
