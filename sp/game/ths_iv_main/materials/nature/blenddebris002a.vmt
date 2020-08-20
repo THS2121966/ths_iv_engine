@@ -1,0 +1,14 @@
+SDK_WorldVertexTransition
+{
+	"$basetexture" "nature/dirtfloor004a"
+	"$basetexture2" "concrete/concretefloor007a"
+
+	"%tooltexture" "nature/blenddebris002a_tooltexture"
+	"$surfaceprop" "dirt"
+	"$surfaceprop2" "concrete"
+	"$basetexturetransform" "center .5 .5 scale 1 1 rotate 0 translate 0 0"
+        "$basetexturetransform2" "center .5 .5 scale 1 1 rotate 0 translate 0 0"
+	"%keywords" "c17downtown"
+	"$bumpmap1" "dev/flat_normal"
+	"$bumpmap2" "concrete/concretefloor007a_normal"
+}

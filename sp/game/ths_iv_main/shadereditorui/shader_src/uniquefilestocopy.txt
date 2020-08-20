@@ -1,0 +1,17 @@
+bin\dx_proxy.dll
+d:\games\steam\steamapps\common\ths_silent_operation01\bin\\tier0.dll
+d:\games\steam\steamapps\common\ths_silent_operation01\bin\\vstdlib.dll
+common_fxc.h
+common_hlsl_cpp_consts.h
+common_pragmas.h
+common_ps_fxc.h
+common_vs_fxc.h
+common_vertexlitgeneric_dx9.h
+common_lightmappedgeneric_fxc.h
+common_flashlight_fxc.h
+common_parallax.h
+d:\games\steam\steamapps\common\ths_silent_operation01\bin\\shadercompile.exe
+d:\games\steam\steamapps\common\ths_silent_operation01\bin\\shadercompile_dll.dll
+000000_ths_filmgrain01_pos_preview_vs30.fxc
+000000_ths_filmgrain01_preview_vs30.fxc
+000000_ths_filmgrain01_preview_ps30.fxc
