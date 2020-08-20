@@ -3,12 +3,12 @@
 	game 		"ths_iv_main"
 	title 		"HALF-LIFE'"
 	title2		""
-	supportsvr	1
+	supportsvr	0
 
 	type		singleplayer_only
 	
 	GameData	"halflife2.fgd"
-	InstancePath "maps/instances/"	
+	InstancePath "maps/instance/"	
 
 	FileSystem
 	{
@@ -50,14 +50,13 @@
 			game+mod+mod_write+default_write_path		|gameinfo_path|.
 			gamebin				|gameinfo_path|bin
 			
-			game				|gameinfo_path|ths_iv_content/ths_vpks/episodic_mapbase_content.vpk
-			game				|gameinfo_path|ths_iv_content/ths_vpks/episodic_materials.vpk
-			game				|gameinfo_path|ths_iv_content/ths_vpks/episodic_scenes.vpk
-			game				|gameinfo_path|ths_iv_content/ths_vpks/hl2_mapbase_content.vpk
-			game				|gameinfo_path|ths_iv_content/ths_vpks/hl2_materials.vpk
-			game				|gameinfo_path|ths_iv_content/ths_vpks/hl2_scenes.vpk
-			game				|gameinfo_path|ths_iv_content/ths_vpks/lostcoast_materials.vpk
-			game				|gameinfo_path|ths_iv_content/ths_vpks/shared_content.vpk			
+			game				|gameinfo_path|ths_mapbase_content/episodic_mapbase_content.vpk
+			game				|gameinfo_path|ths_mapbase_content/episodic_materials.vpk
+			game				|gameinfo_path|ths_mapbase_content/episodic_scenes.vpk
+			game				|gameinfo_path|ths_mapbase_content/hl2_mapbase_content.vpk
+			game				|gameinfo_path|ths_mapbase_content/hl2_materials.vpk
+			game				|gameinfo_path|ths_mapbase_content/hl2_scenes.vpk
+			game				|gameinfo_path|ths_mapbase_content/shared_content.vpk			
 
 			// We search VPK files before ordinary folders, because most files will be found in
 			// VPK and we can avoid making thousands of file system calls to attempt to open files
