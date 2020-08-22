@@ -2664,22 +2664,13 @@ void DoEnginePostProcessing( int x, int y, int w, int h, bool bFlashlightIsOn, b
 #endif
 
 static IMaterial *ths_fg01 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_filmgrain01", TEXTURE_GROUP_OTHER );
-if ( ths_fg01 )
-{
-	UpdateScreenEffectTexture();
-	pRenderContext->DrawScreenSpaceRectangle( ths_fg01, 0, 0, w, h,
-						0, 0, w - 1, h - 1,
-						w, h );
-}
-
-/*static IMaterial *ths_an01 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_flare_an01", TEXTURE_GROUP_OTHER );
-if ( ths_an01 )
-{
-	UpdateScreenEffectTexture();
-	pRenderContext->DrawScreenSpaceRectangle( ths_an01, 0, 0, w, h,
-						0, 0, w - 1, h - 1,
-						w, h );
-}*/
+	if ( ths_fg01 )
+	{
+		UpdateScreenEffectTexture();
+		pRenderContext->DrawScreenSpaceRectangle( ths_fg01, 0, 0, w, h,
+							0, 0, w - 1, h - 1,
+							w, h );
+	}
 
 }
 
