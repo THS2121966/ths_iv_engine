@@ -826,8 +826,7 @@ CLIENTEFFECT_REGISTER_BEGIN( PrecachePostProcessingEffects )
 	CLIENTEFFECT_MATERIAL( "dev/upscale" )
 	
 	//THS_screen_space_effects
-	CLIENTEFFECT_MATERIAL( "ths_shaderedit_effects/post_screen/ths_filmgrain01" )
-	//CLIENTEFFECT_MATERIAL( "ths_shaderedit_effects/post_screen/ths_flare_an01" )	
+	CLIENTEFFECT_MATERIAL( "ths_shaderedit_effects/post_screen/ths_filmgrain01" )	
 
 #ifdef TF_CLIENT_DLL
 	CLIENTEFFECT_MATERIAL( "dev/pyro_blur_filter_y" )
