@@ -81,7 +81,7 @@
 ]
 @PointClass base(Propper)  studio("models/editor/cone_helper.mdl") = propper_particles : "Attach a particle emitter to this prop. This is for 2007 or 2009 engines only. Does not work with prop_static."
 [
-	name(string) : "Particle system" : "" : "The name of a particle system. NOT the name of a .pcf file!"
+	name(particlesystem) : "Particle system" : "" : "The name of a particle system. NOT the name of a .pcf file!"
 	attachment_type(choices) : "Attachment Type" : "follow_origin" : "'Spawn at' choices will start the particle system at the prop's position, but if the prop moves, the particle emitter stays in place. Good for short-term effects like explosions" =
 	[
 		"start_at_origin" : "Spawn at prop origin"
@@ -89,7 +89,7 @@
 		"follow_origin" : "Follow prop's origin"
 		"follow_attachment" : "Follow prop at attachment"
 	]
-	attachment_point(string) : "Attachment point" : "" : "The attachment point at which the particle system should spawn. Use a propper_attachment for this."
+	attachment_point(target_destination) : "Attachment point" : "" : "The attachment point at which the particle system should spawn. Use a propper_attachment for this."
 ]
 @PointClass base(Propper) iconsprite("editor/multi_manager.vmt") = propper_cables : "Attach a visual cable to the selected prop. Does not work on static props."
 [
