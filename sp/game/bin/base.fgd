@@ -9518,8 +9518,3 @@
 	input Task3Urgency(integer) : "Set task 3 urgency (0-4)"
 	input Task4Urgency(integer) : "Set task 4 urgency (0-4)"
 ]
-
-@SolidClass base(Targetname, Parentname) = func_detail_blocker : 
-	"A brush entity that prevents detail sprites from being placed inside its volume."
-[
-]
