@@ -32,6 +32,7 @@ $Project "Client (IV)"
 		$File	"menu_background.cpp"
 		$File	"fmod_manager.cpp"
 		$File	"fmod_manager.h"
+		$File	"c_env_dof_controller.cpp"		
 
 		$Folder "ths_entities"
 		{
