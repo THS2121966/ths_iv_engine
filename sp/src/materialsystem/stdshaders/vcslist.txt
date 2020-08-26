@@ -1,2 +1,6 @@
-..\..\..\game\hl2\shaders\fxc\depth_of_field_ps20b.vcs
-..\..\..\game\hl2\shaders\fxc\depth_of_field_vs20.vcs
+..\..\..\game\hl2\shaders\fxc\water_flow_ps20.vcs
+..\..\..\game\hl2\shaders\fxc\water_flow_ps20b.vcs
+..\..\..\game\hl2\shaders\fxc\water_flow_vs20.vcs
+..\..\..\game\hl2\shaders\fxc\WaterCheap_flow_ps20.vcs
+..\..\..\game\hl2\shaders\fxc\WaterCheap_flow_ps20b.vcs
+..\..\..\game\hl2\shaders\fxc\WaterCheap_flow_vs20.vcs

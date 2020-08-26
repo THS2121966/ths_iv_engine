@@ -1,0 +1,60 @@
+default:  fxctmp9_tmp\water_flow_ps20.inc shaders\fxc\water_flow_ps20.vcs fxctmp9_tmp\water_flow_ps20b.inc shaders\fxc\water_flow_ps20b.vcs fxctmp9_tmp\water_flow_vs20.inc shaders\fxc\water_flow_vs20.vcs fxctmp9_tmp\WaterCheap_flow_ps20.inc shaders\fxc\WaterCheap_flow_ps20.vcs fxctmp9_tmp\WaterCheap_flow_ps20b.inc shaders\fxc\WaterCheap_flow_ps20b.vcs fxctmp9_tmp\WaterCheap_flow_vs20.inc shaders\fxc\WaterCheap_flow_vs20.vcs
+
+fxctmp9_tmp\water_flow_ps20.inc shaders\fxc\water_flow_ps20.vcs: water_flow_ps2x.fxc common_hlsl_cpp_consts.h shader_constant_register_map.h common_pragmas.h common_ps_fxc.h common_fxc.h common_vertexlitgeneric_dx9.h common_flashlight_fxc.h
+	perl ..\..\devtools\bin\fxc_prep.pl   -source "..\.." water_flow_ps2x.fxc-----water_flow_ps20
+	echo water_flow_ps2x.fxc>> filestocopy.txt
+	echo common_hlsl_cpp_consts.h>> filestocopy.txt
+	echo shader_constant_register_map.h>> filestocopy.txt
+	echo common_pragmas.h>> filestocopy.txt
+	echo common_ps_fxc.h>> filestocopy.txt
+	echo common_fxc.h>> filestocopy.txt
+	echo common_vertexlitgeneric_dx9.h>> filestocopy.txt
+	echo common_flashlight_fxc.h>> filestocopy.txt
+
+fxctmp9_tmp\water_flow_ps20b.inc shaders\fxc\water_flow_ps20b.vcs: water_flow_ps2x.fxc common_hlsl_cpp_consts.h shader_constant_register_map.h common_pragmas.h common_ps_fxc.h common_fxc.h common_vertexlitgeneric_dx9.h common_flashlight_fxc.h
+	perl ..\..\devtools\bin\fxc_prep.pl   -source "..\.." water_flow_ps2x.fxc-----water_flow_ps20b
+	echo water_flow_ps2x.fxc>> filestocopy.txt
+	echo common_hlsl_cpp_consts.h>> filestocopy.txt
+	echo shader_constant_register_map.h>> filestocopy.txt
+	echo common_pragmas.h>> filestocopy.txt
+	echo common_ps_fxc.h>> filestocopy.txt
+	echo common_fxc.h>> filestocopy.txt
+	echo common_vertexlitgeneric_dx9.h>> filestocopy.txt
+	echo common_flashlight_fxc.h>> filestocopy.txt
+
+fxctmp9_tmp\water_flow_vs20.inc shaders\fxc\water_flow_vs20.vcs: water_flow_vs20.fxc common_fxc.h common_vs_fxc.h common_pragmas.h common_hlsl_cpp_consts.h
+	perl ..\..\devtools\bin\fxc_prep.pl   -source "..\.." water_flow_vs20.fxc-----water_flow_vs20
+	echo water_flow_vs20.fxc>> filestocopy.txt
+	echo common_fxc.h>> filestocopy.txt
+	echo common_vs_fxc.h>> filestocopy.txt
+	echo common_pragmas.h>> filestocopy.txt
+	echo common_hlsl_cpp_consts.h>> filestocopy.txt
+
+fxctmp9_tmp\WaterCheap_flow_ps20.inc shaders\fxc\WaterCheap_flow_ps20.vcs: WaterCheap_flow_ps2x.fxc common_pragmas.h common_ps_fxc.h common_fxc.h common_vertexlitgeneric_dx9.h common_hlsl_cpp_consts.h shader_constant_register_map.h
+	perl ..\..\devtools\bin\fxc_prep.pl   -source "..\.." WaterCheap_flow_ps2x.fxc-----WaterCheap_flow_ps20
+	echo WaterCheap_flow_ps2x.fxc>> filestocopy.txt
+	echo common_pragmas.h>> filestocopy.txt
+	echo common_ps_fxc.h>> filestocopy.txt
+	echo common_fxc.h>> filestocopy.txt
+	echo common_vertexlitgeneric_dx9.h>> filestocopy.txt
+	echo common_hlsl_cpp_consts.h>> filestocopy.txt
+	echo shader_constant_register_map.h>> filestocopy.txt
+
+fxctmp9_tmp\WaterCheap_flow_ps20b.inc shaders\fxc\WaterCheap_flow_ps20b.vcs: WaterCheap_flow_ps2x.fxc common_pragmas.h common_ps_fxc.h common_fxc.h common_vertexlitgeneric_dx9.h common_hlsl_cpp_consts.h shader_constant_register_map.h
+	perl ..\..\devtools\bin\fxc_prep.pl   -source "..\.." WaterCheap_flow_ps2x.fxc-----WaterCheap_flow_ps20b
+	echo WaterCheap_flow_ps2x.fxc>> filestocopy.txt
+	echo common_pragmas.h>> filestocopy.txt
+	echo common_ps_fxc.h>> filestocopy.txt
+	echo common_fxc.h>> filestocopy.txt
+	echo common_vertexlitgeneric_dx9.h>> filestocopy.txt
+	echo common_hlsl_cpp_consts.h>> filestocopy.txt
+	echo shader_constant_register_map.h>> filestocopy.txt
+
+fxctmp9_tmp\WaterCheap_flow_vs20.inc shaders\fxc\WaterCheap_flow_vs20.vcs: WaterCheap_flow_vs20.fxc common_vs_fxc.h common_pragmas.h common_hlsl_cpp_consts.h common_fxc.h
+	perl ..\..\devtools\bin\fxc_prep.pl   -source "..\.." WaterCheap_flow_vs20.fxc-----WaterCheap_flow_vs20
+	echo WaterCheap_flow_vs20.fxc>> filestocopy.txt
+	echo common_vs_fxc.h>> filestocopy.txt
+	echo common_pragmas.h>> filestocopy.txt
+	echo common_hlsl_cpp_consts.h>> filestocopy.txt
+	echo common_fxc.h>> filestocopy.txt
+
