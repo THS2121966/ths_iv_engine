@@ -60,6 +60,7 @@ bool		g_bDumpRtEnv = false;
 bool		bRed2Black = true;
 bool		g_bFastAmbient = false;
 bool        g_bNoSkyRecurse = false;
+bool        g_bNoAO = false;
 
 int			junk;
 
@@ -1944,6 +1945,15 @@ bool RadWorld_Go()
 
 	InitMacroTexture( source );
 
+	if ( !g_bNoAO )
+	{
+		Msg("   [THS] AO Brush Calculate is Enabled. Calculate...   ");		
+	}
+	else
+	{
+		Msg("   [THS] AO Brush Calculate is DISABLED.   ");
+	}
+
 	if( g_pIncremental )
 	{
 		g_pIncremental->PrepareForLighting();
@@ -2238,6 +2248,12 @@ extern void CloseDispLuxels();
 
 void VRAD_Finish()
 {
+	
+	if ( !g_bNoAO )
+	{
+		Msg("   [THS] AO Brush Calculate is Done!   ");		
+	}	
+	
 	Msg( "Ready to Finish\n" ); 
 	fflush( stdout );
 
@@ -2336,6 +2352,10 @@ int ParseCommandLine( int argc, char **argv, bool *onlydetail )
 		{
 			g_bDumpPatches = true;
 		}
+		else if ( !strcmp(argv[i], "-noambientocclusion") )
+		{
+			g_bNoAO = true;
+		}		
 		else if ( !Q_stricmp( argv[i], "-nodetaillight" ) )
 		{
 			g_bNoDetailLighting = true;
@@ -2780,6 +2800,7 @@ void PrintUsage( int argc, char **argv )
 		"                          on terrain. The compile will take longer, but it will gather\n"
 		"                          light across a wider area.\n"
         "  -StaticPropLighting   : generate backed static prop vertex lighting\n"
+        "  -noambientocclusion   : Disable [THS] Brush AO\n"		
         "  -StaticPropPolys   : Perform shadow tests of static props at polygon precision\n"
 		"  -AllowDX90VTX	  : Allow usage of .dx90.vtx files\n"
 		"  -IgnoreModelVersions  : Ignore .MDL and .VTX versions when loading models\n"
