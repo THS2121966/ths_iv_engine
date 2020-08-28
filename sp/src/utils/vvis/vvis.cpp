@@ -887,10 +887,13 @@ float DetermineVisRadius( )
 		char* pEntity = ValueForKey(&entities[i], "classname");
 		if (!stricmp(pEntity, "env_fog_controller"))
 		{
-			flRadius = FloatForKey (&entities[i], "farz");
+			Msg ("[THS]_DEV_VIS_CALC: add env_fog_controller (farz) Parametr to VIS optimization...");			
+			flRadius = FloatForKey (&entities[i], "farz");		
 			if (flRadius == 0.0f)
 				flRadius = -1.0f;
+			Msg ("[THS]_DEV_VIS_CALC: Entity parametr is NOPE... Aborting this process!!!");				
 			break;
+			Msg ("[THS]_DEV_VIS_CALC: Entity parametr is:", flRadius);				
 		}
 	}
 
