@@ -7953,6 +7953,11 @@
 [
 ]
 
+@SolidClass base(DXLevelChoice) color(0 180 0) = func_detail_blocker : 
+	"A brush entity that prevents detail sprites from being placed inside its volume."
+[
+]
+
 @SolidClass color(180 180 0) = func_viscluster : 
 	"Any leaves touching this brush will have their vis merged together into a single cluster.  Use multiple func_viscluster entities to reduce vis time"
 [
