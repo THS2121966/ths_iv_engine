@@ -1947,11 +1947,11 @@ bool RadWorld_Go()
 
 	if ( !g_bNoAO )
 	{
-		Msg("   [THS] AO Brush Calculate is Enabled. Calculate...   ");		
+		Msg("  [THS] AO Brush Calculate is Enabled. Calculate...  ");		
 	}
 	else
 	{
-		Msg("   [THS] AO Brush Calculate is DISABLED.   ");
+		Msg("  [THS] AO Brush Calculate is DISABLED.  ");
 	}
 
 	if( g_pIncremental )
@@ -2251,7 +2251,7 @@ void VRAD_Finish()
 	
 	if ( !g_bNoAO )
 	{
-		Msg("   [THS] AO Brush Calculate is Done!   ");		
+		Msg("  [THS] AO Brush Calculate is Done!  ");		
 	}	
 	
 	Msg( "Ready to Finish\n" ); 

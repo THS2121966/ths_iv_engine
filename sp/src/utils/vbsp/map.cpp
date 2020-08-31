@@ -1603,6 +1603,7 @@ ChunkFileResult_t CMapFile::LoadEntityCallback(CChunkFile *pFile, int nParam)
 		if ( !strcmp( "func_detail_blocker" , pClassName ) )
 		{
 			AddDetailBlocker(mapent);
+			Msg( "  [THS] Add func_detail_blocker and recalculating...  " );			
 			return(ChunkFile_Ok);
 		}		
 
