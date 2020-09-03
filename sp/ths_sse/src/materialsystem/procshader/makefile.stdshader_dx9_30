@@ -1,18 +1,18 @@
 default:  fxctmp9_tmp\node_ps30.inc shaders\fxc\node_ps30.vcs fxctmp9_tmp\node_vs30.inc shaders\fxc\node_vs30.vcs
 
-fxctmp9_tmp\node_ps30.inc shaders\fxc\node_ps30.vcs: node_ps20.fxc common_ps_fxc.h common_fxc.h common_pragmas.h common_hlsl_cpp_consts.h
+fxctmp9_tmp\node_ps30.inc shaders\fxc\node_ps30.vcs: node_ps20.fxc common_pragmas.h common_hlsl_cpp_consts.h common_ps_fxc.h common_fxc.h
 	perl ..\..\devtools\bin\fxc_prep.pl   -source "..\.." node_ps20.fxc-----node_ps30
 	echo node_ps20.fxc>> filestocopy.txt
+	echo common_pragmas.h>> filestocopy.txt
+	echo common_hlsl_cpp_consts.h>> filestocopy.txt
 	echo common_ps_fxc.h>> filestocopy.txt
 	echo common_fxc.h>> filestocopy.txt
-	echo common_pragmas.h>> filestocopy.txt
-	echo common_hlsl_cpp_consts.h>> filestocopy.txt
 
-fxctmp9_tmp\node_vs30.inc shaders\fxc\node_vs30.vcs: node_vs20.fxc common_vs_fxc.h common_hlsl_cpp_consts.h common_pragmas.h common_fxc.h
+fxctmp9_tmp\node_vs30.inc shaders\fxc\node_vs30.vcs: node_vs20.fxc common_fxc.h common_vs_fxc.h common_pragmas.h common_hlsl_cpp_consts.h
 	perl ..\..\devtools\bin\fxc_prep.pl   -source "..\.." node_vs20.fxc-----node_vs30
 	echo node_vs20.fxc>> filestocopy.txt
-	echo common_vs_fxc.h>> filestocopy.txt
-	echo common_hlsl_cpp_consts.h>> filestocopy.txt
-	echo common_pragmas.h>> filestocopy.txt
 	echo common_fxc.h>> filestocopy.txt
+	echo common_vs_fxc.h>> filestocopy.txt
+	echo common_pragmas.h>> filestocopy.txt
+	echo common_hlsl_cpp_consts.h>> filestocopy.txt
 
