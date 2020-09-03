@@ -23,48 +23,49 @@ Scheme
 	// controls use these to determine their settings
 	BaseSettings
 	{
-		"FgColor"			"255 220 0 100"
-		"BgColor"			"0 0 0 76"
+		"FgColor"			"8 109 197 200"
+		"FgColor_vrmode"	"8 109 197 200"
+		"BgColor"			"0 0 0 0"
 
-		"Panel.FgColor"			"255 220 0 100"
-		"Panel.BgColor"			"0 0 0 76"
+		"Panel.FgColor"			"8 109 197 200"
+		"Panel.BgColor"			"0 0 0 0"
 		
-		"BrightFg"		"255 220 0 255"
+		"BrightFg"		"8 109 197 255"
 
-		"DamagedBg"			"180 0 0 200"
-		"DamagedFg"			"180 0 0 230"
-		"BrightDamagedFg"		"255 0 0 255"
+		"DamagedBg"			"0 0 0 0"
+		"DamagedFg"			"252 139 147 200"
+		"BrightDamagedFg"		"252 139 147 255"
 
 		// weapon selection colors
-		"SelectionNumberFg"		"255 220 0 255"
-		"SelectionTextFg"		"255 220 0 255"
-		"SelectionEmptyBoxBg" 	"0 0 0 80"
-		"SelectionBoxBg" 		"0 0 0 80"
-		"SelectionSelectedBoxBg" "0 0 0 80"
+		"SelectionNumberFg"		"8 109 197 200"
+		"SelectionTextFg"		"8 109 197 200"
+		"SelectionEmptyBoxBg" 	"0 0 0 0"
+		"SelectionBoxBg" 		"0 0 0 0"
+		"SelectionSelectedBoxBg" "0 0 0 0"
 		
-		"ZoomReticleColor"	"255 220 0 255"
+		"ZoomReticleColor"	"8 109 197 200"
 
 		// HL1-style HUD colors
-		"Yellowish"			"255 160 0 255"
-		"Normal"			"255 208 64 255"
-		"Caution"			"255 48 0 255"
+		"Yellowish"			"252 139 147 200"
+		"Normal"			"8 109 197 150"
+		"Caution"			"252 139 147 255"
 
 		// Top-left corner of the "Half-Life 2" on the main screen
-		"Main.Title1.X"				"76"
-		"Main.Title1.Y"				"145"
-		"Main.Title1.Y_hidef"		"130"
-		"Main.Title1.Color"	"255 255 255 255"
+		"Main.Title1.X"			"10"
+		"Main.Title1.Y"			"450"
+		"Main.Title1.Y_hidef"	"184"
+		"Main.Title1.Color"	"16 128 32 255"
 
 		// Top-left corner of secondary title e.g. "DEMO" on the main screen
-		"Main.Title2.X"				"76"
-		"Main.Title2.Y"				"190"
-		"Main.Title2.Y_hidef"		"174"
-		"Main.Title2.Color"	"255 255 255 200"
+		"Main.Title2.X"				"10"
+		"Main.Title2.Y"				"450"
+		"Main.Title2.Y_hidef"		"242"
+		"Main.Title2.Color"	"16 128 32 255"
 
 		// Top-left corner of the menu on the main screen
-		"Main.Menu.X"			"53"
+		"Main.Menu.X"			"10"
 		"Main.Menu.X_hidef"		"76"
-		"Main.Menu.Y"			"240"
+		"Main.Menu.Y"			"490"
 
 		// Blank space to leave beneath the menu on the main screen
 		"Main.BottomBorder"	"32"
@@ -114,164 +115,183 @@ Scheme
 		{
 			"1"	[$X360]
 			{
-				"name"		"Verdana"
+				"name"		"CourierMOT-Light"
 				"tall"		"12"
 				"weight"	"700"
 				"antialias" "1"
+				"custom"	"1"				
 			}
 			"1"	[$WIN32]
 			{
-				"name"		"Verdana"
+				"name"		"CourierMOT-Light"
 				"tall"		"9"
 				"weight"	"700"
 				"antialias" "1"
 				"yres"	"1 599"
+				"custom"	"1"				
 			}
 			"2"
 			{
-				"name"		"Verdana"
+				"name"		"CourierMOT-Light"
 				"tall"		"12"
 				"weight"	"700"
 				"antialias" "1"
 				"yres"	"600 767"
+				"custom"	"1"				
 			}
 			"3"
 			{
-				"name"		"Verdana"
+				"name"		"CourierMOT-Light"
 				"tall"		"14"
 				"weight"	"900"
 				"antialias" "1"
 				"yres"	"768 1023"
+				"custom"	"1"				
 			}
 			"4"
 			{
-				"name"		"Verdana"
+				"name"		"CourierMOT-Light"
 				"tall"		"20"
 				"weight"	"900"
 				"antialias" "1"
 				"yres"	"1024 1199"
+				"custom"	"1"				
 			}
 			"5"
 			{
-				"name"		"Verdana"
+				"name"		"CourierMOT-Light"
 				"tall"		"24"
 				"weight"	"900"
 				"antialias" "1"
 				"yres"	"1200 10000"
 				"additive"	"1"
+				"custom"	"1"				
 			}
 		}
 		"DefaultSmall"
 		{
 			"1"
 			{
-				"name"		"Verdana"
+				"name"		"CourierMOT-Light"
 				"tall"		"12"
 				"weight"	"0"
 				"range"		"0x0000 0x017F"
 				"yres"	"480 599"
+				"custom"	"1"				
 			}
 			"2"
 			{
-				"name"		"Verdana"
+				"name"		"CourierMOT-Light"
 				"tall"		"13"
 				"weight"	"0"
 				"range"		"0x0000 0x017F"
 				"yres"	"600 767"
+				"custom"	"1"				
 			}
 			"3"
 			{
-				"name"		"Verdana"
+				"name"		"CourierMOT-Light"
 				"tall"		"14"
 				"weight"	"0"
 				"range"		"0x0000 0x017F"
 				"yres"	"768 1023"
 				"antialias"	"1"
+				"custom"	"1"				
 			}
 			"4"
 			{
-				"name"		"Verdana"
+				"name"		"CourierMOT-Light"
 				"tall"		"20"
 				"weight"	"0"
 				"range"		"0x0000 0x017F"
 				"yres"	"1024 1199"
 				"antialias"	"1"
+				"custom"	"1"				
 			}
 			"5"
 			{
-				"name"		"Verdana"
+				"name"		"CourierMOT-Light"
 				"tall"		"24"
 				"weight"	"0"
 				"range"		"0x0000 0x017F"
 				"yres"	"1200 6000"
 				"antialias"	"1"
+				"custom"	"1"				
 			}
 			"6"
 			{
-				"name"		"Arial"
+				"name"		"CourierMOT-Light"
 				"tall"		"12"
 				"range" 		"0x0000 0x00FF"
 				"weight"		"0"
+				"custom"	"1"				
 			}
 		}
 		"DefaultVerySmall"
 		{
 			"1"
 			{
-				"name"		"Verdana"
+				"name"		"CourierMOT-Light"
 				"tall"		"12"
 				"weight"	"0"
 				"range"		"0x0000 0x017F" //	Basic Latin, Latin-1 Supplement, Latin Extended-A
 				"yres"	"480 599"
+				"custom"	"1"				
 			}
 			"2"
 			{
-				"name"		"Verdana"
+				"name"		"CourierMOT-Light"
 				"tall"		"13"
 				"weight"	"0"
 				"range"		"0x0000 0x017F" //	Basic Latin, Latin-1 Supplement, Latin Extended-A
 				"yres"	"600 767"
+				"custom"	"1"				
 			}
 			"3"
 			{
-				"name"		"Verdana"
+				"name"		"CourierMOT-Light"
 				"tall"		"14"
 				"weight"	"0"
 				"range"		"0x0000 0x017F" //	Basic Latin, Latin-1 Supplement, Latin Extended-A
 				"yres"	"768 1023"
 				"antialias"	"1"
+				"custom"	"1"				
 			}
 			"4"
 			{
-				"name"		"Verdana"
+				"name"		"CourierMOT-Light"
 				"tall"		"20"
 				"weight"	"0"
 				"range"		"0x0000 0x017F" //	Basic Latin, Latin-1 Supplement, Latin Extended-A
 				"yres"	"1024 1199"
 				"antialias"	"1"
+				"custom"	"1"				
 			}
 			"5"
 			{
-				"name"		"Verdana"
+				"name"		"CourierMOT-Light"
 				"tall"		"24"
 				"weight"	"0"
 				"range"		"0x0000 0x017F" //	Basic Latin, Latin-1 Supplement, Latin Extended-A
 				"yres"	"1200 6000"
 				"antialias"	"1"
+				"custom"	"1"				
 			}
 			"6"
 			{
-				"name"		"Verdana"
+				"name"		"CourierMOT-Light"
 				"tall"		"12"
 				"range" 		"0x0000 0x00FF"
 				"weight"		"0"
+				"custom"	"1"				
 			}
 			"7"
 			{
-				"name"		"Arial"
+				"name"		"CourierMOT-Light"
 				"tall"		"11"
 				"range" 		"0x0000 0x00FF"
 				"weight"		"0"
+				"custom"	"1"				
 			}
 		}
 		WeaponIcons
@@ -354,7 +374,7 @@ Scheme
 		{
 			"1"
 			{
-				"name"		"HalfLife2"
+				"name"		"CourierMOT-Light"
 				"tall"		"32"	[$WIN32]
 				"tall"		"38"	[$X360]
 				"weight"	"0"
@@ -379,13 +399,13 @@ Scheme
 		{
 			"1"
 			{
-				"name"		"HalfLife2"
+				"name"		"CourierMOT-Light"
 				"tall"		"32"	[$WIN32]
 				"tall"		"38"	[$X360]
 				"weight"	"0"
-				"blur"		"4"
-				"scanlines" "2"
-				"antialias" "1"
+				"blur"		"2"
+				"scanlines" "3"
+				"antialias" "0"
 				"additive"	"1"
 				"custom"	"1"
 			}
@@ -394,13 +414,13 @@ Scheme
 		{
 			"1"
 			{
-				"name"		"HalfLife2" [!$OSX]
-				"name"		"Helvetica Bold" [$OSX]
+				"name"		"CourierMOT-Light" [!$OSX]
+				"name"		"CourierMOT-Light" [$OSX]
 				"tall"		"16"	[$WIN32]
 				"tall"		"22"	[$X360]
 				"weight"	"1000"
 				"additive"	"1"
-				"antialias" "1"
+				"antialias" "0"
 				"custom"	"1"
 			}
 		}
@@ -408,11 +428,12 @@ Scheme
 		{
 			"1"
 			{
-				"name"		"Verdana"
+				"name"		"CourierMOT-Light"
 				"tall"		"11"
 				"weight"	"700"
 				"antialias" "1"
 				"additive"	"1"
+				"custom"	"1"				
 			}
 		}
 		HudHintTextLarge
@@ -426,75 +447,83 @@ Scheme
 			}
 			"1"	[$WIN32]
 			{
-				"name"		"Verdana" [!$OSX]
-				"name"		"Helvetica Bold" [$OSX]
+				"name"		"CourierMOT-Light" [!$OSX]
+				"name"		"CourierMOT-Light" [$OSX]
 				"tall"		"14"
 				"weight"	"1000"
 				"antialias" "1"
 				"additive"	"1"
+				"custom"	"1"				
 			}
 		}
 		HudHintTextSmall
 		{
 			"1"	[$WIN32]
 			{
-				"name"		"Verdana" [!$OSX]
-				"name"		"Helvetica" [$OSX]
+				"name"		"CourierMOT-Light" [!$OSX]
+				"name"		"CourierMOT-Light" [$OSX]
 				"tall"		"11"
 				"weight"	"0"
 				"antialias" "1"
 				"additive"	"1"
+				"custom"	"1"				
 			}
 			"1"	[$X360]
 			{
-				"name"		"Verdana"
+				"name"		"CourierMOT-Light"
 				"tall"		"12"
 				"weight"	"700"
 				"antialias" "1"
 				"additive"	"1"
+				"custom"	"1"				
 			}
 		}
 		HudSelectionText
 		{
 			"1"
 			{
-				"name"		"Verdana"
+				"name"		"CourierMOT-Light"
 				"tall"		"8"
 				"weight"	"700"
 				"antialias" "1"
 				"yres"	"1 599"
+				"custom"	"1"				
 			}
 			"2"
 			{
-				"name"		"Verdana"
+				"name"		"CourierMOT-Light"
 				"tall"		"10"
 				"weight"	"700"
 				"antialias" "1"
 				"yres"	"600 767"
+				"custom"	"1"				
 			}
 			"3"
 			{
-				"name"		"Verdana"
+				"name"		"CourierMOT-Light"
 				"tall"		"12"
 				"weight"	"900"
 				"antialias" "1"
 				"yres"	"768 1023"
+				"custom"	"1"				
 			}
 			"4"
 			{
-				"name"		"Verdana"
+				"name"		"CourierMOT-Light"
 				"tall"		"16"
 				"weight"	"900"
 				"antialias" "1"
 				"yres"	"1024 1199"
+				"custom"	"1"				
 			}
 			"5"
 			{
-				"name"		"Verdana"
+				"name"		"CourierMOT-Light"
 				"tall"		"17"
 				"weight"	"1000"
 				"antialias" "1"
 				"yres"	"1200 10000"
+				"custom"	"1"				
 			}
 		}
 		GameUIButtons
@@ -513,20 +542,22 @@ Scheme
 		{
 			"1"
 			{
-				"name"		"Courier New"
+				"name"		"CourierMOT-Light"
 				"tall"		"14"
 				"weight"	"400"
 				"outline"	"1"
+				"custom"	"1"				
 			}
 		}
 		DebugOverlay
 		{
 			"1"	[$WIN32]
 			{
-				"name"		"Courier New"
+				"name"		"CourierMOT-Light"
 				"tall"		"14"
 				"weight"	"400"
 				"outline"	"1"
+				"custom"	"1"				
 			}
 			"1"	[$X360]
 			{
@@ -590,7 +621,7 @@ Scheme
 				"name"		"Verdana" [$OSX]
 				"tall"		"16" [!$OSX]
 				"tall"		"14" [$OSX]
-				"tall_hidef"	"24"
+ 				"tall_hidef"	"24"
 				"weight"	"900"
 				"range"		"0x0000 0x017F" //	Basic Latin, Latin-1 Supplement, Latin Extended-A
 			}
@@ -631,20 +662,20 @@ Scheme
 		{
 			"1"
 			{
-				"name"  "HL2EP2"
-				"tall"			"34"
-				"tall_hidef"	"48"
+				"name"  "Special Elite"
+				"tall"			"32"
+				"tall_hidef"	"46"
 				"weight" "0"
 				"additive" "0"
 				"antialias" "1"
-				"custom"	"1" [$OSX]
+				"custom"	"1"
 			}
 		}
 		CreditsLogo
 		{
 			"1"
 			{
-				"name"		"HalfLife2"
+				"name"		"Special Elite"
 				"tall"		"128"
 				"weight"	"0"
 				"antialias" "1"
@@ -667,7 +698,7 @@ Scheme
 		{
 			"1"
 			{
-				"name"		"HalfLife2"
+				"name"		"Special Elite"
 				"tall"		"48"
 				"weight"	"0"
 				"antialias" "1"
@@ -783,7 +814,7 @@ Scheme
 			}
 			
 		}
-		
+
 		// ========================================================================================================================
 		// Mapbase adds these fonts to Source 2013 client schemes for the game instructor adapted from the VDC/Alien Swarm SDK.
 		// If your mod has its own client scheme, you must use the following fonts in order for the game instructor to work correctly.
@@ -839,7 +870,7 @@ Scheme
 			}
 		}
 		// ========================================================================================================================
-		// ========================================================================================================================
+		// ========================================================================================================================																													 
 	}
 
 	
@@ -850,7 +881,9 @@ Scheme
 	{
 		"1"		"resource/HALFLIFE2.ttf"
 		"2"		"resource/HL2crosshairs.ttf"
-		"3"	"resource/HL2EP2.ttf"		
+		"3"     "resource/SpecialElite.ttf"
+		"4"     "resource/CourierMOT-Light.ttf"
+		"5"     "resource/mr_HouseFlyG.ttf"		
 	}
 
 }
