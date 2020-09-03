@@ -1,4 +1,5 @@
 "shaderlist"
 {
 	"shader_000"		"ths_filmgrain01"
+	"shader_001"		"ths_flare_an01"
 }
