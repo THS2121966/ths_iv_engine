@@ -2681,6 +2681,16 @@ static IMaterial *ths_fg01 = materials->FindMaterial( "ths_shaderedit_effects/po
 							w, h );
 	}*/	
 
+static IMaterial *ths_fl_an01 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_flare_an01", TEXTURE_GROUP_OTHER );
+	bool bBloomEnabled = (mat_hdr_level.GetInt() >= 1);
+	if ( ths_fl_an01 && bBloomEnabled )
+	{
+		UpdateScreenEffectTexture();
+		pRenderContext->DrawScreenSpaceRectangle( ths_fl_an01, 0, 0, w, h,
+							0, 0, w - 1, h - 1,
+							w, h );
+	}
+
 }
 
 // Motion Blur Material Proxy =========================================================================================
