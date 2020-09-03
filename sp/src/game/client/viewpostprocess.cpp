@@ -2672,14 +2672,14 @@ static IMaterial *ths_fg01 = materials->FindMaterial( "ths_shaderedit_effects/po
 							w, h );
 	}
 	
-static IMaterial *ths_dof01 = materials->FindMaterial( "dev/depth_of_field", TEXTURE_GROUP_OTHER );
+/*static IMaterial *ths_dof01 = materials->FindMaterial( "dev/depth_of_field", TEXTURE_GROUP_OTHER );
 	if ( ths_dof01 )
 	{
 		UpdateScreenEffectTexture();
 		pRenderContext->DrawScreenSpaceRectangle( ths_dof01, 0, 0, w, h,
 							0, 0, w - 1, h - 1,
 							w, h );
-	}	
+	}*/	
 
 }
 
