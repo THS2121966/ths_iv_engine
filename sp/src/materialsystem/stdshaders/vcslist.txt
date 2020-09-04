@@ -1,2 +1,2 @@
-..\..\..\game\hl2\shaders\fxc\light_volumetrics_ps20b.vcs
-..\..\..\game\hl2\shaders\fxc\light_volumetrics_vs20.vcs
+..\..\..\game\hl2\shaders\fxc\depth_of_field_ps20b.vcs
+..\..\..\game\hl2\shaders\fxc\depth_of_field_vs20.vcs
