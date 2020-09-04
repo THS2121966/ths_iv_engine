@@ -2663,6 +2663,7 @@ void DoEnginePostProcessing( int x, int y, int w, int h, bool bFlashlightIsOn, b
 	pRenderContext->PopVertexShaderGPRAllocation();
 #endif
 
+//ths_filmgrain
 static IMaterial *ths_fg01 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_filmgrain01", TEXTURE_GROUP_OTHER );
 	if ( ths_fg01 )
 	{
@@ -2681,11 +2682,22 @@ static IMaterial *ths_fg01 = materials->FindMaterial( "ths_shaderedit_effects/po
 							w, h );
 	}*/
 
+//ths_flare_an_effect
 static IMaterial *ths_fl_an01 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_flare_an01", TEXTURE_GROUP_OTHER );
 	if ( ths_fl_an01 )
 	{
 		UpdateScreenEffectTexture();
 		pRenderContext->DrawScreenSpaceRectangle( ths_fl_an01, 0, 0, w, h,
+							0, 0, w - 1, h - 1,
+							w, h );
+	}
+
+//ths_branch_exp_effect
+static IMaterial *exp_effect = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_branch_exp01", TEXTURE_GROUP_OTHER );
+	if ( exp_effect )
+	{
+		UpdateScreenEffectTexture();
+		pRenderContext->DrawScreenSpaceRectangle( exp_effect, 0, 0, w, h,
 							0, 0, w - 1, h - 1,
 							w, h );
 	}
