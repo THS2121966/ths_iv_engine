@@ -50,6 +50,9 @@
 #include "renderparm.h"
 #include "studio_stats.h"
 #include "con_nprint.h"
+//ths_dev_grass_clusters
+#include "ShaderEditor/Grass/CGrassCluster.h"
+
 #include "clientmode_shared.h"
 #include "sourcevr/isourcevirtualreality.h"
 #include "client_virtualreality.h"
@@ -4430,6 +4433,8 @@ void CRendering3dView::DrawOpaqueRenderables( ERenderDepthMode DepthMode )
 	//
 	RopeManager()->ResetRenderCache();
 	g_pParticleSystemMgr->ResetRenderCache();
+	//ths_dev_grass_clusters
+	CGrassClusterManager::GetInstance()->RenderClusters( DepthMode == DEPTH_MODE_SHADOW );	
 
 	//bool const bDrawopaquestaticpropslast = r_drawopaquestaticpropslast.GetBool();
 
