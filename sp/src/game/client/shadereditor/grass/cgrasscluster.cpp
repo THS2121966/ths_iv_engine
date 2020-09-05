@@ -15,50 +15,50 @@
 #define CONSTBOXEXTENT_LIGHT 1000
 #define CONSTBOXEXTENT_COL 500
 
-static ConVar gcluster_objectsPerHint( "grasscluster_objects_per_hint", "8" );
-static ConVar gcluster_debug( "grasscluster_debug", "0" );
-static ConVar gcluster_enable( "grasscluster_enable", "1" );
-static ConVar gcluster_enable_flashlight( "grasscluster_enable_flashlightSupport", "1" );
-static ConVar gcluster_enable_morph( "grasscluster_enable_morph", "1" );
-static ConVar gcluster_cullDist( "grasscluster_cullDist", "4096" );
+static ConVar gcluster_objectsPerHint( "thsdev_grasscluster_objects_per_hint", "8" );
+static ConVar gcluster_debug( "thsdev_grasscluster_debug", "0" );
+static ConVar gcluster_enable( "thsdev_grasscluster_enable", "1" );
+static ConVar gcluster_enable_flashlight( "thsdev_grasscluster_enable_flashlightSupport", "1" );
+static ConVar gcluster_enable_morph( "thsdev_grasscluster_enable_morph", "1" );
+static ConVar gcluster_cullDist( "thsdev_grasscluster_cullDist", "4096" );
 
-static ConVar gcluster_LOD_enable( "grasscluster_LOD_enable", "1" );
-static ConVar gcluster_LOD_transitionDist( "grasscluster_LOD_transitionDist", "2048" );
-static ConVar gcluster_LOD_objects_per_hint( "grasscluster_LOD_objects_per_hint", "1" );
+static ConVar gcluster_LOD_enable( "thsdev_grasscluster_LOD_enable", "1" );
+static ConVar gcluster_LOD_transitionDist( "thsdev_grasscluster_LOD_transitionDist", "2048" );
+static ConVar gcluster_LOD_objects_per_hint( "thsdev_grasscluster_LOD_objects_per_hint", "1" );
 
-static ConVar gcluster_grass_height_small_min( "grasscluster_grass_height_small_min", "20" );
-static ConVar gcluster_grass_height_small_max( "grasscluster_grass_height_small_max", "30" );
-static ConVar gcluster_grass_height_med_min( "grasscluster_grass_height_med_min", "30" );
-static ConVar gcluster_grass_height_med_max( "grasscluster_grass_height_med_max", "50" );
-static ConVar gcluster_grass_height_huge_min( "grasscluster_grass_height_huge_min", "50" );
-static ConVar gcluster_grass_height_huge_max( "grasscluster_grass_height_huge_max", "70" );
+static ConVar gcluster_grass_height_small_min( "thsdev_grasscluster_grass_height_small_min", "20" );
+static ConVar gcluster_grass_height_small_max( "thsdev_grasscluster_grass_height_small_max", "30" );
+static ConVar gcluster_grass_height_med_min( "thsdev_grasscluster_grass_height_med_min", "30" );
+static ConVar gcluster_grass_height_med_max( "thsdev_grasscluster_grass_height_med_max", "50" );
+static ConVar gcluster_grass_height_huge_min( "thsdev_grasscluster_grass_height_huge_min", "50" );
+static ConVar gcluster_grass_height_huge_max( "thsdev_grasscluster_grass_height_huge_max", "70" );
 
-static ConVar gcluster_grass_width_small_min( "grasscluster_grass_width_small_min", "25" );
-static ConVar gcluster_grass_width_small_max( "grasscluster_grass_width_small_max", "35" );
-static ConVar gcluster_grass_width_med_min( "grasscluster_grass_width_med_min", "40" );
-static ConVar gcluster_grass_width_med_max( "grasscluster_grass_width_med_max", "60" );
-static ConVar gcluster_grass_width_huge_min( "grasscluster_grass_width_huge_min", "60" );
-static ConVar gcluster_grass_width_huge_max( "grasscluster_grass_width_huge_max", "80" );
+static ConVar gcluster_grass_width_small_min( "thsdev_grasscluster_grass_width_small_min", "25" );
+static ConVar gcluster_grass_width_small_max( "thsdev_grasscluster_grass_width_small_max", "35" );
+static ConVar gcluster_grass_width_med_min( "thsdev_grasscluster_grass_width_med_min", "40" );
+static ConVar gcluster_grass_width_med_max( "thsdev_grasscluster_grass_width_med_max", "60" );
+static ConVar gcluster_grass_width_huge_min( "thsdev_grasscluster_grass_width_huge_min", "60" );
+static ConVar gcluster_grass_width_huge_max( "thsdev_grasscluster_grass_width_huge_max", "80" );
 
-static ConVar gcluster_clusterMaxQuads( "grasscluster_grass_clusterMaxQuads", "-1" );
+static ConVar gcluster_clusterMaxQuads( "thsdev_grasscluster_grass_clusterMaxQuads", "-1" );
 
-static ConVar gcluster_grass_type_huge_oddness( "grasscluster_grass_type_huge_oddness", "20" );
-static ConVar gcluster_grass_type_small_oddness( "grasscluster_grass_type_small_oddness", "2" );
+static ConVar gcluster_grass_type_huge_oddness( "thsdev_grasscluster_grass_type_huge_oddness", "20" );
+static ConVar gcluster_grass_type_small_oddness( "thsdev_grasscluster_grass_type_small_oddness", "2" );
 
-static ConVar gcluster_grass_meadow_scale( "grasscluster_grass_meadow_scale", "1" );
+static ConVar gcluster_grass_meadow_scale( "thsdev_grasscluster_grass_meadow_scale", "1" );
 
-static ConVar gcluster_grass_wind_angle( "grasscluster_grass_wind_angle", "70" );
-static ConVar gcluster_grass_wind_strength( "grasscluster_grass_wind_strength", "1" );
+static ConVar gcluster_grass_wind_angle( "thsdev_grasscluster_grass_wind_angle", "70" );
+static ConVar gcluster_grass_wind_strength( "thsdev_grasscluster_grass_wind_strength", "1" );
 
-static ConVar gcluster_sprite_index( "grasscluster_sprite_index", "0" );
+static ConVar gcluster_sprite_index( "thsdev_grasscluster_sprite_index", "0" );
 
-static ConVar gcluster_grass_morph_delay( "grasscluster_grass_meadow_morph_delay", "5" );
-static ConVar gcluster_grass_morph_framelag( "grasscluster_grass_meadow_morph_framelag", "0.1" );
-static ConVar gcluster_grass_morph_speed( "grasscluster_grass_meadow_morph_speed", "1" );
+static ConVar gcluster_grass_morph_delay( "thsdev_grasscluster_grass_meadow_morph_delay", "5" );
+static ConVar gcluster_grass_morph_framelag( "thsdev_grasscluster_grass_meadow_morph_framelag", "0.1" );
+static ConVar gcluster_grass_morph_speed( "thsdev_grasscluster_grass_meadow_morph_speed", "1" );
 
-static ConVar gcluster_grass_terrain_offset_min( "grasscluster_grass_terrain_offset_min", "20" );
-static ConVar gcluster_grass_terrain_offset_exp( "grasscluster_grass_terrain_offset_exp", "0.5" );
-static ConVar gcluster_grass_terrain_offset_multi( "grasscluster_grass_terrain_offset_multi", "2" );
+static ConVar gcluster_grass_terrain_offset_min( "thsdev_grasscluster_grass_terrain_offset_min", "20" );
+static ConVar gcluster_grass_terrain_offset_exp( "thsdev_grasscluster_grass_terrain_offset_exp", "0.5" );
+static ConVar gcluster_grass_terrain_offset_multi( "thsdev_grasscluster_grass_terrain_offset_multi", "2" );
 
 extern ConVar r_DrawDetailProps;
 
