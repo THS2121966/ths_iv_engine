@@ -1,8 +1,8 @@
-"ths_filmgrain01"
+"ths_branch_exp01"
 {
-	"vs_name"		"ths_filmgrain01_vs30"
-	"ps_name"		"ths_filmgrain01_ps30"
-	"shader_filename"		"shadereditorui\canvas\ths_sse\ths_filmgrain01.txt"
+	"vs_name"		"ths_branch_exp01_vs30"
+	"ps_name"		"ths_branch_exp01_ps30"
+	"shader_filename"		"shadereditorui\canvas\ths_sse\ths_branch_exp01.txt"
 	"dump_version"		"dumpver#001"
 	"i_sm"		"1"
 	"i_cull"		"0"
@@ -21,41 +21,18 @@
 	"i_vrefract"		"1"
 	"identifiers_VS"
 	{
-		"econst_0"
-		{
-			"i_envconstidx"		"0"
-			"i_normregister"		"0"
-			"i_econstsize"		"1"
-			"i_smartcomps"		"1"
-			"fl_smartdefault_00"		"0.000000"
-			"fl_smartdefault_01"		"0.000000"
-			"fl_smartdefault_02"		"0.000000"
-			"fl_smartdefault_03"		"0.000000"
-		}
-		"econst_1"
-		{
-			"i_envconstidx"		"6"
-			"i_normregister"		"1"
-			"i_econstsize"		"1"
-			"i_smartcomps"		"1"
-			"fl_smartdefault_00"		"0.000000"
-			"fl_smartdefault_01"		"0.000000"
-			"fl_smartdefault_02"		"0.000000"
-			"fl_smartdefault_03"		"0.000000"
-		}
 		"i_numdcombos"		"1"
 	}
 	"identifiers_PS"
 	{
 		"econst_0"
 		{
-			"i_envconstidx"		"17"
+			"i_envconstidx"		"6"
 			"i_normregister"		"0"
 			"i_econstsize"		"1"
 			"i_smartcomps"		"1"
-			"sz_smartname"		"Random312"
 			"fl_smartdefault_00"		"0.000000"
-			"fl_smartdefault_01"		"10.000000"
+			"fl_smartdefault_01"		"0.000000"
 			"fl_smartdefault_02"		"0.000000"
 			"fl_smartdefault_03"		"0.000000"
 		}
@@ -68,7 +45,8 @@
 		}
 		"texsamp_1"
 		{
-			"sz_fallback"		"texture_samples\noise_2d"
+			"sz_param"		"bloom"
+			"sz_fallback"		"white"
 			"i_sampidx"		"1"
 			"i_texmode"		"1"
 			"i_cubemap"		"0"

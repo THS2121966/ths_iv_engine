@@ -1,5 +1,7 @@
 "shaderlist"
 {
-	"shader_000"		"ths_filmgrain01"
-	"shader_001"		"ths_flare_an01"
+	"shader_000"		"detail_prop_shader"
+	"shader_001"		"ths_branch_exp01"
+	"shader_002"		"ths_filmgrain01"
+	"shader_003"		"ths_flare_an01"
 }
