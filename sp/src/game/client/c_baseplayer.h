@@ -501,6 +501,9 @@ protected:
 	float			m_flStepSoundTime;
 	bool			m_IsFootprintOnLeft;
 
+	// Player flashlight dynamic light pointers
+	CFlashlightEffect *m_pFlashlight; // L4D2 made protected
+
 private:
 	// Make sure no one calls this...
 	C_BasePlayer& operator=( const C_BasePlayer& src );
@@ -538,9 +541,6 @@ private:
 
 	bool			m_bFiredWeapon;
 
-
-	// Player flashlight dynamic light pointers
-	CFlashlightEffect *m_pFlashlight;
 
 	typedef CHandle<C_BaseCombatWeapon> CBaseCombatWeaponHandle;
 	CNetworkVar( CBaseCombatWeaponHandle, m_hLastWeapon );

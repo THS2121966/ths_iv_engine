@@ -27,7 +27,9 @@ public:
 
 	ClientShadowHandle_t GetFlashlightHandle( void ) { return m_FlashlightHandle; }
 	void SetFlashlightHandle( ClientShadowHandle_t Handle ) { m_FlashlightHandle = Handle;	}
-	
+#ifdef MAPBASE
+	float GetHorizontalFOV() const { return m_flHorizontalFOV; }	
+#endif
 protected:
 
 	void LightOff();
@@ -47,6 +49,9 @@ protected:
 
 	// Texture for flashlight
 	CTextureReference m_FlashlightTexture;
+#ifdef MAPBASE
+	float m_flHorizontalFOV;
+#endif	
 };
 
 class CHeadlightEffect : public CFlashlightEffect
