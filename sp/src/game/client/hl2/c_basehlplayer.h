@@ -15,7 +15,7 @@
 #include "c_baseplayer.h"
 #include "c_hl2_playerlocaldata.h"
 
-#ifdef IV
+#ifdef MAPBASE
 class C_MuzzleflashEffect;
 #endif
 
@@ -27,7 +27,7 @@ public:
 	DECLARE_PREDICTABLE();
 
 						C_BaseHLPlayer();
-#ifdef IV						
+#ifdef MAPBASE						
 						~C_BaseHLPlayer();						
 #endif
 	virtual void		OnDataChanged( DataUpdateType_t updateType );
@@ -70,7 +70,7 @@ public:
 	EHANDLE				m_hClosestNPC;
 	float				m_flSpeedModTime;
 	bool				m_fIsSprinting;
-#ifdef IV	
+#ifdef MAPBASE	
 	virtual void ProcessMuzzleFlashEvent();
 	virtual void UpdateFlashlight();
 	virtual bool IsRenderingFlashlight() const;
@@ -92,7 +92,7 @@ private:
 	bool				m_bPlayUseDenySound;		// Signaled by PlayerUse, but can be unset by HL2 ladder code...
 	float				m_flSpeedMod;
 	float				m_flExitSpeedMod;
-#ifdef IV
+#ifdef MAPBASE
 	float m_flMuzzleFlashTime;
 	float m_flMuzzleFlashDuration;
 	C_MuzzleflashEffect *m_pMuzzleFlashEffect;

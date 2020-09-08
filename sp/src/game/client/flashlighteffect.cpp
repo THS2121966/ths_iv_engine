@@ -101,7 +101,7 @@ CFlashlightEffect::CFlashlightEffect(int nEntIndex)
 	{
 		m_FlashlightTexture.Init( "effects/flashlight001", TEXTURE_GROUP_OTHER, true );
 	}
-#ifdef IV	
+#ifdef MAPBASE	
 	m_flHorizontalFOV = 90.0f;
 #endif	
 }
@@ -337,7 +337,7 @@ void CFlashlightEffect::UpdateLightNew(const Vector &vecPos, const Vector &vecFo
 		state.m_fHorizontalFOVDegrees = r_flashlightfov.GetFloat();
 		state.m_fVerticalFOVDegrees = r_flashlightfov.GetFloat();
 	}
-#ifdef IV
+#ifdef MAPBASE
 	m_flHorizontalFOV = state.m_fHorizontalFOVDegrees;
 #endif
 	state.m_fConstantAtten = r_flashlightconstant.GetFloat();

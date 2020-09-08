@@ -12,7 +12,7 @@
 #include "in_buttons.h"
 #include "collisionutils.h"
 
-#ifdef IV
+#ifdef MAPBASE
 //ths_dev_muzzleflash_effect
 #include "flashlighteffect.h"
 #include "c_muzzleflash_effect.h"
@@ -70,7 +70,7 @@ static ConCommand dropprimary("dropprimary", CC_DropPrimary, "dropprimary: Drops
 // Constructor
 //-----------------------------------------------------------------------------
 C_BaseHLPlayer::C_BaseHLPlayer()
-#ifdef IV
+#ifdef MAPBASE
 	: m_flMuzzleFlashTime( 0.0f )
 	, m_pMuzzleFlashEffect( NULL )
 	, m_flMuzzleFlashDuration( 0.0f )
@@ -92,7 +92,7 @@ C_BaseHLPlayer::C_BaseHLPlayer()
 #endif
 }
 
-#ifdef IV
+#ifdef MAPBASE
 C_BaseHLPlayer::~C_BaseHLPlayer()
 {
 	delete m_pMuzzleFlashEffect;
@@ -113,7 +113,7 @@ void C_BaseHLPlayer::OnDataChanged( DataUpdateType_t updateType )
 
 	BaseClass::OnDataChanged( updateType );
 
-#ifdef IV
+#ifdef MAPBASE
 	if ( ShouldMuzzleFlash() )
 	{
 		DisableMuzzleFlash();
@@ -688,7 +688,7 @@ void C_BaseHLPlayer::BuildTransformations( CStudioHdr *hdr, Vector *pos, Quatern
 	BuildFirstPersonMeathookTransformations( hdr, pos, q, cameraTransform, boneMask, boneComputed, "ValveBiped.Bip01_Head1" );
 }
 
-#ifdef IV
+#ifdef MAPBASE
 void C_BaseHLPlayer::ProcessMuzzleFlashEvent()
 {
 	//BaseClass::ProcessMuzzleFlashEvent();
