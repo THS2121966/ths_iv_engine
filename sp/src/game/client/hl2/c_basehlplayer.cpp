@@ -682,18 +682,24 @@ void C_BaseHLPlayer::ProcessMuzzleFlashEvent()
 {
 	//BaseClass::ProcessMuzzleFlashEvent();
 
-	m_flMuzzleFlashDuration = RandomFloat( 0.035f, 0.07f );
+	m_flMuzzleFlashDuration = RandomFloat( 0.025f, 0.045f );
 	m_flMuzzleFlashTime = gpGlobals->curtime + m_flMuzzleFlashDuration;
 }
 
 void C_BaseHLPlayer::UpdateFlashlight()
 {
-	const bool bDoMuzzleflash = m_flMuzzleFlashTime > gpGlobals->curtime;
+	const bool bDoMuzzleflash = m_flMuzzleFlashTime > gpGlobals->curtime || m_flMuzzleFlashDuration > 0.0f;
 	const bool bDoFlashlight = !bDoMuzzleflash && IsEffectActive( EF_DIMLIGHT );
 
 	Vector vecForward, vecRight, vecUp, vecPos;
 	vecPos = EyePosition();
 	EyeVectors( &vecForward, &vecRight, &vecUp );
+
+	if ( m_flMuzzleFlashTime <= gpGlobals->curtime
+		&& m_flMuzzleFlashDuration > 0.0f )
+	{
+		m_flMuzzleFlashDuration = 0.0f;
+	}
 
 	if ( bDoFlashlight || bDoMuzzleflash )
 	{
