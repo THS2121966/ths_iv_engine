@@ -71,6 +71,7 @@ C_BaseHLPlayer::C_BaseHLPlayer()
 	: m_flMuzzleFlashTime( 0.0f )
 	, m_pMuzzleFlashEffect( NULL )
 	, m_flMuzzleFlashDuration( 0.0f )
+	, m_bFlashlightVisible( false )	
 {
 	AddVar( &m_Local.m_vecPunchAngle, &m_Local.m_iv_vecPunchAngle, LATCH_SIMULATION_VAR );
 	AddVar( &m_Local.m_vecPunchAngleVel, &m_Local.m_iv_vecPunchAngleVel, LATCH_SIMULATION_VAR );
@@ -701,7 +702,9 @@ void C_BaseHLPlayer::UpdateFlashlight()
 		m_flMuzzleFlashDuration = 0.0f;
 	}
 
-	if ( bDoFlashlight || bDoMuzzleflash )
+	m_bFlashlightVisible = bDoFlashlight || bDoMuzzleflash;
+
+	if ( m_bFlashlightVisible )
 	{
 		ConVarRef scissor( "r_flashlightscissor" );
 		scissor.SetValue( "0" );
@@ -720,8 +723,22 @@ void C_BaseHLPlayer::UpdateFlashlight()
 			MatrixAngles( viewModel, ang, vecPos );
 			FormatViewModelAttachment( vecPos, false );
 			AngleVectors( ang, &vecForward, &vecRight, &vecUp );
+			
+			trace_t tr;
+			Vector vecIdealPos = vecPos - vecForward * 40.0f;
+
+			UTIL_TraceHull( EyePosition(), vecIdealPos,
+				Vector( -6, -6, -6 ), Vector( 6, 6, 6 ), MASK_SOLID, this, COLLISION_GROUP_DEBRIS, &tr );
+
+			vecPos = tr.endpos;			
 		}
 	}
+
+	m_vecFlashlightPosition = vecPos;
+	m_vecFlashlightForward = vecForward;
+
+#define FLASHLIGHT_FOV_ADJUST 15.0f
+#define FLASHLIGHT_FOV_MIN 5.0f
 
 	if ( bDoFlashlight )
 	{
@@ -738,8 +755,13 @@ void C_BaseHLPlayer::UpdateFlashlight()
 
 		// Update the light with the new position and direction.
 		m_pFlashlight->UpdateLight( vecPos, vecForward, vecRight, vecUp, FLASHLIGHT_DISTANCE );
+		
+		m_flFlashlightDot = m_pFlashlight->GetHorizontalFOV() - FLASHLIGHT_FOV_ADJUST;
+		m_flFlashlightDot = MAX( m_flFlashlightDot, FLASHLIGHT_FOV_MIN );
+		m_flFlashlightDot = cos( DEG2RAD( m_flFlashlightDot ) );		
+		
 	}
-	else if (m_pFlashlight)
+	else if ( m_pFlashlight )
 	{
 		// Turned off the flashlight; delete it.
 		delete m_pFlashlight;
@@ -761,10 +783,35 @@ void C_BaseHLPlayer::UpdateFlashlight()
 
 		// Update the light with the new position and direction.
 		m_pMuzzleFlashEffect->UpdateLight( vecPos, vecForward, vecRight, vecUp, flStrength * flStrength );
+		
+		m_flFlashlightDot = m_pMuzzleFlashEffect->GetHorizontalFOV() - FLASHLIGHT_FOV_ADJUST;
+		m_flFlashlightDot = MAX( m_flFlashlightDot, FLASHLIGHT_FOV_MIN );
+		m_flFlashlightDot = cos( DEG2RAD( m_flFlashlightDot ) );		
+		
 	}
 	else
 	{
 		delete m_pMuzzleFlashEffect;
 		m_pMuzzleFlashEffect = NULL;
 	}
+}
+
+bool C_BaseHLPlayer::IsRenderingFlashlight() const
+{
+	return m_bFlashlightVisible;
+}
+
+void C_BaseHLPlayer::GetFlashlightPosition( Vector &vecPos ) const
+{
+	vecPos = m_vecFlashlightPosition;	
+}
+
+void C_BaseHLPlayer::GetFlashlightForward( Vector &vecForward ) const
+{
+	vecForward = m_vecFlashlightForward;	
+}
+
+float C_BaseHLPlayer::GetFlashlightDot() const
+{
+	return m_flFlashlightDot;
 }

@@ -69,7 +69,12 @@ public:
 	bool				m_fIsSprinting;
 	
 	virtual void ProcessMuzzleFlashEvent();
-	virtual void UpdateFlashlight();	
+	virtual void UpdateFlashlight();
+
+	virtual bool IsRenderingFlashlight() const;
+	virtual void GetFlashlightPosition( Vector &vecPos ) const;
+	virtual void GetFlashlightForward( Vector &vecForward ) const;
+	virtual float GetFlashlightDot() const;	
 
 private:
 	C_BaseHLPlayer( const C_BaseHLPlayer & ); // not defined, not accessible
@@ -88,6 +93,11 @@ private:
 	float m_flMuzzleFlashTime;
 	float m_flMuzzleFlashDuration;
 	C_MuzzleflashEffect *m_pMuzzleFlashEffect;
+	
+	bool m_bFlashlightVisible;
+	Vector m_vecFlashlightPosition;
+	Vector m_vecFlashlightForward;
+	float m_flFlashlightDot;	
 
 friend class CHL2GameMovement;
 };
