@@ -12,11 +12,13 @@
 #include "in_buttons.h"
 #include "collisionutils.h"
 
+#ifdef IV
 //ths_dev_muzzleflash_effect
 #include "flashlighteffect.h"
 #include "c_muzzleflash_effect.h"
 
 #define FLASHLIGHT_DISTANCE		1000
+#endif
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
@@ -68,10 +70,12 @@ static ConCommand dropprimary("dropprimary", CC_DropPrimary, "dropprimary: Drops
 // Constructor
 //-----------------------------------------------------------------------------
 C_BaseHLPlayer::C_BaseHLPlayer()
+#ifdef IV
 	: m_flMuzzleFlashTime( 0.0f )
 	, m_pMuzzleFlashEffect( NULL )
 	, m_flMuzzleFlashDuration( 0.0f )
-	, m_bFlashlightVisible( false )	
+	, m_bFlashlightVisible( false )
+#endif	
 {
 	AddVar( &m_Local.m_vecPunchAngle, &m_Local.m_iv_vecPunchAngle, LATCH_SIMULATION_VAR );
 	AddVar( &m_Local.m_vecPunchAngleVel, &m_Local.m_iv_vecPunchAngleVel, LATCH_SIMULATION_VAR );
@@ -88,10 +92,12 @@ C_BaseHLPlayer::C_BaseHLPlayer()
 #endif
 }
 
+#ifdef IV
 C_BaseHLPlayer::~C_BaseHLPlayer()
 {
 	delete m_pMuzzleFlashEffect;
 }
+#endif
 
 //-----------------------------------------------------------------------------
 // Purpose: 
@@ -107,12 +113,15 @@ void C_BaseHLPlayer::OnDataChanged( DataUpdateType_t updateType )
 
 	BaseClass::OnDataChanged( updateType );
 
+#ifdef IV
 	if ( ShouldMuzzleFlash() )
 	{
 		DisableMuzzleFlash();
 
 		ProcessMuzzleFlashEvent();
-	}	
+	}
+#endif
+	
 }
 
 //-----------------------------------------------------------------------------
@@ -679,6 +688,7 @@ void C_BaseHLPlayer::BuildTransformations( CStudioHdr *hdr, Vector *pos, Quatern
 	BuildFirstPersonMeathookTransformations( hdr, pos, q, cameraTransform, boneMask, boneComputed, "ValveBiped.Bip01_Head1" );
 }
 
+#ifdef IV
 void C_BaseHLPlayer::ProcessMuzzleFlashEvent()
 {
 	//BaseClass::ProcessMuzzleFlashEvent();
@@ -815,3 +825,4 @@ float C_BaseHLPlayer::GetFlashlightDot() const
 {
 	return m_flFlashlightDot;
 }
+#endif

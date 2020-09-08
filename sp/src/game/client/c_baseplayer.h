@@ -502,7 +502,7 @@ protected:
 	bool			m_IsFootprintOnLeft;
 
 	// Player flashlight dynamic light pointers
-	CFlashlightEffect *m_pFlashlight; // GSTRINGMIGRATION made protected
+	CFlashlightEffect *m_pFlashlight; // L4D2 made protected
 
 private:
 	// Make sure no one calls this...

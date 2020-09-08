@@ -4340,9 +4340,15 @@ void CBaseCombatCharacter::DoMuzzleFlash()
 		pWeapon->DoMuzzleFlash();
 		//NOTENOTE: We do not chain to the base here
 	}
-
-	// GSTRINGMIGRATION our player uses this
+#ifdef IV
+	//L4D2 our player uses this
 	BaseClass::DoMuzzleFlash();
+#else
+	else
+	{
+		BaseClass::DoMuzzleFlash();
+	}
+#endif
 }
 
 #ifdef MAPBASE_VSCRIPT
