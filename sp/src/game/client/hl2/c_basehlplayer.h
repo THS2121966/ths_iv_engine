@@ -15,6 +15,8 @@
 #include "c_baseplayer.h"
 #include "c_hl2_playerlocaldata.h"
 
+class C_MuzzleflashEffect;
+
 class C_BaseHLPlayer : public C_BasePlayer
 {
 public:
@@ -23,6 +25,7 @@ public:
 	DECLARE_PREDICTABLE();
 
 						C_BaseHLPlayer();
+						~C_BaseHLPlayer();						
 
 	virtual void		OnDataChanged( DataUpdateType_t updateType );
 
@@ -64,6 +67,9 @@ public:
 	EHANDLE				m_hClosestNPC;
 	float				m_flSpeedModTime;
 	bool				m_fIsSprinting;
+	
+	virtual void ProcessMuzzleFlashEvent();
+	virtual void UpdateFlashlight();	
 
 private:
 	C_BaseHLPlayer( const C_BaseHLPlayer & ); // not defined, not accessible
@@ -79,6 +85,9 @@ private:
 	float				m_flSpeedMod;
 	float				m_flExitSpeedMod;
 
+	float m_flMuzzleFlashTime;
+	float m_flMuzzleFlashDuration;
+	C_MuzzleflashEffect *m_pMuzzleFlashEffect;
 
 friend class CHL2GameMovement;
 };
