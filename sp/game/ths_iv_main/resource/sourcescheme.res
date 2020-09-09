@@ -70,9 +70,9 @@ Scheme
 		Frame.TitleTextInsetX			16
 		Frame.ClientInsetX				8
 		Frame.ClientInsetY				6
-		Frame.BgColor					"141 24 214 128"	[$WIN32]
+		Frame.BgColor					"117 25 209 128"	[$WIN32]
 		Frame.BgColor					"80 80 80 192"		[$X360]
-		Frame.OutOfFocusBgColor			"141 24 214 32"	[$WIN32]
+		Frame.OutOfFocusBgColor			"117 25 209 32"	[$WIN32]
 		Frame.OutOfFocusBgColor			"80 80 80 192"		[$X360]
 		Frame.FocusTransitionEffectTime	"0.3"							// time it takes for a window to fade in/out on focus/out of focus
 		Frame.TransitionEffectTime		"0.3"				[$WIN32]	// time it takes for a window to fade in/out on open/close
@@ -115,7 +115,7 @@ Scheme
 		ListPanel.EmptyListInfoTextColor	"OffWhite"
 
 		Menu.TextColor					"White"
-		Menu.BgColor					"141 24 214 64"
+		Menu.BgColor					"117 25 209 64"
 		Menu.ArmedTextColor				"Black"
 		Menu.ArmedBgColor				"Orange"
 		Menu.TextInset					"6"
