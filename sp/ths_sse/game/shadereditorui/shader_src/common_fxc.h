@@ -1,4 +1,4 @@
-//========= Copyright Valve Corporation, All rights reserved. ============//
+//========= Copyright © 1996-2007, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -321,20 +321,6 @@ float3 Vec3TangentToWorld( float3 iTangentVector, float3 iWorldNormal, float3 iW
 float3 Vec3TangentToWorldNormalized( float3 iTangentVector, float3 iWorldNormal, float3 iWorldTangent, float3 iWorldBinormal )
 {
 	return normalize( Vec3TangentToWorld( iTangentVector, iWorldNormal, iWorldTangent, iWorldBinormal ) );
-}
-
-// returns 1.0f for no fog, 0.0f for fully fogged
-float CalcRangeFogFactorFixedFunction( float3 worldPos, float3 eyePos, float flFogMaxDensity, float flFogEndOverRange, float flFogOORange )
-{
-	float dist = distance( eyePos.xyz, worldPos.xyz );
-	return max( flFogMaxDensity, ( -dist * flFogOORange ) + flFogEndOverRange );
-}
-
-// returns 0.0f for no fog, 1.0f for fully fogged which is opposite of what fixed function fog expects so that we don't have to do a "1-x" in the pixel shader.
-float CalcRangeFogFactorNonFixedFunction( float3 worldPos, float3 eyePos, float flFogMaxDensity, float flFogEndOverRange, float flFogOORange )
-{
-	float dist = distance( eyePos.xyz, worldPos.xyz );
-	return min( flFogMaxDensity, saturate( ( dist * flFogOORange ) - flFogEndOverRange ) );
 }
 
 #endif //#ifndef COMMON_FXC_H_

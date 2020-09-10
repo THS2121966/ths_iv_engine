@@ -1,4 +1,4 @@
-//========= Copyright Valve Corporation, All rights reserved. ============//
+//===== Copyright © 1996-2005, Valve Corporation, All rights reserved. ======//
 //
 // Purpose: This is where all common code for vertex shaders go.
 //
@@ -74,25 +74,20 @@ const int g_nLightCountRegister			: register(i0);
 const float4 cEyePosWaterZ				: register(c2);
 #define cEyePos			cEyePosWaterZ.xyz
 
-// Only cFlexScale.x is used
-// It is a binary value used to switch on/off the addition of the flex delta stream
-const float4 cFlexScale					: register( c3 );
+// This is still used by asm stuff.
+const float4 cObsoleteLightIndex		: register(c3);
 
 const float4x4 cModelViewProj			: register(c4);
 const float4x4 cViewProj				: register(c8);
 
-// Used to compute projPosZ in shaders without skinning
-// Using cModelViewProj with FastClip generates incorrect results
-// This is just row two of the non-FastClip cModelViewProj matrix
-const float4 cModelViewProjZ			: register(c12);
-
-// More constants working back from the top...
-const float4 cViewProjZ					: register(c13);
+// Only cFlexScale.x is used
+// It is a binary value used to switch on/off the addition of the flex delta stream
+const float4 cFlexScale					: register(c13);
 
 const float4 cFogParams					: register(c16);
 #define cFogEndOverFogRange cFogParams.x
-// cFogParams.y unused
-#define cRadialFogMaxDensity cFogParams.z  //radial fog max density in fractional portion. height fog max density stored in integer portion and is multiplied by 1e10
+#define cFogOne cFogParams.y
+#define cFogMaxDensity cFogParams.z
 #define cOOFogRange cFogParams.w
 
 const float4x4 cViewModel				: register(c17);
@@ -101,7 +96,7 @@ const float3 cAmbientCubeX [ 2 ] : register ( c21 ) ;
 const float3 cAmbientCubeY [ 2 ] : register ( c23 ) ;
 const float3 cAmbientCubeZ [ 2 ] : register ( c25 ) ;
 
-#if defined ( SHADER_MODEL_VS_3_0 )
+#ifdef SHADER_MODEL_VS_3_0
 const float4 cFlexWeights [ 512 ] : register ( c1024 ) ;
 #endif
 
@@ -162,9 +157,8 @@ const float4 cModulationColor			: register( c47 );
 #define SHADER_SPECIFIC_CONST_11 c15
 
 static const int cModel0Index = 58;
-const float4x3 cModel[53]				: register( c58 );
-// last cmodel is c105 for dx80, c216 for dx90
-
+const float4x3 cModel[53]					: register( c58 );
+// last cmodel is c105 for dx80, c214 for dx90
 
 #define SHADER_SPECIFIC_BOOL_CONST_0 b4
 #define SHADER_SPECIFIC_BOOL_CONST_1 b5
@@ -348,39 +342,40 @@ void SampleMorphDelta2( sampler2D vt, const float3 vMorphTargetTextureDim, const
 
 #endif // SHADER_MODEL_VS_3_0
 
-
-#if ( defined( SHADER_MODEL_VS_2_0 ) || defined( SHADER_MODEL_VS_3_0 ) )
-
 //-----------------------------------------------------------------------------
 // Method to apply morphs
 //-----------------------------------------------------------------------------
-bool ApplyMorph( float3 vPosFlex, inout float3 vPosition )
+bool ApplyMorph( float3 vPosFlex, in float3 vPosition, out float3 vPosition_O )
 {
 	// Flexes coming in from a separate stream
 	float3 vPosDelta = vPosFlex.xyz * cFlexScale.x;
-	vPosition.xyz += vPosDelta;
+	vPosition_O.xyz = vPosition + vPosDelta;
 	return true;
 }
 
-bool ApplyMorph( float3 vPosFlex, float3 vNormalFlex, inout float3 vPosition, inout float3 vNormal )
+bool ApplyMorph( float3 vPosFlex, float3 vNormalFlex,
+	in float3 vPosition, out float3 vPosition_O,
+	in float3 vNormal, out float3 vNormal_O )
 {
 	// Flexes coming in from a separate stream
 	float3 vPosDelta = vPosFlex.xyz * cFlexScale.x;
 	float3 vNormalDelta = vNormalFlex.xyz * cFlexScale.x;
-	vPosition.xyz += vPosDelta;
-	vNormal       += vNormalDelta;
+	vPosition_O.xyz	= vPosition + vPosDelta;
+	vNormal_O.xyz	= vNormal + vNormalDelta;
 	return true;
 }
 
-bool ApplyMorph( float3 vPosFlex, float3 vNormalFlex, 
-	inout float3 vPosition, inout float3 vNormal, inout float3 vTangent )
+bool ApplyMorph( float3 vPosFlex, float3 vNormalFlex,
+	in float3 vPosition, out float3 vPosition_O,
+	in float3 vNormal, out float3 vNormal_O,
+	in float3 vTangent, out float3 vTangent_O )
 {
 	// Flexes coming in from a separate stream
 	float3 vPosDelta = vPosFlex.xyz * cFlexScale.x;
 	float3 vNormalDelta = vNormalFlex.xyz * cFlexScale.x;
-	vPosition.xyz += vPosDelta;
-	vNormal       += vNormalDelta;
-	vTangent.xyz  += vNormalDelta;
+	vPosition_O.xyz	= vPosition + vPosDelta;
+	vNormal_O.xyz	= vNormal + vNormalDelta;
+	vTangent_O.xyz	= vTangent + vNormalDelta;
 	return true;
 }
 
@@ -397,21 +392,18 @@ bool ApplyMorph( float4 vPosFlex, float3 vNormalFlex,
 	return true;
 }
 
-#endif // defined( SHADER_MODEL_VS_2_0 ) || defined( SHADER_MODEL_VS_3_0 )
-
-
 #ifdef SHADER_MODEL_VS_3_0
 
 bool ApplyMorph( sampler2D morphSampler, const float3 vMorphTargetTextureDim, const float4 vMorphSubrect, 
 				const float flVertexID, const float3 vMorphTexCoord,
-				inout float3 vPosition )
+				in float3 vPosition, out float3 vPosition_O )
 {
 #if MORPHING
 
-#if !DECAL
+#if 1
 	// Flexes coming in from a separate stream
 	float4 vPosDelta = SampleMorphDelta( morphSampler, vMorphTargetTextureDim, vMorphSubrect, flVertexID, 0 );
-	vPosition	+= vPosDelta.xyz;
+	vPosition_O		= vPosition + vPosDelta.xyz;
 #else
 	float4 t = float4( vMorphTexCoord.x, vMorphTexCoord.y, 0.0f, 0.0f );
 	float3 vPosDelta = tex2Dlod( morphSampler, t );
@@ -421,21 +413,23 @@ bool ApplyMorph( sampler2D morphSampler, const float3 vMorphTargetTextureDim, co
 	return true;
 
 #else // !MORPHING
+	vPosition_O = vPosition;
 	return false;
 #endif
 }
  
 bool ApplyMorph( sampler2D morphSampler, const float3 vMorphTargetTextureDim, const float4 vMorphSubrect, 
 				const float flVertexID, const float3 vMorphTexCoord, 
-				inout float3 vPosition, inout float3 vNormal )
+				in float3 vPosition, out float3 vPosition_O,
+				in float3 vNormal, out float3 vNormal_O )
 {
 #if MORPHING
 
-#if !DECAL
+#if 1
 	float4 vPosDelta, vNormalDelta;
 	SampleMorphDelta2( morphSampler, vMorphTargetTextureDim, vMorphSubrect, flVertexID, vPosDelta, vNormalDelta );
-	vPosition	+= vPosDelta.xyz;
-	vNormal		+= vNormalDelta.xyz;
+	vPosition_O		= vPosition + vPosDelta.xyz;
+	vNormal_O		= vNormal + vNormalDelta.xyz;
 #else
 	float4 t = float4( vMorphTexCoord.x, vMorphTexCoord.y, 0.0f, 0.0f );
 	float3 vPosDelta = tex2Dlod( morphSampler, t );
@@ -448,22 +442,26 @@ bool ApplyMorph( sampler2D morphSampler, const float3 vMorphTargetTextureDim, co
 	return true;
 
 #else // !MORPHING
+	vPosition_O = vPosition;
+	vNormal_O = vNormal;
 	return false;
 #endif
 }
 
 bool ApplyMorph( sampler2D morphSampler, const float3 vMorphTargetTextureDim, const float4 vMorphSubrect, 
 				const float flVertexID, const float3 vMorphTexCoord, 
-				inout float3 vPosition, inout float3 vNormal, inout float3 vTangent )
+				in float3 vPosition, out float3 vPosition_O,
+				in float3 vNormal, out float3 vNormal_O,
+				in float3 vTangent, out float3 vTangent_O )
 {
 #if MORPHING
 
-#if !DECAL
+#if 1
 	float4 vPosDelta, vNormalDelta;
 	SampleMorphDelta2( morphSampler, vMorphTargetTextureDim, vMorphSubrect, flVertexID, vPosDelta, vNormalDelta );
-	vPosition	+= vPosDelta.xyz;
-	vNormal		+= vNormalDelta.xyz;
-	vTangent	+= vNormalDelta.xyz;
+	vPosition_O		= vPosition + vPosDelta.xyz;
+	vNormal_O		= vNormal + vNormalDelta.xyz;
+	vTangent_O		= vTangent + vNormalDelta.xyz;
 #else
 	float4 t = float4( vMorphTexCoord.x, vMorphTexCoord.y, 0.0f, 0.0f );
 	float3 vPosDelta = tex2Dlod( morphSampler, t );
@@ -477,7 +475,9 @@ bool ApplyMorph( sampler2D morphSampler, const float3 vMorphTargetTextureDim, co
 	return true;
 
 #else // MORPHING
-
+	vPosition_O = vPosition;
+	vNormal_O = vNormal;
+	vTangent_O = vTangent;
 	return false;
 #endif
 }
@@ -519,41 +519,8 @@ bool ApplyMorph( sampler2D morphSampler, const float3 vMorphTargetTextureDim, co
 
 #endif   // SHADER_MODEL_VS_3_0
 
-float CalcFixedFunctionFog( const float3 worldPos, const bool bWaterFog )
-{
-	if( !bWaterFog )
-	{
-		return CalcRangeFogFactorFixedFunction( worldPos, cEyePos, cRadialFogMaxDensity, cFogEndOverFogRange, cOOFogRange );
-	}
-	else
-	{
-		return 0.0f; //all done in the pixel shader as of ps20 (current min-spec)
-	}
-}
 
-float CalcFixedFunctionFog( const float3 worldPos, const int fogType )
-{
-	return CalcFixedFunctionFog( worldPos, fogType != FOGTYPE_RANGE );
-}
-
-float CalcNonFixedFunctionFog( const float3 worldPos, const bool bWaterFog )
-{
-	if( !bWaterFog )
-	{
-		return CalcRangeFogFactorNonFixedFunction( worldPos, cEyePos, cRadialFogMaxDensity, cFogEndOverFogRange, cOOFogRange );
-	}
-	else
-	{
-		return 0.0f; //all done in the pixel shader as of ps20 (current min-spec)
-	}
-}
-
-float CalcNonFixedFunctionFog( const float3 worldPos, const int fogType )
-{
-	return CalcNonFixedFunctionFog( worldPos, fogType != FOGTYPE_RANGE );
-}
-
-/*float RangeFog( const float3 projPos )
+float RangeFog( const float3 projPos )
 {
 	return max( cFogMaxDensity, ( -projPos.z * cOOFogRange + cFogEndOverFogRange ) );
 }
@@ -580,11 +547,11 @@ float WaterFog( const float3 worldPos, const float3 projPos )
 	// $tmp.w is now the distance that we see through water.
 
 	return max( cFogMaxDensity, ( -tmp.w * cOOFogRange + cFogOne ) );
-}*/
+}
 
 float CalcFog( const float3 worldPos, const float3 projPos, const int fogType )
 {
-/*#if defined( _X360 )
+#if defined( _X360 )
 	// 360 only does pixel fog
 	return 1.0f;
 #endif
@@ -601,13 +568,12 @@ float CalcFog( const float3 worldPos, const float3 projPos, const int fogType )
 #else
 		return WaterFog( worldPos, projPos );
 #endif
-	}*/
-	return CalcFixedFunctionFog( worldPos, fogType );
+	}
 }
 
 float CalcFog( const float3 worldPos, const float3 projPos, const bool bWaterFog )
 {
-/*#if defined( _X360 )
+#if defined( _X360 )
 	// 360 only does pixel fog
 	return 1.0f;
 #endif
@@ -627,8 +593,7 @@ float CalcFog( const float3 worldPos, const float3 projPos, const bool bWaterFog
 #endif
 	}
 
-	return flFog;*/
-	return CalcFixedFunctionFog( worldPos, bWaterFog );
+	return flFog;
 }
 
 float4 DecompressBoneWeights( const float4 weights )
@@ -762,7 +727,7 @@ void SkinPositionNormalAndTangentSpace(
 			worldNormal = mul3x3( modelNormal, ( const float3x3 )blendMatrix );
 			worldTangentS = mul3x3( ( float3 )modelTangentS, ( const float3x3 )blendMatrix );
 		}
-		worldTangentT = cross( worldNormal, worldTangentS ) * modelTangentS.w;
+		worldTangentT = cross( worldNormal, worldTangentS ) * -modelTangentS.w;
 	}
 }
 
@@ -857,24 +822,27 @@ float CosineTermInternal( const float3 worldPos, const float3 worldNormal, int l
 }
 
 // This routine uses booleans to do early-outs and is meant to be called by routines OUTSIDE of this file
-float GetVertexAttenForLight( const float3 worldPos, int lightNum, bool bUseStaticControlFlow )
+float GetVertexAttenForLight( const float3 worldPos, int lightNum )
 {
 	float result = 0.0f;
-
-	// Direct3D uses static control flow but OpenGL currently does not
-	if ( bUseStaticControlFlow )
-	{
-		if ( g_bLightEnabled[lightNum] )
-		{
-			result = VertexAttenInternal( worldPos, lightNum );
-		}
-	}
-	else // OpenGL non-static-control-flow path
+	if ( g_bLightEnabled[lightNum] )
 	{
 		result = VertexAttenInternal( worldPos, lightNum );
 	}
 
 	return result;
+}
+
+// This routine uses booleans to do early-outs and is meant to be called by routines OUTSIDE of this file
+float CosineTerm( const float3 worldPos, const float3 worldNormal, int lightNum, bool bHalfLambert )
+{
+	float flResult = 0.0f;
+	if ( g_bLightEnabled[lightNum] )
+	{
+		flResult = CosineTermInternal( worldPos, worldNormal, lightNum, bHalfLambert );
+	}
+
+	return flResult;
 }
 
 float3 DoLightInternal( const float3 worldPos, const float3 worldNormal, int lightNum, bool bHalfLambert )
@@ -884,6 +852,7 @@ float3 DoLightInternal( const float3 worldPos, const float3 worldNormal, int lig
 		VertexAttenInternal( worldPos, lightNum );
 }
 
+// This routine
 float3 DoLighting( const float3 worldPos, const float3 worldNormal,
 				   const float3 staticLightingColor, const bool bStaticLight,
 				   const bool bDynamicLight, bool bHalfLambert )

@@ -1,4 +1,4 @@
-//========= Copyright Valve Corporation, All rights reserved. ============//
+//========= Copyright © 1996-2006, Valve LLC, All rights reserved. ============
 //
 // Purpose: Provide convenient mapping for shader constants
 //
