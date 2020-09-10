@@ -300,4 +300,26 @@
 			"special_cmd"		"0"
 		}
 	}
+	"ths_run_sse"
+	{
+		"1"
+		{
+			"enabled"		"1"
+			"ensure_check"		"0"
+			"params"		"-shaderedit -dev -console -allowdebug -game $gamedir +map $file"
+			"run"		"$game_exe"
+			"special_cmd"		"0"
+		}
+	}
+	"ths_run_tools"
+	{
+		"1"
+		{
+			"enabled"		"1"
+			"ensure_check"		"0"
+			"params"		"-tools -dev -console -allowdebug -game $gamedir +map $file"
+			"run"		"$game_exe"
+			"special_cmd"		"0"
+		}
+	}
 }
