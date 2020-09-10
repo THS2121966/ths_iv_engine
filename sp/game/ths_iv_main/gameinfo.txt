@@ -49,6 +49,9 @@
 			// that's used when writing to the "mod" path.
 			game+mod+mod_write+default_write_path		|gameinfo_path|.
 			gamebin				|gameinfo_path|bin
+
+			//THS_SHADERS_MAIN
+			game				|gameinfo_path|ths_iv_content/ths_dev_shaders.vpk	
 			
 			game				|gameinfo_path|ths_mapbase_content/episodic_mapbase_content.vpk
 			game				|gameinfo_path|ths_mapbase_content/episodic_materials.vpk
