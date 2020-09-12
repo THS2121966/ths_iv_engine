@@ -2672,15 +2672,6 @@ static IMaterial *ths_fg01 = materials->FindMaterial( "ths_shaderedit_effects/po
 							0, 0, w - 1, h - 1,
 							w, h );
 	}
-	
-/*static IMaterial *ths_dof01 = materials->FindMaterial( "dev/depth_of_field", TEXTURE_GROUP_OTHER );
-	if ( ths_dof01 )
-	{
-		UpdateScreenEffectTexture();
-		pRenderContext->DrawScreenSpaceRectangle( ths_dof01, 0, 0, w, h,
-							0, 0, w - 1, h - 1,
-							w, h );
-	}*/
 
 //ths_flare_an_effect
 static IMaterial *ths_fl_an01 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_flare_an01", TEXTURE_GROUP_OTHER );
@@ -2698,6 +2689,16 @@ static IMaterial *exp_effect = materials->FindMaterial( "ths_shaderedit_effects/
 	{
 		UpdateScreenEffectTexture();
 		pRenderContext->DrawScreenSpaceRectangle( exp_effect, 0, 0, w, h,
+							0, 0, w - 1, h - 1,
+							w, h );
+	}
+
+//ths_ssao
+static IMaterial *ths_ssao = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_ssao_main", TEXTURE_GROUP_OTHER );
+	if ( ths_ssao )
+	{
+		UpdateScreenEffectTexture();
+		pRenderContext->DrawScreenSpaceRectangle( ths_ssao, 0, 0, w, h,
 							0, 0, w - 1, h - 1,
 							w, h );
 	}

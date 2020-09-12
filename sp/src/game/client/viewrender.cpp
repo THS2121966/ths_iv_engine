@@ -833,6 +833,7 @@ CLIENTEFFECT_REGISTER_BEGIN( PrecachePostProcessingEffects )
 	CLIENTEFFECT_MATERIAL( "dev/depth_of_field" )
 	CLIENTEFFECT_MATERIAL( "ths_shaderedit_effects/post_screen/ths_flare_an01" )
 	CLIENTEFFECT_MATERIAL( "ths_shaderedit_effects/post_screen/ths_branch_exp01" )
+	CLIENTEFFECT_MATERIAL( "ths_shaderedit_effects/post_screen/ths_ssao_main" )
 	//ths_dev_gclusters_fix_precache
 	CLIENTEFFECT_MATERIAL( "detail/detailsprites_editor" )	
 
