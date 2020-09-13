@@ -2699,11 +2699,11 @@ static IMaterial *exp_effect = materials->FindMaterial( "ths_shaderedit_effects/
 //ths_ssao
 if ( ths_ssao.GetInt() )
 {
-static IMaterial *ths_ssao = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_ssao_main", TEXTURE_GROUP_OTHER );
-	if ( ths_ssao )
+static IMaterial *ths_ssao_effect = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_ssao_main", TEXTURE_GROUP_OTHER );
+	if ( ths_ssao_effect )
 	{
 		UpdateScreenEffectTexture();
-		pRenderContext->DrawScreenSpaceRectangle( ths_ssao, 0, 0, w, h,
+		pRenderContext->DrawScreenSpaceRectangle( ths_ssao_effect, 0, 0, w, h,
 							0, 0, w - 1, h - 1,
 							w, h );
 	}
