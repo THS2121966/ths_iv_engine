@@ -62,6 +62,9 @@ ConVar mat_disable_bloom("mat_disable_bloom","0");
 ConVar mat_debug_bloom("mat_debug_bloom","0", FCVAR_CHEAT);
 ConVar mat_colorcorrection( "mat_colorcorrection", "0" );
 
+//ths_dev_ssao_command
+static ConVar ths_ssao( "thsdev_ssao_enable", "0" );
+
 ConVar mat_accelerate_adjust_exposure_down( "mat_accelerate_adjust_exposure_down", "3.0", FCVAR_CHEAT );
 ConVar mat_hdr_manual_tonemap_rate( "mat_hdr_manual_tonemap_rate", "1.0" );
 
@@ -2694,6 +2697,8 @@ static IMaterial *exp_effect = materials->FindMaterial( "ths_shaderedit_effects/
 	}
 
 //ths_ssao
+if ( ths_ssao.GetInt() )
+{
 static IMaterial *ths_ssao = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_ssao_main", TEXTURE_GROUP_OTHER );
 	if ( ths_ssao )
 	{
@@ -2702,6 +2707,11 @@ static IMaterial *ths_ssao = materials->FindMaterial( "ths_shaderedit_effects/po
 							0, 0, w - 1, h - 1,
 							w, h );
 	}
+}
+else
+{
+	return;
+}
 
 }
 
