@@ -172,6 +172,19 @@ BEGIN_VS_SHADER(PP_Water_DX90,
 		if ( params[ENVMAP]->IsDefined() )
 		{
 			LoadCubeMap( ENVMAP );
+
+#ifdef MAPBASE
+			if (mat_specular_disable_on_missing.GetBool())
+			{
+				// Revert to defaultcubemap when the envmap texture is missing
+				// (should be equivalent to toolsblack in Mapbase)
+				if (params[ENVMAP]->GetTextureValue()->IsError())
+				{
+					params[ENVMAP]->SetStringValue( "engine/defaultcubemap" );
+					LoadCubeMap( ENVMAP );
+				}
+			}
+#endif
 		}
 		if ( params[NORMALMAP]->IsDefined() )
 		{
@@ -719,6 +732,11 @@ BEGIN_VS_SHADER(PP_Water_DX90,
 				cheapWaterStartDistance / ( cheapWaterEndDistance - cheapWaterStartDistance ),
 			};
 			pShaderAPI->SetPixelShaderConstant( 1, cheapWaterParams );
+
+			float vEyePos[4];
+			pShaderAPI->GetWorldSpaceCameraPosition( vEyePos );
+			vEyePos[3] = 0.0f;
+			pShaderAPI->SetPixelShaderConstant( 4, vEyePos );
 
 			if( g_pConfig->bShowSpecular )
 			{
