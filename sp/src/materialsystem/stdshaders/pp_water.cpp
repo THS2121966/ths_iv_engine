@@ -17,7 +17,7 @@
 #include "pp_WaterCheap_ps20b.inc"
 #include "pp_Water_vs20.inc"
 #include "pp_water_ps20.inc"
-#include "pp_water_ps20b.inc"
+#include "pp_water_ps30.inc"
 
 // NOTE: This has to be the last file included!
 #include "tier0/memdbgon.h"
@@ -312,7 +312,7 @@ BEGIN_VS_SHADER(PP_Water_DX90,
 			
 			if ( g_pHardwareConfig->SupportsPixelShaders_2_b() )
 			{
-				DECLARE_STATIC_PIXEL_SHADER( pp_water_ps20b );
+				DECLARE_STATIC_PIXEL_SHADER( pp_water_ps30 );
 				SET_STATIC_PIXEL_SHADER_COMBO( REFLECT,  bReflection );
 				SET_STATIC_PIXEL_SHADER_COMBO( REFRACT,  bRefraction );
 				SET_STATIC_PIXEL_SHADER_COMBO( ABOVEWATER,  params[ABOVEWATER]->GetIntValue() );
@@ -323,7 +323,7 @@ BEGIN_VS_SHADER(PP_Water_DX90,
 				SET_STATIC_PIXEL_SHADER_COMBO( FLASHLIGHT, hasFlashlight );
 				SET_STATIC_PIXEL_SHADER_COMBO( LIGHTMAPWATERFOG, bLightmapWaterFog );
 				SET_STATIC_PIXEL_SHADER_COMBO( FORCEFRESNEL, bForceFresnel );
-				SET_STATIC_PIXEL_SHADER( pp_water_ps20b );
+				SET_STATIC_PIXEL_SHADER( pp_water_ps30 );
 			}
 			else
 			{
@@ -567,10 +567,10 @@ BEGIN_VS_SHADER(PP_Water_DX90,
 
 			if ( g_pHardwareConfig->SupportsPixelShaders_2_b() )
 			{
-				DECLARE_DYNAMIC_PIXEL_SHADER( pp_water_ps20b );
+				DECLARE_DYNAMIC_PIXEL_SHADER( pp_water_ps30 );
 				SET_DYNAMIC_PIXEL_SHADER_COMBO( FLASHLIGHTSHADOWS, bFlashlightShadows );
 				SET_DYNAMIC_PIXEL_SHADER_COMBO( PIXELFOGTYPE, ( pShaderAPI->GetSceneFogMode() == MATERIAL_FOG_LINEAR_BELOW_FOG_Z ) );
-				SET_DYNAMIC_PIXEL_SHADER( pp_water_ps20b );
+				SET_DYNAMIC_PIXEL_SHADER( pp_water_ps30 );
 			}
 			else
 			{

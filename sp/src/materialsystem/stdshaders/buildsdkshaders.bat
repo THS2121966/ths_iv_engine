@@ -30,6 +30,7 @@ set ARG_EXTRA=
 
 %BUILD_SHADER% ths_posteffects		-game %GAMEDIR% -source %SOURCEDIR%
 %BUILD_SHADER% ths_new_water		-game %GAMEDIR% -source %SOURCEDIR%
+%BUILD_SHADER% ths_new_water		-game %GAMEDIR% -source %SOURCEDIR% -dx9_30	-force30
 
 rem echo.
 if not "%dynamic_shaders%" == "1" (
