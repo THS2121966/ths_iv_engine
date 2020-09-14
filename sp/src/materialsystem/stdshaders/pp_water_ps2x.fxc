@@ -1,5 +1,7 @@
 //========== Copyright (c) Valve Corporation, All rights reserved. ==========//
 
+//#define NEW_SHADOW_FILTERS
+
 // STATIC: "BASETEXTURE"					"0..1"
 // STATIC: "MULTITEXTURE"					"0..1"
 // STATIC: "REFLECT"						"0..1"
