@@ -66,3 +66,14 @@ $Group "dedicated"
 	"tier1"
 }
 
+$Group "compilers"
+{
+	"mathlib"
+	"raytrace"
+	"tier1"
+	"vrad_dll"
+	"vrad_launcher"
+	"vvis_dll"
+	"vvis_launcher"
+	"vbsp"
+}
