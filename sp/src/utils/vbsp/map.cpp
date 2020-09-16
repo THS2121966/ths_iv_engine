@@ -1859,6 +1859,19 @@ ChunkFileResult_t CMapFile::LoadEntityCallback(CChunkFile *pFile, int nParam)
 				ValueForKey( mapent, "SunSpreadAngle" ) );
 		}
 
+		if ( !Q_stricmp( pClassName, "light_directional" ) )
+		{
+			CVmfImport::GetVmfImporter()->ImportLightDirectionalCallback(
+				ValueForKey( mapent, "hammerid" ),
+				ValueForKey( mapent, "origin" ),
+				ValueForKey( mapent, "angles" ),
+				ValueForKey( mapent, "pitch" ),
+				ValueForKey( mapent, "_light" ),
+				ValueForKey( mapent, "_lightHDR" ),
+				ValueForKey( mapent, "_lightscaleHDR" ),
+				ValueForKey( mapent, "SunSpreadAngle" ) );
+		}
+
 		const char *pModel = ValueForKey( mapent, "model" );
 		if ( pModel && Q_strlen( pModel ) )
 		{

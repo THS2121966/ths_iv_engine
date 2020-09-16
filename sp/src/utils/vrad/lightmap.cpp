@@ -1243,7 +1243,7 @@ static void ParseLightGeneric( entity_t *e, directlight_t *dl )
 	Vector	        dest;
 
 	dl->light.style = (int)FloatForKey (e, "style");
-	
+	dl->m_bSkyLightIsDirectionalLight = false;
 	// get intenfsity
 	if( g_bHDR && LightForKey( e, "_lightHDR", dl->light.intensity ) ) 
 	{
@@ -1456,8 +1456,10 @@ bool CanLeafTraceToSky( int iLeaf )
 	return false;
 }
 
-void BuildVisForLightEnvironment( void )
+void BuildVisForLightEnvironment( int nNumLights, directlight_t** pLights )
 {
+	// FIXME: The work in this function is executed redundantly for multiple emit_skylight lights.
+
 	// Create the vis.
 	for ( int iLeaf = 0; iLeaf < numleafs; ++iLeaf )
 	{
@@ -1478,8 +1480,11 @@ void BuildVisForLightEnvironment( void )
 				{
 					dleafs[iLeaf].flags |= LEAF_FLAGS_SKY;
 				}
-				MergeDLightVis( gSkyLight, dleafs[iLeaf].cluster );
-				MergeDLightVis( gAmbient, dleafs[iLeaf].cluster );
+
+				for ( int iLight = 0; iLight < nNumLights; ++iLight )
+				{
+					MergeDLightVis( pLights[iLight], dleafs[iLeaf].cluster );
+				}
 				break;
 			}
 		}
@@ -1602,6 +1607,7 @@ static void ParseLightEnvironment( entity_t* e )
 		{
 			g_SunAngularExtent=atof(angle_str);
 			g_SunAngularExtent=sin((M_PI/180.0)*g_SunAngularExtent);
+			dl->m_flSkyLightSunAngularExtent = g_SunAngularExtent;
 			printf("sun extent from map=%f\n",g_SunAngularExtent);
 		}
 	
@@ -1627,12 +1633,38 @@ static void ParseLightEnvironment( entity_t* e )
 						 gAmbient->light.intensity );
 		}
 		
-		BuildVisForLightEnvironment();
+		directlight_t* lights[] = { gSkyLight, gAmbient };
+		BuildVisForLightEnvironment( 2, lights );
  
 		// Add sky and sky ambient lights to the list.
 		AddDLightToActiveList( gSkyLight );
 		AddDLightToActiveList( gAmbient );
 	}
+}
+
+static void ParseLightDirectional( entity_t* e )
+{
+	Vector dest;
+	GetVectorForKey (e, "origin", dest );
+	directlight_t* dl = AllocDLight( dest, true );
+
+	ParseLightGeneric( e, dl );
+
+	char *angle_str=ValueForKeyWithDefault( e, "SunSpreadAngle" );
+	if (angle_str)
+	{
+		dl->m_flSkyLightSunAngularExtent = atof(angle_str);
+		dl->m_flSkyLightSunAngularExtent = sin((M_PI/180.0)*dl->m_flSkyLightSunAngularExtent);
+		printf("directional light sun extent from map=%f\n",g_SunAngularExtent);
+	}
+
+	dl->light.type = emit_skylight;
+	// For the engine, emit_skylight is the type we want.
+	// Set an additional flag identifying this as "not the global skylight" for vrad. This will cause it to use the angular extent associated with this light
+	// instead of the global one.
+	dl->m_bSkyLightIsDirectionalLight = true;
+
+	BuildVisForLightEnvironment( 1, &dl );
 }
 
 static void ParseLightPoint( entity_t* e )
@@ -1719,6 +1751,11 @@ void CreateDirectLights (void)
 		{
 			ParseLightEnvironment( e );
 		}
+		else if (!strcmp(name, "light_directional")) 
+		{
+			ParseLightDirectional( e );
+			Msg( "[THS] Enchanced light type added: \"%s\"\n", name );
+		}		
 		else if (!strcmp(name, "light")) 
 		{
 			ParseLightPoint( e );
@@ -1795,6 +1832,12 @@ void GatherSampleSkyLightSSE( SSE_sampleLightOutput_t &out, directlight_t *dl, i
 	bool force_fast = ( nLFlags & GATHERLFLAGS_FORCE_FAST ) != 0;
 
 	fltx4 dot;
+
+	float fSunAngularExtent = g_SunAngularExtent;
+	if ( dl->m_bSkyLightIsDirectionalLight )
+	{
+		fSunAngularExtent = dl->m_flSkyLightSunAngularExtent;
+	}
 
 	if ( bIgnoreNormals )
 		dot = ReplicateX4( CONSTANT_DOT );
