@@ -17,6 +17,9 @@
 // Dynamic light structure
 //-----------------------------------------------------------------------------
 
+// ths_dlight_weapon_effect
+static ConVar thsdev_wp_enable_muzzledlight( "thsdev_wp_enable_muzzledlight", "1" );
+
 enum
 {
 	DLIGHT_NO_WORLD_ILLUMINATION = 0x1,

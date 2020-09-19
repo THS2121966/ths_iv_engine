@@ -70,7 +70,7 @@ static ConVar cl_SetupAllBones( "cl_SetupAllBones", "0" );
 ConVar r_sequence_debug( "r_sequence_debug", "" );
 
 // ths_dlight_weapon_effect
-static ConVar thsdev_wp_enable_muzzledlight( "thsdev_wp_enable_muzzledlight", "1" );
+//static ConVar thsdev_wp_enable_muzzledlight( "thsdev_wp_enable_muzzledlight", "1" );
 
 // If an NPC is moving faster than this, he should play the running footstep sound
 const float RUN_SPEED_ESTIMATE_SQR = 150.0f * 150.0f;

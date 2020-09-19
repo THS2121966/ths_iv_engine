@@ -16,6 +16,9 @@
 #include "view.h"
 #include "view_scene.h"
 #include "beamdraw.h"
+//ths_dev_dlight_effect
+#include "dlight.h"
+#include "r_efx.h"
 
 // Precache our effects
 CLIENTEFFECT_REGISTER_BEGIN( PrecacheEffectCombineBall )
@@ -335,6 +338,19 @@ void CombineBallExplosionCallback( const CEffectData &data )
 
 	// Throw sparks
 	FX_ElectricSpark( data.m_vOrigin, 4, 1, &normal );
+
+	if ( thsdev_wp_enable_muzzledlight.GetBool() )
+	{
+		dlight_t *dl = effects->CL_AllocDlight ( 1 );
+		dl->origin = data.m_vOrigin;
+		dl->color.r = 225;
+		dl->color.g = 250;
+		dl->color.b = 253;
+		dl->die = gpGlobals->curtime + 3.00f;
+		dl->radius = random->RandomFloat( 380.0f, 420.0f );
+		dl->decay = 512.0f;
+		dl->color.exponent = 5;
+	}
 }
 
 DECLARE_CLIENT_EFFECT( "cball_explode", CombineBallExplosionCallback );
