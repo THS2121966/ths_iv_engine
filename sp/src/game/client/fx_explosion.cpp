@@ -704,9 +704,9 @@ void C_BaseExplosionEffect::CreateDynamicLight( void )
 		dl->color.r = 255;
 		dl->color.g = 220;
 		dl->color.b = 128;
-		dl->die = gpGlobals->curtime + 0.1f;
-		dl->radius = 255;
-		dl->decay = 200.0f;
+		dl->die = gpGlobals->curtime + 0.16f;
+		dl->radius = 460;
+		dl->decay = 512.0f;
 		dl->color.exponent = 4.6;
 	}
 	else
