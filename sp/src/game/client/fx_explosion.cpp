@@ -190,7 +190,7 @@ void C_BaseExplosionEffect::Create( const Vector &position, float force, float s
 	}
 
 	CreateDebris();
-	//FIXME: CreateDynamicLight();
+	CreateDynamicLight();
 	CreateMisc();
 }
 
@@ -697,19 +697,22 @@ void C_BaseExplosionEffect::CreateMisc( void )
 //-----------------------------------------------------------------------------
 void C_BaseExplosionEffect::CreateDynamicLight( void )
 {
-	if ( m_fFlags & TE_EXPLFLAG_NODLIGHTS )
+	if ( thsdev_wp_enable_muzzledlight.GetBool() )
+	{
+		dlight_t *dl = effects->CL_AllocDlight ( 1 );
+		dl->origin = m_vecOrigin;
+		dl->color.r = 255;
+		dl->color.g = 220;
+		dl->color.b = 128;
+		dl->die = gpGlobals->curtime + 0.1f;
+		dl->radius = 255;
+		dl->decay = 200.0f;
+		dl->color.exponent = 4.6;
+	}
+	else
+	{
 		return;
-
-	dlight_t *dl = effects->CL_AllocDlight( 0 );
-	
-	VectorCopy (m_vecOrigin, dl->origin);
-	
-	dl->decay	= 200;
-	dl->radius	= 255;
-	dl->color.r = 255;
-	dl->color.g = 220;
-	dl->color.b = 128;
-	dl->die		= gpGlobals->curtime + 0.1f;
+	}
 }
 
 //-----------------------------------------------------------------------------
