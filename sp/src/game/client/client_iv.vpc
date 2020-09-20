@@ -46,6 +46,7 @@ $Project "Client (IV)"
 			$Folder	"Implementation Files"
 			{
 				$File	"ths_entities\thsdev_hud_tasklist.cpp"
+				$File	"ths_entities\c_ssao_control.cpp"
 			}
 		}		
 		

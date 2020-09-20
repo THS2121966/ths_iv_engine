@@ -59,6 +59,7 @@ $Project "Server (IV)"
 			$Folder	"Implementation Files"
 			{
 				$File	"ths_entities\ths_EnvHudTasklist.cpp"
+				$File	"ths_entities\ssao_control.cpp"
 			}
 		}		
 
