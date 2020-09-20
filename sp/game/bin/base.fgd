@@ -3693,6 +3693,25 @@
 
 
 //-------------------------------------------------------------------------
+// SSAO control
+//-------------------------------------------------------------------------
+
+@PointClass base(Targetname) iconsprite("editor/shadow_control.vmt") = ssao_control : 
+	"An entity to control the SSAO Effect."
+[
+	
+	ssaoenable(Choices) : "[THS] Enable SSAO Effect." : 1 : "Enable SSAO Advanced shadow effect. Only one entity can be correctly placed on the map." = 
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	// Inputs
+	input SetSSAOEnabled(bool) : "Toggles SSAO Effect."
+]
+
+
+//-------------------------------------------------------------------------
 // Color correction control
 //-------------------------------------------------------------------------
 
