@@ -3696,7 +3696,7 @@
 // SSAO control
 //-------------------------------------------------------------------------
 
-@PointClass base(Targetname) iconsprite("editor/shadow_control.vmt") = ssao_control : 
+@PointClass base(Targetname) iconsprite("editor/ssao_control.vmt") = ssao_control : 
 	"An entity to control the SSAO Effect."
 [
 	
