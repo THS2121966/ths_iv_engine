@@ -25,6 +25,17 @@
 
 #include "proxyentity.h"
 
+bool ths_ssao_init = false;
+
+class C_SSAOControl : public C_BaseEntity
+{
+public:
+	//bool ths_ssao_init;
+	void THSSSAOEnable( bool ths_ssao_enable );
+private:
+	bool ths_ssao_enable;
+};
+
 //-----------------------------------------------------------------------------
 // Globals
 //-----------------------------------------------------------------------------
@@ -2247,6 +2258,19 @@ static ConVar r_queued_post_processing( "r_queued_post_processing", "0" );
 static ConVar mat_postprocess_x( "mat_postprocess_x", "4" );
 static ConVar mat_postprocess_y( "mat_postprocess_y", "1" );
 
+void C_SSAOControl::THSSSAOEnable( bool ths_ssao_enable )
+{
+	if (ths_ssao_enable)
+	{
+		ths_ssao_init = true;
+	}
+	else
+	{
+		ths_ssao_init = false;
+	}
+	return;
+}
+
 void DoEnginePostProcessing( int x, int y, int w, int h, bool bFlashlightIsOn, bool bPostVGui )
 {
 	tmZone( TELEMETRY_LEVEL0, TMZF_NONE, "%s", __FUNCTION__ );
@@ -2697,7 +2721,7 @@ static IMaterial *exp_effect = materials->FindMaterial( "ths_shaderedit_effects/
 	}
 
 //ths_ssao
-if ( ths_ssao.GetInt() )
+if ( ths_ssao.GetBool() || ths_ssao_init )
 {
 static IMaterial *ths_ssao_effect = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_ssao_main", TEXTURE_GROUP_OTHER );
 	if ( ths_ssao_effect )
