@@ -733,11 +733,6 @@ BEGIN_VS_SHADER(PP_Water_DX90,
 			};
 			pShaderAPI->SetPixelShaderConstant( 1, cheapWaterParams );
 
-			float vEyePos[4];
-			pShaderAPI->GetWorldSpaceCameraPosition( vEyePos );
-			vEyePos[3] = 0.0f;
-			pShaderAPI->SetPixelShaderConstant( 4, vEyePos );
-
 			if( g_pConfig->bShowSpecular )
 			{
 				SetPixelShaderConstant( 2, REFLECTTINT, REFLECTBLENDFACTOR );
