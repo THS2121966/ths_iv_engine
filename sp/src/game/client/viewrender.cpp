@@ -830,7 +830,7 @@ CLIENTEFFECT_REGISTER_BEGIN( PrecachePostProcessingEffects )
 	
 	//THS_screen_space_effects
 	CLIENTEFFECT_MATERIAL( "ths_shaderedit_effects/post_screen/ths_filmgrain01" )
-	CLIENTEFFECT_MATERIAL( "dev/depth_of_field" )
+	//CLIENTEFFECT_MATERIAL( "dev/depth_of_field" )
 	CLIENTEFFECT_MATERIAL( "ths_shaderedit_effects/post_screen/ths_flare_an01" )
 	CLIENTEFFECT_MATERIAL( "ths_shaderedit_effects/post_screen/ths_branch_exp01" )
 	CLIENTEFFECT_MATERIAL( "ths_shaderedit_effects/post_screen/ths_ssao_main" )
