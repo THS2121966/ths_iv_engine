@@ -14651,6 +14651,10 @@ SDK_LightmappedGeneric
 	"$basetexture" "Dev/dev_westwall"
 	"$surfaceprop" "concrete"
 }
+SDK_WindowImposter
+{
+	"$envmap" "env_cubemap"
+}
 SDK_LightmappedGeneric
 {
 	// Original shader: BaseTimesLightmap

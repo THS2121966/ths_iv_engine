@@ -1,0 +1,72 @@
+// ********************************
+// ** auto generated pixelshader **
+// ********************************
+
+#define SHADER_EDITOR_2013_COMPILE
+
+
+// Includes
+#include "common_ps_fxc.h"
+#include "common_vertexlitgeneric_dx9.h"
+#include "common_lightmappedgeneric_fxc.h"
+#include "common_flashlight_fxc.h"
+#include "common_parallax.h"
+
+
+// Samplers
+sampler _Sampler_00		: register( s0 );
+sampler _Sampler_01		: register( s1 );
+
+// Constants
+const float2 _g_TexelSize		: register( c16 );
+
+// Arrays
+static const float2 g_cArray_152[4] =
+{
+	float2( 1.000000f, 0.000000f ),
+	float2( 0.000000f, 1.000000f ),
+	float2( -1.000000f, 0.000000f ),
+	float2( 0.000000f, -1.000000f ),
+};
+
+// Semantic structures
+struct PS_INPUT
+{
+	float2 vTexCoord_0			:	TEXCOORD0;
+};
+
+struct PS_OUTPUT
+{
+	float4 vColor_0				:	COLOR0;
+};
+
+// Entry point
+PS_OUTPUT main( const PS_INPUT In )
+{
+	PS_OUTPUT Out;
+	float4 _texLookup_6 = tex2D( _Sampler_00, In.vTexCoord_0 );
+	float3 _var0 = _texLookup_6.rgb;
+	float _var1 = _texLookup_6.a;
+	float _var2 = float( 0.000000 );
+	float2 _var3 = _g_TexelSize * float( 4.000000 );
+	float _var4 = tex2D( _Sampler_01, In.vTexCoord_0 ).a;
+	for ( int _var5 = 0; _var5 < 4; _var5++ )
+	{
+		float2 _var6 = In.vTexCoord_0;
+		float2 _var7 = _var3;
+		_var7 = _var7 * g_cArray_152[_var5];
+		_var6 = _var6 + _var7;
+		float _var8 = tex2D( _Sampler_01, _var6 ).a;
+		_var2 = max( _var2, _var8 );
+	}
+	_var2 = saturate( _var2 );
+	_var4 = saturate( _var4 );
+	_var2 = _var2 - _var4;
+	_var2 = _var2 - float( 0.005000 );
+	_var2 = saturate( _var2 );
+	float3 _var9 = _var2 * float3( 0.258824, 0.315000, 0.294118 );
+	_var0 = _var0 + _var9;
+	float4 _var10 = float4( _var0, _var1 );
+	Out.vColor_0 = _var10;
+	return Out;
+}

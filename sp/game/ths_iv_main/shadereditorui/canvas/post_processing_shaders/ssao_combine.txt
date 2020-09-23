@@ -23,6 +23,7 @@
 			"iPreview"		"0"
 			"enable_flex"		"0"
 			"enable_normal"		"0"
+			"enable_normal_compression"		"0"
 			"enable_blendweights"		"0"
 			"enable_tangentspace"		"0"
 			"enable_tangentspace_skinning"		"0"

@@ -1,4 +1,6 @@
 
+// Mapbase uses a shared response_rules file.
+// Use "response_criteria.txt" in the mod of your choice.
 
 // This is the base rule script file for the AI response system for Expressive AI's who speak based on certain "Concepts"
 // You can think of a concept as a high level state that the code is trying to convey, such as say hello, or say you're mad, etc.
@@ -136,23 +138,73 @@
 //  "playerkey:value" or "worldkey:value" to differentiate world/player context from the context of the
 //  responding entity.
 
-// Base script
-#include "talker/response_criteria.txt"
+// Shared criteria
+enumeration "NPCState"
+{
+	"None"		"0"
+	"Idle"		"1"
+	"Alert"		"2"
+	"Combat"		"3"
+	"Scripted"	"4"
+	"PlayDead"	"5"
+	"Dead"		"6"
+}
+
+enumeration "Gender"
+{
+	"None"		"0"
+	"Male"		"1"
+	"Female"		"2"
+}
+
+enumeration "DMGType"
+{
+	"Generic"				"0"			
+	"Crush"				"1"
+	"Bullet"				"2"
+	"Slash"				"4"
+	"Burn"				"8"
+	"Vehicle"				"16"
+	"Fall"				"32"
+	"Blast"				"64"
+	"Club"				"128"
+	"Shock"				"256"
+	"Sonic"				"512"
+	"EnergyBeam"			"1024"
+	"PreventPhysicsForce"		"2048"
+	"NeverGib"			"4096"
+	"AlwaysGib"			"8192"
+	"Drown"				"16384"
+	"Paralyze"			"32768"
+	"NerveGas"			"65536"
+	"Poison"				"131072"
+	"Radiation"			"262144"
+	"DrownRecover"			"524288"
+	"Acid"				"1048576"
+	"SlowBurn"			"2097152"
+	"RemoveNoRagdoll"		"4194304"	
+	"PhysGun"			"8388608"		
+	"Plasma"				"16777216"		
+	"Airboat"				"33554432"		
+	"Dissolve"			"67108864"		
+	"BlastSurface"			"134217728"		
+	"Direct"				"268435456"
+	"Buckshot"			"536870912"		
+}
+
+criterion "IsMale" "gender" "[Gender::Male]" "required"
+criterion "IsFemale" "gender" "[Gender::Female]" "required"
+
+criterion "IsEpisodic" "episodic" "1" "required"
+criterion "IsNotEpisodic" "episodic" "!=1" "required"
+
+response "NullResponse"
+
+// Base script for Mapbase
+#include "talker/mapbase.txt"
+
+// Base script for each mod
+#include "talker/response_base.txt"
 
 // Test rules
 #include "talker/interjections.txt" 
-
-#include "talker/npc_combine.txt"
-#include "talker/response_k_lab.txt"
-#include "talker/response_eli_lab.txt"
-#include "talker/npc_vortigaunt.txt"
-#include "talker/npc_citizen.txt"
-#include "talker/npc_citizen_scenes.txt"
-//#include "talker/npc_grigori.txt"
-//#include "talker/npc_barney.txt"
-#include "talker/npc_alyx.txt"
-#include "talker/npc_alyx_episodic.txt"
-#include "talker/npc_alyx_episodic_scenes.txt"
-//#include "talker/npc_barney_episodic.txt"
-#include "talker/nags_Alyx.txt"
-#include "talker/npc_alyx_vehicle.txt"
