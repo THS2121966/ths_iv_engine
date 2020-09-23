@@ -5,14 +5,14 @@
 		"fieldName"		"HudHealth"
 		"xpos"	"16"
 		"ypos"	"432"
-		"wide"	"110"
+		"wide"	"102"
 		"tall"  "36"
 		"visible" "1"
 		"enabled" "1"
 
-		"PaintBackgroundType"	"0"
+		"PaintBackgroundType"	"2"
 		
-		"text_xpos" "4"
+		"text_xpos" "8"
 		"text_ypos" "20"
 		"digit_xpos" "50"
 		"digit_ypos" "2"
@@ -27,7 +27,7 @@
 		"visible" "1"
 		"enabled" "1"
 
-		"PaintBackgroundType"	"0"
+		"PaintBackgroundType"	"2"
 		
 		"text_xpos" "8"
 		"text_ypos" "18"
@@ -38,14 +38,14 @@
 	HudSuit [$WIN32]
 	{
 		"fieldName"		"HudSuit"
-		"xpos"	"16"
-		"ypos"	"350" 
-		"wide"	"110"
+		"xpos"	"140"
+		"ypos"	"432"
+		"wide"	"108"
 		"tall"  "36"
 		"visible" "1"
 		"enabled" "1"
 
-		"PaintBackgroundType"	"0"
+		"PaintBackgroundType"	"2"
 
 		"text_xpos" "8"
 		"text_ypos" "20"
@@ -62,7 +62,7 @@
 		"visible" "1"
 		"enabled" "1"
 
-		"PaintBackgroundType"	"0"
+		"PaintBackgroundType"	"2"
 
 		"text_xpos" "8"
 		"text_ypos" "18"
@@ -75,18 +75,18 @@
 		"fieldName" "HudAmmo"
 		"xpos"	"r150"
 		"ypos"	"432"
-		"wide"	"150"
+		"wide"	"136"
 		"tall"  "36"
 		"visible" "1"
 		"enabled" "1"
 
-		"PaintBackgroundType"	"0"
+		"PaintBackgroundType"	"2"
 
 		"text_xpos" "8"
 		"text_ypos" "20"
 		"digit_xpos" "44"
 		"digit_ypos" "2"
-		"digit2_xpos" "92"
+		"digit2_xpos" "98"
 		"digit2_ypos" "16"
 	}
 	HudAmmo	[$X360]
@@ -99,7 +99,7 @@
 		"visible" "1"
 		"enabled" "1"
 
-		"PaintBackgroundType"	"0"
+		"PaintBackgroundType"	"2"
 
 		"text_xpos" "8"
 		"text_ypos" "18"
@@ -119,7 +119,7 @@
 		"visible" "1"
 		"enabled" "1"
 
-		"PaintBackgroundType"	"0"
+		"PaintBackgroundType"	"2"
 
 		"text_xpos" "8"
 		"text_ypos" "22"
@@ -136,7 +136,7 @@
 		"visible" "1"
 		"enabled" "1"
 
-		"PaintBackgroundType"	"0"
+		"PaintBackgroundType"	"2"
 
 		"text_xpos" "8"
 		"text_ypos" "22"
@@ -154,16 +154,16 @@
 		"wide"	"102"
 		"tall"	"26"
 		
-		"AuxPowerLowColor" "252 139 147 200"
-		"AuxPowerHighColor" "8 109 197 200"
-		"AuxPowerDisabledAlpha" "0"
+		"AuxPowerLowColor" "255 0 0 220"
+		"AuxPowerHighColor" "255 220 0 220"
+		"AuxPowerDisabledAlpha" "70"
 
 		"BarInsetX" "8"
 		"BarInsetY" "15"
 		"BarWidth" "92"
 		"BarHeight" "4"
-		"BarChunkWidth" "1"
-		"BarChunkGap" "0"
+		"BarChunkWidth" "6"
+		"BarChunkGap" "3"
 
 		"text_xpos" "8"
 		"text_ypos" "4"
@@ -171,7 +171,7 @@
 		"text2_ypos" "22"
 		"text2_gap" "10"
 
-		"PaintBackgroundType"	"0"
+		"PaintBackgroundType"	"2"
 	}
 	HudSuitPower	[$X360]
 	{
@@ -183,16 +183,16 @@
 		"wide"	"102"
 		"tall"	"26"
 		
-		"AuxPowerLowColor" "252 139 147 200"
-		"AuxPowerHighColor" "8 109 197 200"
-		"AuxPowerDisabledAlpha" "0"
+		"AuxPowerLowColor" "255 100 0 220"
+		"AuxPowerHighColor" "255 220 0 220"
+		"AuxPowerDisabledAlpha" "70"
 
 		"BarInsetX" "8"
 		"BarInsetY" "19"
 		"BarWidth" "92"
 		"BarHeight" "5"
-		"BarChunkWidth" "1"
-		"BarChunkGap" "0"
+		"BarChunkWidth" "6"
+		"BarChunkGap" "3"
 
 		"text_xpos" "8"
 		"text_ypos" "4"
@@ -200,7 +200,7 @@
 		"text2_ypos" "25"
 		"text2_gap" "12"
 
-		"PaintBackgroundType"	"0"
+		"PaintBackgroundType"	"2"
 	}
 
 	HudPosture	[$WIN32]
@@ -254,21 +254,6 @@
 		"BarChunkWidth" "2"
 		"BarChunkGap" "1"
 	}
-
-	HudLocator
-	{
-		"fieldName" "HudLocator"
-		"visible" "1"
-		"PaintBackgroundType"	"2"
-		"xpos"	"c8"	[$WIN32]
-		"ypos"	"r36"	[$WIN32]
-		"xpos"	"c-32"	[$X360]
-		"ypos_hidef"	"r52"	[$X360]
-		"ypos_lodef"	"r95"	[$X360]		// 52 is aligned to bottom of HudSuit
-		"wide"	"64"
-		"tall"  "24"
-	}	
-
 	HudDamageIndicator
 	{
 		"fieldName" "HudDamageIndicator"
@@ -686,24 +671,6 @@
 		"LeftTitleY"	"422"
 		"RightTitleY"	"422"
 	}
-	"HudChatHistory"
-	{
-		"ControlName"		"RichText"
-		"fieldName"		"HudChatHistory"
-		"xpos"			"10"
-		"ypos"			"290"
-		"wide"	 		"300"
-		"tall"			 "75"
-		"wrap"			"1"
-		"autoResize"		"1"
-		"pinCorner"		"1"
-		"visible"		"0"
-		"enabled"		"1"
-		"labelText"		""
-		"textAlignment"		"south-west"
-		"font"			"Default"
-		"maxchars"		"-1"
-	}						  
 
 	AchievementNotificationPanel	
 	{

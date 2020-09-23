@@ -23,49 +23,49 @@ Scheme
 	// controls use these to determine their settings
 	BaseSettings
 	{
-		"FgColor"			"8 109 197 200"
-		"FgColor_vrmode"	"8 109 197 200"
+		"FgColor"			"255 208 64 255"
+		"FgColor_vrmode"	"255 208 64 255"
 		"BgColor"			"0 0 0 0"
 
-		"Panel.FgColor"			"8 109 197 200"
-		"Panel.BgColor"			"0 0 0 0"
+		"Panel.FgColor"			"255 208 64 255"
+		"Panel.BgColor"			"0 0 0 46"
 		
-		"BrightFg"		"8 109 197 255"
+		"BrightFg"		"255 208 64 255"
 
-		"DamagedBg"			"0 0 0 0"
-		"DamagedFg"			"252 139 147 200"
-		"BrightDamagedFg"		"252 139 147 255"
+		"DamagedBg"			"180 0 0 200"
+		"DamagedFg"			"180 0 0 230"
+		"BrightDamagedFg"		"255 0 0 255"
 
 		// weapon selection colors
-		"SelectionNumberFg"		"8 109 197 200"
-		"SelectionTextFg"		"8 109 197 200"
-		"SelectionEmptyBoxBg" 	"0 0 0 0"
-		"SelectionBoxBg" 		"0 0 0 0"
-		"SelectionSelectedBoxBg" "0 0 0 0"
+		"SelectionNumberFg"		"255 208 64 255"
+		"SelectionTextFg"		"255 208 64 255"
+		"SelectionEmptyBoxBg" 	"0 0 0 80"
+		"SelectionBoxBg" 		"0 0 0 120"
+		"SelectionSelectedBoxBg" "0 0 0 230"
 		
-		"ZoomReticleColor"	"8 109 197 200"
+		"ZoomReticleColor"	"255 208 64 255"
 
 		// HL1-style HUD colors
-		"Yellowish"			"252 139 147 200"
-		"Normal"			"8 109 197 150"
-		"Caution"			"252 139 147 255"
+		"Yellowish"			"255 160 0 255"
+		"Normal"			"255 208 64 255"
+		"Caution"			"255 48 0 255"
 
 		// Top-left corner of the "Half-Life 2" on the main screen
-		"Main.Title1.X"			"10"
-		"Main.Title1.Y"			"450"
+		"Main.Title1.X"			"53"
+		"Main.Title1.Y"			"190"
 		"Main.Title1.Y_hidef"	"184"
-		"Main.Title1.Color"	"16 128 32 255"
+		"Main.Title1.Color"	"255 255 255 255"
 
 		// Top-left corner of secondary title e.g. "DEMO" on the main screen
-		"Main.Title2.X"				"10"
-		"Main.Title2.Y"				"450"
+		"Main.Title2.X"				"291"
+		"Main.Title2.Y"				"207"
 		"Main.Title2.Y_hidef"		"242"
-		"Main.Title2.Color"	"16 128 32 255"
+		"Main.Title2.Color"	"255 255 255 200"
 
 		// Top-left corner of the menu on the main screen
-		"Main.Menu.X"			"10"
+		"Main.Menu.X"			"53"
 		"Main.Menu.X_hidef"		"76"
-		"Main.Menu.Y"			"490"
+		"Main.Menu.Y"			"240"
 
 		// Blank space to leave beneath the menu on the main screen
 		"Main.BottomBorder"	"32"
@@ -115,183 +115,166 @@ Scheme
 		{
 			"1"	[$X360]
 			{
-				"name"		"CourierMOT-Light"
+				"name"		"Verdana"
 				"tall"		"12"
 				"weight"	"700"
 				"antialias" "1"
-				"custom"	"1"				
 			}
 			"1"	[$WIN32]
 			{
-				"name"		"CourierMOT-Light"
+				"name"		"Verdana"
 				"tall"		"9"
 				"weight"	"700"
 				"antialias" "1"
 				"yres"	"1 599"
-				"custom"	"1"				
 			}
 			"2"
 			{
-				"name"		"CourierMOT-Light"
+				"name"		"Verdana"
 				"tall"		"12"
 				"weight"	"700"
 				"antialias" "1"
 				"yres"	"600 767"
-				"custom"	"1"				
 			}
 			"3"
 			{
-				"name"		"CourierMOT-Light"
+				"name"		"SMODGUI"
 				"tall"		"14"
 				"weight"	"900"
 				"antialias" "1"
 				"yres"	"768 1023"
-				"custom"	"1"				
+				"blur" "1"
+				"scanlines" "2"
 			}
 			"4"
 			{
-				"name"		"CourierMOT-Light"
+				"name"		"Verdana"
 				"tall"		"20"
 				"weight"	"900"
 				"antialias" "1"
 				"yres"	"1024 1199"
-				"custom"	"1"				
 			}
 			"5"
 			{
-				"name"		"CourierMOT-Light"
+				"name"		"Verdana"
 				"tall"		"24"
 				"weight"	"900"
 				"antialias" "1"
 				"yres"	"1200 10000"
 				"additive"	"1"
-				"custom"	"1"				
 			}
 		}
 		"DefaultSmall"
 		{
 			"1"
 			{
-				"name"		"CourierMOT-Light"
+				"name"		"Verdana"
 				"tall"		"12"
 				"weight"	"0"
 				"range"		"0x0000 0x017F"
 				"yres"	"480 599"
-				"custom"	"1"				
 			}
 			"2"
 			{
-				"name"		"CourierMOT-Light"
+				"name"		"Verdana"
 				"tall"		"13"
 				"weight"	"0"
 				"range"		"0x0000 0x017F"
 				"yres"	"600 767"
-				"custom"	"1"				
 			}
 			"3"
 			{
-				"name"		"CourierMOT-Light"
+				"name"		"Verdana"
 				"tall"		"14"
 				"weight"	"0"
 				"range"		"0x0000 0x017F"
 				"yres"	"768 1023"
 				"antialias"	"1"
-				"custom"	"1"				
 			}
 			"4"
 			{
-				"name"		"CourierMOT-Light"
+				"name"		"Verdana"
 				"tall"		"20"
 				"weight"	"0"
 				"range"		"0x0000 0x017F"
 				"yres"	"1024 1199"
 				"antialias"	"1"
-				"custom"	"1"				
 			}
 			"5"
 			{
-				"name"		"CourierMOT-Light"
+				"name"		"Verdana"
 				"tall"		"24"
 				"weight"	"0"
 				"range"		"0x0000 0x017F"
 				"yres"	"1200 6000"
 				"antialias"	"1"
-				"custom"	"1"				
 			}
 			"6"
 			{
-				"name"		"CourierMOT-Light"
+				"name"		"Arial"
 				"tall"		"12"
 				"range" 		"0x0000 0x00FF"
 				"weight"		"0"
-				"custom"	"1"				
 			}
 		}
 		"DefaultVerySmall"
 		{
 			"1"
 			{
-				"name"		"CourierMOT-Light"
+				"name"		"Verdana"
 				"tall"		"12"
 				"weight"	"0"
 				"range"		"0x0000 0x017F" //	Basic Latin, Latin-1 Supplement, Latin Extended-A
 				"yres"	"480 599"
-				"custom"	"1"				
 			}
 			"2"
 			{
-				"name"		"CourierMOT-Light"
+				"name"		"Verdana"
 				"tall"		"13"
 				"weight"	"0"
 				"range"		"0x0000 0x017F" //	Basic Latin, Latin-1 Supplement, Latin Extended-A
 				"yres"	"600 767"
-				"custom"	"1"				
 			}
 			"3"
 			{
-				"name"		"CourierMOT-Light"
+				"name"		"Verdana"
 				"tall"		"14"
 				"weight"	"0"
 				"range"		"0x0000 0x017F" //	Basic Latin, Latin-1 Supplement, Latin Extended-A
 				"yres"	"768 1023"
 				"antialias"	"1"
-				"custom"	"1"				
 			}
 			"4"
 			{
-				"name"		"CourierMOT-Light"
+				"name"		"Verdana"
 				"tall"		"20"
 				"weight"	"0"
 				"range"		"0x0000 0x017F" //	Basic Latin, Latin-1 Supplement, Latin Extended-A
 				"yres"	"1024 1199"
 				"antialias"	"1"
-				"custom"	"1"				
 			}
 			"5"
 			{
-				"name"		"CourierMOT-Light"
+				"name"		"Verdana"
 				"tall"		"24"
 				"weight"	"0"
 				"range"		"0x0000 0x017F" //	Basic Latin, Latin-1 Supplement, Latin Extended-A
 				"yres"	"1200 6000"
 				"antialias"	"1"
-				"custom"	"1"				
 			}
 			"6"
 			{
-				"name"		"CourierMOT-Light"
+				"name"		"Verdana"
 				"tall"		"12"
 				"range" 		"0x0000 0x00FF"
 				"weight"		"0"
-				"custom"	"1"				
 			}
 			"7"
 			{
-				"name"		"CourierMOT-Light"
+				"name"		"Arial"
 				"tall"		"11"
 				"range" 		"0x0000 0x00FF"
 				"weight"		"0"
-				"custom"	"1"				
 			}
 		}
 		WeaponIcons
@@ -305,6 +288,8 @@ Scheme
 				"antialias" "1"
 				"additive"	"1"
 				"custom"	"1"
+				"blur" "1"
+				"scanlines" "2"
 			}
 		}
 		WeaponIconsSelected
@@ -316,7 +301,7 @@ Scheme
 				"tall_hidef"	"58"
 				"weight"	"0"
 				"antialias" "1"
-				"blur"		"5"
+				"blur"		"3"
 				"scanlines"	"2"
 				"additive"	"1"
 				"custom"	"1"
@@ -332,6 +317,8 @@ Scheme
 				"antialias" "1"
 				"additive"	"1"
 				"custom"	"1"
+				"blur" "1"
+				"scanlines" "2"
 			}
 		}
 		Crosshairs
@@ -374,13 +361,15 @@ Scheme
 		{
 			"1"
 			{
-				"name"		"CourierMOT-Light"
+				"name"		"Alte DIN 1451 Mittelschrift"
 				"tall"		"32"	[$WIN32]
 				"tall"		"38"	[$X360]
 				"weight"	"0"
 				"antialias" "1"
 				"additive"	"1"
 				"custom"	"1"
+				"blur" "1"
+				"scanlines" "2"
 			}
 		}
 		SquadIcon	[$X360]
@@ -393,19 +382,21 @@ Scheme
 				"antialias" "1"
 				"additive"	"1"
 				"custom"	"1"
+				"blur" "1"
+				"scanlines" "2"
 			}
 		}
 		HudNumbersGlow
 		{
 			"1"
 			{
-				"name"		"CourierMOT-Light"
+				"name"		"Alte DIN 1451 Mittelschrift"
 				"tall"		"32"	[$WIN32]
 				"tall"		"38"	[$X360]
 				"weight"	"0"
 				"blur"		"2"
-				"scanlines" "3"
-				"antialias" "0"
+				"scanlines" "2"
+				"antialias" "1"
 				"additive"	"1"
 				"custom"	"1"
 			}
@@ -414,26 +405,29 @@ Scheme
 		{
 			"1"
 			{
-				"name"		"CourierMOT-Light" [!$OSX]
-				"name"		"CourierMOT-Light" [$OSX]
+				"name"		"Alte DIN 1451 Mittelschrift" [!$OSX]
+				"name"		"Helvetica Bold" [$OSX]
 				"tall"		"16"	[$WIN32]
 				"tall"		"22"	[$X360]
 				"weight"	"1000"
 				"additive"	"1"
-				"antialias" "0"
+				"antialias" "1"
 				"custom"	"1"
+				"blur" "1"
+				"scanlines" "2"
 			}
 		}
 		HudSelectionNumbers
 		{
 			"1"
 			{
-				"name"		"CourierMOT-Light"
+				"name"		"Alte DIN 1451 Mittelschrift"
 				"tall"		"11"
 				"weight"	"700"
 				"antialias" "1"
 				"additive"	"1"
-				"custom"	"1"				
+				"blur" "1"
+				"scanlines" "2"
 			}
 		}
 		HudHintTextLarge
@@ -447,83 +441,89 @@ Scheme
 			}
 			"1"	[$WIN32]
 			{
-				"name"		"CourierMOT-Light" [!$OSX]
-				"name"		"CourierMOT-Light" [$OSX]
+				"name"		"Alte DIN 1451 Mittelschrift" [!$OSX]
+				"name"		"Helvetica Bold" [$OSX]
 				"tall"		"14"
 				"weight"	"1000"
 				"antialias" "1"
 				"additive"	"1"
-				"custom"	"1"				
+				"blur" "1"
+				"scanlines" "2"
 			}
 		}
 		HudHintTextSmall
 		{
 			"1"	[$WIN32]
 			{
-				"name"		"CourierMOT-Light" [!$OSX]
-				"name"		"CourierMOT-Light" [$OSX]
+				"name"		"Alte DIN 1451 Mittelschrift" [!$OSX]
+				"name"		"Helvetica" [$OSX]
 				"tall"		"11"
 				"weight"	"0"
 				"antialias" "1"
 				"additive"	"1"
-				"custom"	"1"				
+				"blur" "1"
+				"scanlines" "2"
 			}
 			"1"	[$X360]
 			{
-				"name"		"CourierMOT-Light"
+				"name"		"Verdana"
 				"tall"		"12"
 				"weight"	"700"
 				"antialias" "1"
 				"additive"	"1"
-				"custom"	"1"				
 			}
 		}
 		HudSelectionText
 		{
 			"1"
 			{
-				"name"		"CourierMOT-Light"
+				"name"		"Alte DIN 1451 Mittelschrift"
 				"tall"		"8"
 				"weight"	"700"
 				"antialias" "1"
 				"yres"	"1 599"
-				"custom"	"1"				
+				"blur" "1"
+				"scanlines" "2"
 			}
 			"2"
 			{
-				"name"		"CourierMOT-Light"
+				"name"		"Alte DIN 1451 Mittelschrift"
 				"tall"		"10"
 				"weight"	"700"
 				"antialias" "1"
 				"yres"	"600 767"
-				"custom"	"1"				
+				"blur" "1"
+				"scanlines" "2"
 			}
 			"3"
 			{
-				"name"		"CourierMOT-Light"
+				"name"		"Alte DIN 1451 Mittelschrift"
 				"tall"		"12"
 				"weight"	"900"
 				"antialias" "1"
 				"yres"	"768 1023"
-				"custom"	"1"				
+				"blur" "1"
+				"scanlines" "2"
 			}
 			"4"
 			{
-				"name"		"CourierMOT-Light"
+				"name"		"Alte DIN 1451 Mittelschrift"
 				"tall"		"16"
 				"weight"	"900"
 				"antialias" "1"
 				"yres"	"1024 1199"
-				"custom"	"1"				
+				"blur" "1"
+				"scanlines" "2"
 			}
 			"5"
 			{
-				"name"		"CourierMOT-Light"
+				"name"		"Alte DIN 1451 Mittelschrift"
 				"tall"		"17"
 				"weight"	"1000"
 				"antialias" "1"
 				"yres"	"1200 10000"
-				"custom"	"1"				
+				"blur" "1"
+				"scanlines" "2"
 			}
 		}
 		GameUIButtons
@@ -542,22 +542,20 @@ Scheme
 		{
 			"1"
 			{
-				"name"		"CourierMOT-Light"
+				"name"		"Courier New"
 				"tall"		"14"
 				"weight"	"400"
 				"outline"	"1"
-				"custom"	"1"				
 			}
 		}
 		DebugOverlay
 		{
 			"1"	[$WIN32]
 			{
-				"name"		"CourierMOT-Light"
+				"name"		"Courier New"
 				"tall"		"14"
 				"weight"	"400"
 				"outline"	"1"
-				"custom"	"1"				
 			}
 			"1"	[$X360]
 			{
@@ -571,8 +569,8 @@ Scheme
 		{
 			"1"
 			{
-				"name"		"Tahoma" [!$OSX]
-				"name"		"Verdana" [$OSX]
+				"name"		"Alte DIN 1451 Mittelschrift" [!$OSX]
+				"name"		"Comic Sans MS" [$OSX]
 				"tall"		"26" [!$OSX]
 				"tall"		"24" [$OSX]
 				"weight"	"500"
@@ -582,8 +580,8 @@ Scheme
 		{
 			"1"
 			{
-				"name"		"Tahoma" [!$OSX]
-				"name"		"Verdana Italic" [$OSX]
+				"name"		"Alte DIN 1451 Mittelschrift" [!$OSX]
+				"name"		"Comic Sans MS" [$OSX]
 				"tall"		"26" [!$OSX]
 				"tall"		"24" [$OSX]
 				"weight"	"500"
@@ -594,8 +592,8 @@ Scheme
 		{
 			"1"
 			{
-				"name"		"Tahoma" [!$OSX]
-				"name"		"Verdana Bold" [$OSX]
+				"name"		"Alte DIN 1451 Mittelschrift" [!$OSX]
+				"name"		"Comic Sans MS" [$OSX]
 				"tall"		"26" [!$OSX]
 				"tall"		"24" [$OSX]
 				"weight"	"900"
@@ -605,8 +603,8 @@ Scheme
 		{
 			"1"
 			{
-				"name"		"Tahoma" [!$OSX]
-				"name"		"Verdana Bold Italic" [$OSX]
+				"name"		"Alte DIN 1451 Mittelschrift" [!$OSX]
+				"name"		"Comic Sans MS" [$OSX]
 				"tall"		"26" [!$OSX]
 				"tall"		"24" [$OSX]
 				"weight"	"900"
@@ -617,8 +615,8 @@ Scheme
 		{
 			"1"
 			{
-				"name"		"Tahoma" [!$OSX]
-				"name"		"Verdana" [$OSX]
+				"name"		"Alte DIN 1451 Mittelschrift" [!$OSX]
+				"name"		"Comic Sans MS" [$OSX]
 				"tall"		"16" [!$OSX]
 				"tall"		"14" [$OSX]
  				"tall_hidef"	"24"
@@ -662,7 +660,7 @@ Scheme
 		{
 			"1"
 			{
-				"name"  "Special Elite"
+				"name"  "smodgui"
 				"tall"			"32"
 				"tall_hidef"	"46"
 				"weight" "0"
@@ -675,7 +673,7 @@ Scheme
 		{
 			"1"
 			{
-				"name"		"Special Elite"
+				"name"		"HalfLife2"
 				"tall"		"128"
 				"weight"	"0"
 				"antialias" "1"
@@ -687,7 +685,7 @@ Scheme
 		{
 			"1"
 			{
-				"name"		"Trebuchet MS"
+				"name"		"Alte DIN 1451 Mittelschrift"
 				"tall"		"20"
 				"weight"	"900"
 				"antialias" "1"
@@ -698,7 +696,7 @@ Scheme
 		{
 			"1"
 			{
-				"name"		"Special Elite"
+				"name"		"HalfLife2"
 				"tall"		"48"
 				"weight"	"0"
 				"antialias" "1"
@@ -710,8 +708,8 @@ Scheme
 		{
 			"1"
 			{
-				"name"		"Verdana" [!$OSX]
-				"name"		"Courier Bold" [$OSX]
+				"name"		"Alte DIN 1451 Mittelschrift" [!$OSX]
+				"name"		"Comic Sans MS" [$OSX]
 				"tall"		"9"
 				"weight"	"900"
 				"antialias" "1"
@@ -814,7 +812,7 @@ Scheme
 			}
 			
 		}
-
+		
 		// ========================================================================================================================
 		// Mapbase adds these fonts to Source 2013 client schemes for the game instructor adapted from the VDC/Alien Swarm SDK.
 		// If your mod has its own client scheme, you must use the following fonts in order for the game instructor to work correctly.
@@ -870,7 +868,7 @@ Scheme
 			}
 		}
 		// ========================================================================================================================
-		// ========================================================================================================================																													 
+		// ========================================================================================================================
 	}
 
 	
@@ -881,9 +879,11 @@ Scheme
 	{
 		"1"		"resource/HALFLIFE2.ttf"
 		"2"		"resource/HL2crosshairs.ttf"
-		"3"     "resource/SpecialElite.ttf"
-		"4"     "resource/CourierMOT-Light.ttf"
-		"5"     "resource/mr_HouseFlyG.ttf"		
+		"3"		"resource/smodgui.ttf"
+		"4"		"resource/din1451alt.ttf"
+		"5"		"resource/blackmesa.ttf"
+		"6"		"resource/dinpro.ttf"
+		"7"		"resource/raleway.ttf"
 	}
 
 }

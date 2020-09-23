@@ -239,7 +239,7 @@ Scheme
 		{
 			"1"
 			{
-				"name"		"CourierMOT-Light"
+				"name"		"SMODGUI"
 				"tall"		"10"
 				"weight"	"500"
 				"antialias" "1"
@@ -251,7 +251,7 @@ Scheme
 		{
 			"1"
 			{
-				"name"		"CourierMOT-Light"
+				"name"		"SMODGUI"
 				"tall"		"7"
 				"weight"	"500"
 				"antialias" "1"
@@ -1280,6 +1280,6 @@ Scheme
 		"1"		"resource/HALFLIFE2.ttf"
 		"2"		"resource/HL2EP2.ttf"	
 		"3"		"resource/marlett.ttf"
-		"4"		"resource/CourierMOT-Light.ttf"		
+		"4"		"resource/smodgui.ttf"		
 	}
 }
