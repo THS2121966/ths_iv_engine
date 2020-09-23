@@ -662,6 +662,15 @@
 		"interrupts"		"BA_INT_ZOMBIESLUMP"
 		"use_automovement"	"1"
 	}
+	
+	"Zombie_WallPound"
+	{
+		"busy_sequence" 	"WallPound"
+		"min_time"		"0.0"
+		"max_time"		"0.0"
+		"interrupts"	"BA_INT_ZOMBIESLUMP"
+		"use_automovement"	"1"
+	}
 
 	"Fastzombie_Slump_a"
 	{

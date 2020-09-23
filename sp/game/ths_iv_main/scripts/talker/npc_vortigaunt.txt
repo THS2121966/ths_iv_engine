@@ -38,7 +38,7 @@ response VortUseEverywhere
 
 rule VortUseEverywhere
 {
-	criteria IsVortigaunt ConceptTalkUse NotUsedVortResponse NotInCombat
+	criteria IsVortigaunt IsEpisodic ConceptTalkUse NotUsedVortResponse NotInCombat
         applycontext "UsedVortResponse:1:20"
 	response VortUseEverywhere
 }
@@ -55,7 +55,7 @@ response "VortTalkUse01"
 rule VortTalkUse01
 {
 
-	criteria		IsVortigaunt ConceptTalkUse IsMap_ep2_outland_01 NotUsedVortResponse01 NotUsedVortResponse NotInCombat
+	criteria		IsVortigaunt IsEpisodic ConceptTalkUse IsMap_ep2_outland_01 NotUsedVortResponse01 NotUsedVortResponse NotInCombat
         applycontext		"UsedVortResponse:1:20,UsedVortResponse01:1:30"
 	response		VortTalkUse01
 }
@@ -93,7 +93,7 @@ response "VortNoticeHurt"
 
 rule VortNoticeHurt
 {
-	criteria		IsVortigaunt  ConceptTalkPlayerHurt NoRecentCombatShort IsMap_ep3_outland_03 IsNotVortNoticedHurt PlayerWounded
+	criteria		IsVortigaunt IsEpisodic  ConceptTalkPlayerHurt NoRecentCombatShort IsMap_ep3_outland_03 IsNotVortNoticedHurt PlayerWounded
 	applycontext		"VortNoticedHurt:1:300"
 	response		VortNoticeHurt
 }
@@ -111,7 +111,7 @@ response "VortAntlionCombatStart"
 
 rule VortAntlionCombatStart
 {
-	criteria		IsVortigaunt  ConceptStartCombat EnemyIsAntLion 
+	criteria		IsVortigaunt IsEpisodic  ConceptStartCombat EnemyIsAntLion 
 	response		VortAntlionCombatStart
 }
 
@@ -123,7 +123,7 @@ response "VortAntlionCombatStart2"
 
 rule VortAntlionCombatStart2
 {
-	criteria		IsVortigaunt  ConceptStartCombat 
+	criteria		IsVortigaunt IsEpisodic  ConceptStartCombat 
 	response		VortAntlionCombatStart2
 }
 
@@ -136,7 +136,7 @@ response "VortAntlionAttack"
 
 rule VortAntlionAttack
 {
-	criteria		IsVortigaunt  ConceptTalkAttacking
+	criteria		IsVortigaunt IsEpisodic  ConceptTalkAttacking
 	applycontext		"VortKill:1:10"
 	response		VortAntlionAttack
 }
@@ -151,7 +151,7 @@ response "VortigauntPain"
 
 rule VortigauntPain
 {
-	criteria		IsVortigaunt  VortigauntPain
+	criteria		IsVortigaunt IsEpisodic  VortigauntPain
 	response		VortigauntPain
 }
 
@@ -168,7 +168,7 @@ response "VortigauntRangedKill"
 
 rule VortigauntRangedKill
 {
-	criteria		IsVortigaunt  ConceptEnemyDead 
+	criteria		IsVortigaunt IsEpisodic  ConceptEnemyDead 
 	applycontext		"VortKill:1:15"
 	response		VortigauntRangedKill
 }
@@ -186,7 +186,7 @@ response "VortCombatFun"
 }
 rule VortCombatFun
 {
-	criteria IsVortigaunt IsMap_ep3_outland_03 ConceptPlayerKilledNPC contextvortkill NotVortPostKill
+	criteria IsVortigaunt IsEpisodic IsMap_ep3_outland_03 ConceptPlayerKilledNPC contextvortkill NotVortPostKill
         applycontext		"VortPostKill:1:80"
 	response	VortCombatFun	
 }
@@ -204,7 +204,7 @@ response "VortCombatCompliment"
 }
 rule VortCombatCompliment
 {
-	criteria IsVortigaunt ConceptPlayerKilledNPC ContextPlayer1Shot NotVortCompliment
+	criteria IsVortigaunt IsEpisodic ConceptPlayerKilledNPC ContextPlayer1Shot NotVortCompliment
         applycontext	"VortCompliment:1:60"
 	response	VortCombatCompliment
 }
@@ -223,7 +223,7 @@ rule VortCombatCompliment
 //
 //rule Vort03Test
 //{
-//	criteria		IsVortigaunt  IsMap_ep3_outland_03 ConceptTalkLook
+//	criteria		IsVortigaunt IsEpisodic  IsMap_ep3_outland_03 ConceptTalkLook
 //	response		Vort03Test
 //}
 
@@ -245,7 +245,7 @@ response "NagPlayerHealAlyxVort"
 
 rule NagPlayerHealAlyxVort
 {
-	criteria		IsVortigaunt ConceptVortsNagPlayerAlyxHealOutland02
+	criteria		IsVortigaunt IsEpisodic ConceptVortsNagPlayerAlyxHealOutland02
 	response		NagPlayerHealAlyxVort
 }
 
@@ -264,7 +264,7 @@ response "VortUnderAttackVort"
 
 rule VortUnderAttackVort
 {
-	criteria		IsVortigaunt VortigauntPain IsVortHealingAlyx VortAskingForHelp
+	criteria		IsVortigaunt IsEpisodic VortigauntPain IsVortHealingAlyx VortAskingForHelp
 	applycontext		"SaidProtectUs:1:2,VortNeedsHelp:1:10"
 	response		VortUnderAttackVort
 }
@@ -283,7 +283,7 @@ response "NagPlayerKeepMovingOutland_11Vort"
 
 rule NagPlayerKeepMovingOutland_11Vort
 {
-	criteria		IsVortigaunt PlayerNear VortNagKeepMovingOutland_11
+	criteria		IsVortigaunt IsEpisodic PlayerNear VortNagKeepMovingOutland_11
 	response		NagPlayerKeepMovingOutland_11Vort
 }
 
@@ -314,14 +314,14 @@ response "VortigauntHello"
 }
 rule VortigauntTlkHello
 {
-	criteria		IsVortigaunt ConceptTalkHello  PlayerNear SeePlayer
+	criteria		IsVortigaunt IsEpisodic ConceptTalkHello  PlayerNear SeePlayer
 	response		VortigauntHello
 }
 
 //------------------------------------------------------------------------------------------------------------
 rule VortigauntPlayerHello
 {
-	criteria		IsVortigaunt ConceptTalkPHello
+	criteria		IsVortigaunt IsEpisodic ConceptTalkPHello
 	response		NullResponse
 }
 
@@ -344,7 +344,7 @@ response "VortigauntQuestion"
 }
 rule VortigauntTlkQuestion
 {
-	criteria		IsVortigaunt ConceptTalkQuestion
+	criteria		IsVortigaunt IsEpisodic ConceptTalkQuestion
 	response		VortigauntQuestion
 }
 
@@ -373,7 +373,7 @@ response "VortigauntAnswer"
 
 rule VortigauntTlkAnswer
 {
-	criteria		IsVortigaunt ConceptTalkAnswer
+	criteria		IsVortigaunt IsEpisodic ConceptTalkAnswer
 	response		VortigauntAnswer
 }
 
@@ -386,7 +386,7 @@ response "VortigauntTalkUse"
 
 rule VortigauntTalkUse
 {
-	criteria		IsVortigaunt ConceptTalkUse
+	criteria		IsVortigaunt IsEpisodic ConceptTalkUse
 	response		VortigauntTalkUse
 }
 
@@ -409,7 +409,7 @@ response "VortigauntCure"
 
 rule VortigauntCure
 {
-	criteria		IsVortigaunt  VortigauntCure
+	criteria		IsVortigaunt IsEpisodic  VortigauntCure
 	response		VortigauntCure
 }
 
@@ -425,7 +425,7 @@ response "VortigauntCureStop"
 
 rule VortigauntCureStop
 {
-	criteria		IsVortigaunt VortigauntCureStop
+	criteria		IsVortigaunt IsEpisodic VortigauntCureStop
 	response		VortigauntCureStop
 }
 
@@ -442,7 +442,7 @@ response "VortigauntCureInterrupt"
 
 rule VortigauntCureInterrupt
 {
-	criteria		IsVortigaunt VortigauntCureInterrupt
+	criteria		IsVortigaunt IsEpisodic VortigauntCureInterrupt
 	response		VortigauntCureInterrupt
 }
 
@@ -464,7 +464,7 @@ response "VortigauntAttack"
 
 rule VortigauntAttack
 {
-	criteria		IsVortigaunt VortigauntAttack
+	criteria		IsVortigaunt IsEpisodic VortigauntAttack
 	response		VortigauntAttack
 }
 
@@ -475,7 +475,7 @@ response "VortigauntMad"
 }
 rule VortigauntMad
 {
-	criteria		IsVortigaunt VortigauntMad
+	criteria		IsVortigaunt IsEpisodic VortigauntMad
 	response		VortigauntMad
 }
 
@@ -487,7 +487,7 @@ response "VortigauntShot"
 }
 rule VortigauntShot
 {
-	criteria		IsVortigaunt VortigauntShot
+	criteria		IsVortigaunt IsEpisodic VortigauntShot
 	response		VortigauntShot
 }
 
@@ -500,7 +500,7 @@ rule VortigauntShot
 
 //rule VortigauntPain
 //{
-//	criteria		IsVortigaunt VortigauntPain
+//	criteria		IsVortigaunt IsEpisodic VortigauntPain
 //	response		VortigauntPain
 //}
 
@@ -514,7 +514,7 @@ response "VortigauntDie"
 
 rule VortigauntDie
 {
-	criteria		IsVortigaunt VortigauntDie
+	criteria		IsVortigaunt IsEpisodic VortigauntDie
 	response		VortigauntDie
 }
 
@@ -539,7 +539,7 @@ response "VortigauntKill"
 
 rule VortigauntKill
 {
-	criteria		IsVortigaunt VortigauntKill
+	criteria		IsVortigaunt IsEpisodic VortigauntKill
 	response		VortigauntKill
 }
 
@@ -562,7 +562,7 @@ response "VortigauntLineOfFire"
 
 rule VortigauntLineOfFire
 {
-	criteria		IsVortigaunt VortigauntLineOfFire
+	criteria		IsVortigaunt IsEpisodic VortigauntLineOfFire
 	response		VortigauntLineOfFire
 }
 
@@ -575,7 +575,7 @@ response "VortigauntPOk"
 
 rule VortigauntPOk
 {
-	criteria		IsVortigaunt VortigauntPOk
+	criteria		IsVortigaunt IsEpisodic VortigauntPOk
 	response		VortigauntLineOfFire
 }
 
@@ -598,14 +598,14 @@ response "VortigauntIdle"
 
 rule VortigauntTlkIdle
 {
-	criteria		IsVortigaunt ConceptTalkIdle
+	criteria		IsVortigaunt IsEpisodic ConceptTalkIdle
 	response		VortigauntIdle
 }
 
 //------------------------------------------------------------------------------------------------------------
 rule VortigauntPlayerIdle
 {
-	criteria		IsVortigaunt ConceptTalkPIdle
+	criteria		IsVortigaunt IsEpisodic ConceptTalkPIdle
 	response		NullResponse
 }
 
@@ -625,7 +625,7 @@ response "VortigauntStare"
 
 rule VortigauntTlkStare
 {
-	criteria		IsVortigaunt ConceptTalkStare
+	criteria		IsVortigaunt IsEpisodic ConceptTalkStare
 	response		VortigauntStare
 }
 
@@ -662,7 +662,7 @@ response "VortigauntOk"
 
 rule VortigauntTlkStartFollow
 {
-	criteria		IsVortigaunt ConceptTalkStartFollow
+	criteria		IsVortigaunt IsEpisodic ConceptTalkStartFollow
 	response		VortigauntOk
 }
 
@@ -685,7 +685,7 @@ response "VortigauntWait"
 
 rule VortigauntTlkStopFollow
 {
-	criteria		IsVortigaunt ConceptTalkStopFollow
+	criteria		IsVortigaunt IsEpisodic ConceptTalkStopFollow
 	response		VortigauntWait
 }
 
@@ -698,7 +698,7 @@ response "VortigauntStop"
 
 rule VortigauntTlkStop
 {
-	criteria		IsVortigaunt ConceptTalkStop
+	criteria		IsVortigaunt IsEpisodic ConceptTalkStop
 	response		VortigauntStop
 }
 
@@ -711,7 +711,7 @@ response "VortigauntScared"
 
 rule VortigauntTlkNoShoot
 {
-	criteria		IsVortigaunt ConceptTalkNoShoot
+	criteria		IsVortigaunt IsEpisodic ConceptTalkNoShoot
 	response		VortigauntScared
 }
 
@@ -724,7 +724,7 @@ response "VortigauntCureA"
 
 rule VortigauntPlayerHurt1
 {
-	criteria		IsVortigaunt ConceptTalkPlayerHurt1
+	criteria		IsVortigaunt IsEpisodic ConceptTalkPlayerHurt1
 	response		VortigauntCureA
 }
 
@@ -737,7 +737,7 @@ response "VortigauntCureB"
 
 rule VortigauntPlayerHurt2
 {
-	criteria		IsVortigaunt ConceptTalkPlayerHurt2
+	criteria		IsVortigaunt IsEpisodic ConceptTalkPlayerHurt2
 	response		VortigauntCureB
 }
 
@@ -750,7 +750,7 @@ response "VortigauntCureC"
 
 rule VortigauntPlayerHurt3
 {
-	criteria		IsVortigaunt ConceptTalkPlayerHurt3
+	criteria		IsVortigaunt IsEpisodic ConceptTalkPlayerHurt3
 	response		VortigauntCureC
 }
 
@@ -763,7 +763,7 @@ response "VortigauntPQuest"
 
 rule VortigauntPlayerQuestion
 {
-	criteria		IsVortigaunt ConceptTalkPQuestion
+	criteria		IsVortigaunt IsEpisodic ConceptTalkPQuestion
 	response		VortigauntPQuest
 }
 
@@ -776,7 +776,7 @@ response "VortigauntSmell"
 
 rule VortigauntTlkSmell
 {
-	criteria		IsVortigaunt ConceptTalkSmell
+	criteria		IsVortigaunt IsEpisodic ConceptTalkSmell
 	response		VortigauntSmell
 }
 
@@ -789,7 +789,7 @@ response "VortigauntWound"
 
 rule VortigauntTlkWound
 {
-	criteria		IsVortigaunt ConceptTalkWound
+	criteria		IsVortigaunt IsEpisodic ConceptTalkWound
 	response		VortigauntWound
 }
 
@@ -803,7 +803,7 @@ response "VortigauntMortal"
 
 rule VortigauntTlkMortal
 {
-	criteria		IsVortigaunt ConceptTalkMortal
+	criteria		IsVortigaunt IsEpisodic ConceptTalkMortal
 	response		VortigauntMortal
 }
 
@@ -818,7 +818,7 @@ response "VortigauntLeadStart"
 
 rule VortigauntLeadStart
 {
-	criteria		IsVortigaunt ConceptLeadStart
+	criteria		IsVortigaunt IsEpisodic ConceptLeadStart
 	response		VortigauntLeadStart
 }
 
@@ -832,7 +832,7 @@ response "VortigauntLeadCatchup"
 
 rule VortigauntLeadCatchup
 {
-	criteria		IsVortigaunt ConceptLeadCatchup
+	criteria		IsVortigaunt IsEpisodic ConceptLeadCatchup
 	response		VortigauntLeadCatchup
 }
 
@@ -848,7 +848,7 @@ response "VortigauntExtractBugbait"
 
 rule VortigauntTlkExtractBugbait
 {
-	criteria		IsVortigaunt VortigauntExtractBugbait
+	criteria		IsVortigaunt IsEpisodic VortigauntExtractBugbait
 	response		VortigauntExtractBugbait
 }
 
@@ -860,7 +860,7 @@ response "VortigauntExtractBugbaitFinish"
 
 rule VortigauntTlkExtractBugbaitFinish
 {
-	criteria		IsVortigaunt VortigauntExtractBugbaitFinish
+	criteria		IsVortigaunt IsEpisodic VortigauntExtractBugbaitFinish
 	response		VortigauntExtractBugbaitFinish
 }
 
@@ -872,7 +872,7 @@ response "VortigauntGetBugbait"
 
 rule VortigauntTlkLeadGetBugbait
 {
-	criteria		IsVortigaunt ConceptLeadMissingWeapon
+	criteria		IsVortigaunt IsEpisodic ConceptLeadMissingWeapon
 	response		VortigauntGetBugbait
 }
 

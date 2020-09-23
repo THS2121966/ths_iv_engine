@@ -54,7 +54,7 @@ PS_OUTPUT main( const PS_INPUT In )
 		_var6 = _var6 * _var7;
 		_var0 = _var0 + _var6;
 	}
-	_var0 = _var0 * float3( 0.011765, 0.011765, 0.019608 );
+	_var0 = _var0 * float3( 0.007843, 0.011765, 0.007843 );
 	_var0 = _var0 + _var1;
 	float4 _var8 = float4( _var0, _var2 );
 	Out.vColor_0 = _var8;

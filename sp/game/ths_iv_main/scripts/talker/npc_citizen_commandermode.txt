@@ -465,20 +465,25 @@ rule CitizenUnFollow
 	response		CitizenUnFollow
 }
 
-
+//============================================================================================================
+// Commander mode +USE join speech (Mapbase addition)
+//============================================================================================================
+criterion "WasUsed"	"used"  "1"	required	weight 5
 //------------------------------------------------------------------------------------------------------------
-// For ep1_c17_05
-//------------------------------------------------------------------------------------------------------------
-response "CitizenDenyCommand"
+response CitizenFollowUsed
 {
-
-	scene "scenes/npc/$gender01/illstayhere01.vcd"
-	scene "scenes/npc/$gender01/imstickinghere01.vcd"
+	scene "scenes/npc/$gender01/leadtheway01.vcd"
+	scene "scenes/npc/$gender01/leadtheway02.vcd"
+	scene "scenes/npc/$gender01/leadon01.vcd"
+	scene "scenes/npc/$gender01/leadon02.vcd"
+	scene "scenes/npc/$gender01/okimready01.vcd"
+	scene "scenes/npc/$gender01/okimready02.vcd"
+	scene "scenes/npc/$gender01/readywhenyouare01.vcd"
 }
 
-rule CitizenDenyCommand
+rule CitizenFollowUsed
 {
-	criteria		IsCitizen ConceptTalkDenyCommand
-	response		CitizenDenyCommand
+	criteria		IsCitizen ConceptTalkStartFollow WasUsed
+	response		CitizenFollowUsed
 }
 
