@@ -2842,7 +2842,7 @@ bool LoadMapFile( const char *pszFileName )
 			pMainManifest->CordonWorld();
 		}
 
-/*#ifdef PARALLAX_CORRECTED_CUBEMAPS
+#ifdef PARALLAX_CORRECTED_CUBEMAPS
 		// Fill out parallax obb matrix array
 		// "i" is static so this code could account for
 		// multiple LoadMapFile() calls from instances, etc.
@@ -2885,7 +2885,7 @@ bool LoadMapFile( const char *pszFileName )
 				mapent->epairs = NULL;
 			}
 		}
-#endif*/
+#endif
 
 		ClearBounds (g_LoadingMap->map_mins, g_LoadingMap->map_maxs);
 		for (int i=0 ; i<g_MainMap->entities[0].numbrushes ; i++)
