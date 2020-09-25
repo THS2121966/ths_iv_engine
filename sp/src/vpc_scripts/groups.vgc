@@ -73,3 +73,8 @@ $Group "ths_exe"
 {
 	"launcher_main"
 }
+
+$Group "ths_tools"
+{
+	"toolutils"
+}
