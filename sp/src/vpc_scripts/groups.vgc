@@ -58,7 +58,7 @@ $Group "everything"
 	"vvis_dll"
 	"vvis_launcher"
 	"launcher"
-	"launcher_main"
+	//"launcher_main"
 	"sdklauncher"
 }
 
@@ -69,3 +69,7 @@ $Group "dedicated"
 	"tier1"
 }
 
+$Group "ths_exe"
+{
+	"launcher_main"
+}
