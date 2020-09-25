@@ -59,6 +59,7 @@ $Group "everything"
 	"vvis_launcher"
 	"launcher"
 	"launcher_main"
+	"sdklauncher"
 }
 
 $Group "dedicated"

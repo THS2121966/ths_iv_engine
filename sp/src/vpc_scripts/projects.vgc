@@ -142,3 +142,8 @@ $Project "launcher_main"
 {
 	"launcher_main\launcher_main.vpc" [$WIN32]
 }
+
+$Project "sdklauncher"
+{
+	"sdklauncher\SDKLauncher.vpc" [$WIN32]
+}
