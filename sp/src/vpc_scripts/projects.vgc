@@ -147,8 +147,3 @@ $Project "sdklauncher"
 {
 	"sdklauncher\SDKLauncher.vpc" [$WIN32]
 }
-
-$Project "toolutils"
-{
-	"tools\toolutils\toolutils.vpc" [$WIN32]
-}
