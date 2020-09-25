@@ -60,7 +60,6 @@ $Group "everything"
 	"launcher"
 	//"launcher_main"
 	"sdklauncher"
-	"toolutils"
 }
 
 $Group "dedicated"
@@ -73,4 +72,9 @@ $Group "dedicated"
 $Group "ths_exe"
 {
 	"launcher_main"
+}
+
+$Group "ths_tools"
+{
+	"toolutils"
 }
