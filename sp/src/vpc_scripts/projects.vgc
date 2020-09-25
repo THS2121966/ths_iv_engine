@@ -152,3 +152,8 @@ $Project "toolutils"
 {
 	"tools\toolutils\toolutils.vpc" [$WIN32]
 }
+
+$Project "actbusy"
+{
+	"tools\actbusy\actbusy.vpc" [$WIN32]
+}
