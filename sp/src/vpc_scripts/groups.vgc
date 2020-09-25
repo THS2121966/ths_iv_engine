@@ -61,7 +61,6 @@ $Group "everything"
 	//"launcher_main"
 	"sdklauncher"
 	"toolutils"
-	"actbusy"
 }
 
 $Group "dedicated"
