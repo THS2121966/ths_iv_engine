@@ -1,2 +1,3 @@
-depth_of_field_ps20b.fxc-----depth_of_field_ps20b
-depth_of_field_vs20.fxc-----depth_of_field_vs20
+THS_BlurFilter_vs20.fxc-----THS_BlurFilter_vs20
+THS_BlurFilter_ps2x.fxc-----THS_BlurFilter_ps20
+THS_BlurFilter_ps2x.fxc-----THS_BlurFilter_ps20b
