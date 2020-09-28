@@ -12,7 +12,7 @@
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
-BEGIN_VS_SHADER_FLAGS( BlurFilterY, "Help for BlurFilterY", SHADER_NOT_EDITABLE )
+BEGIN_VS_SHADER_FLAGS( THS_BlurFilterY, "Help for THS_BlurFilterY", SHADER_NOT_EDITABLE )
 	BEGIN_SHADER_PARAMS
         SHADER_PARAM( BLOOMAMOUNT, SHADER_PARAM_TYPE_FLOAT, "1.0", "" )
 		SHADER_PARAM( FRAMETEXTURE, SHADER_PARAM_TYPE_TEXTURE, "_rt_SmallHDR0", "" )
