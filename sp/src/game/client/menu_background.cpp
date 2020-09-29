@@ -17,10 +17,11 @@
 #include <vgui/ISurface.h>
 #include <vgui/IVGui.h>
 
+#include "engine/IEngineSound.h"
+
 #include "clienteffectprecachesystem.h"
 #include "tier0/icommandline.h"
 
-#include "../sdk/vgui/sdkviewport.h"
 #include "baseviewport.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
@@ -87,8 +88,9 @@ void CMainMenu::StopVideo()
 {
 	//Tony; release the video when stopping
 	//Tony; modified; don't hide the panel anymore, because we draw the main menu logo thing for ingame
-	//SetVisible(false); 
-	//SetPaintEnabled(false);
+	//Tony Dolbaeb... Written by Ivan Suvorov.
+	SetVisible(false); 
+	SetPaintEnabled(false);
 	SetNextThink( 0.1, MAINMENU_STOPVIDEO );
 }
 
@@ -152,23 +154,33 @@ void CMainMenu::GetPanelPos( int &xpos, int &ypos )
 void CMainMenu::Paint( void )
 {
 	if (m_bToolsMode)
+	{
 		return;
+	}
 
 	if (engine->IsConnected())
+	{
 		return;
+	}
 
 	if (!m_bLoaded)
+	{
 		return;
+	}
 
 	if (m_bPaintVideo)
 	{
 		// No video to play, so do nothing
 		if ( m_VideoMaterial == NULL )
+		{
 			return;
+		}
 
 		// Update our frame
 		if ( m_VideoMaterial->Update() == false )
+		{
 			OnVideoOver();
+		}
 
 		// Sit in the "center"
 		int xpos, ypos;
@@ -277,7 +289,9 @@ bool CMainMenu::BeginPlayback( const char *pFilename )
 {
 	// need working video services
 	if ( g_pVideo == NULL )
+	{
 		return false;
+	}
 
 	// Destroy any previously allocated video
 	if ( m_VideoMaterial != NULL )
@@ -291,7 +305,9 @@ bool CMainMenu::BeginPlayback( const char *pFilename )
 										VideoPlaybackFlags::DEFAULT_MATERIAL_OPTIONS,
 										VideoSystem::DETERMINE_FROM_FILE_EXTENSION, m_bAllowAlternateMedia );
 	if ( m_VideoMaterial == NULL )
+	{
 		return false;
+	}
 
 	m_bPaintVideo = true;
 
@@ -311,7 +327,8 @@ void CMainMenu::ReleaseVideo()
 	m_bPaintVideo = false;
 
 	//Tony; not touching the sound!!
-	//	enginesound->NotifyEndMoviePlayback();
+	//Idi na xui!!! Просто я начал психовать...
+	enginesound->NotifyEndMoviePlayback();
 
 	// Destroy any previously allocated video
 	// Shut down this video, destroy the video material
@@ -341,24 +358,30 @@ void CMainMenu::OnDisconnectFromGame( void )
 
 CON_COMMAND( __disconnect, "Disconnect game from server." )
 {
-	SDKViewport *pViewPort = dynamic_cast<SDKViewport*>(g_pClientMode->GetViewport());
+	CBaseViewport *pViewPort = dynamic_cast<CBaseViewport*>(g_pClientMode->GetViewport());
 	if (pViewPort)
+	{
 		pViewPort->StartMainMenuVideo();
+	}
 	engine->ClientCmd_Unrestricted("__real_disconnect");	
 }
 
 //Tony; find the disconnect command, and rename it..
 void SwapDisconnectCommand()
 {
-//	DevMsg("SwapDisconnectCommand\n");
+	DevMsg("SwapDisconnectCommand\n");
 	ConCommand *_realDisconnectCommand = dynamic_cast< ConCommand* >( g_pCVar->FindCommand( "disconnect" ) );
 	ConCommand *_DisconnectCommand = dynamic_cast< ConCommand* >( g_pCVar->FindCommand( "__disconnect" ) );
 
 	if (!_realDisconnectCommand)
+	{
 		return;
-	if (!_DisconnectCommand)
-		return;
+	}
 
+	if (!_DisconnectCommand)
+	{
+		return;
+	}
 	_realDisconnectCommand->Shutdown();
 	_realDisconnectCommand->Create("__real_disconnect", "" );
 	_realDisconnectCommand->Init();

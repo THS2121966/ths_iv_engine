@@ -759,13 +759,17 @@ int CBaseViewport::GetDeathMessageStartHeight( void )
 void CBaseViewport::StartMainMenuVideo()
 {
 	if (m_pMainMenuPanel)
+	{
 		m_pMainMenuPanel->StartVideo();
+	}
 }
 
 void CBaseViewport::StopMainMenuVideo()
 {
 	if (m_pMainMenuPanel)
+	{
 		m_pMainMenuPanel->StopVideo();
+	}
 }
 
 void CBaseViewport::Paint()
