@@ -9569,3 +9569,14 @@
 	input Task3Urgency(integer) : "Set task 3 urgency (0-4)"
 	input Task4Urgency(integer) : "Set task 4 urgency (0-4)"
 ]
+
+@PointClass base(Targetname) = logic_playmovie : "Plays a movie and allows for various playback options"
+[
+	MovieFilename(string) : "Movie to play" : "" : "Filename of the movie to play"
+	allowskip(boolean) : "Allow User to Skip" : 0 : "Whether or not the user may skip the video with common keys"
+
+	input PlayMovie(void) : "Play the movie."
+
+	// Outputs
+	output OnPlaybackFinished(void) : "Fired when the movie has completed playing back or was skipped by the user."
+]

@@ -48,7 +48,8 @@ $Project "Server (IV)"
 		$File	"$SRCDIR\game\shared\vehicle_choreo_generic_shared.h"
 		$File	"$SRCDIR\game\shared\weapon_parse_default.cpp"
 		//$File	"env_dof_controller.cpp"
-		//$File	"env_dof_controller.h"		
+		//$File	"env_dof_controller.h"
+		$File	"logic_playmovie.cpp"
 
 		$Folder "ths_entities"
 		{
