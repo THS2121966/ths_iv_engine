@@ -23,6 +23,7 @@ $Group "game"
 	"tier1"
 	"vgui_controls"
 	"vscript"
+	"vtf"
 }
 
 $Group "shaders"
@@ -60,6 +61,7 @@ $Group "everything"
 	"launcher"
 	//"launcher_main"
 	"sdklauncher"
+	"vtf"
 }
 
 $Group "dedicated"
