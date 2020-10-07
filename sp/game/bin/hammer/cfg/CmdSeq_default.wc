@@ -211,7 +211,7 @@
 		{
 			"enabled"		"1"
 			"ensure_check"		"0"
-			"params"		"-game $gamedir $path\$file"
+			"params"		"-allowdynamicpropsasstatic -game $gamedir $path\$file"
 			"run"		"$bsp_exe"
 			"special_cmd"		"0"
 		}
@@ -227,7 +227,7 @@
 		{
 			"enabled"		"1"
 			"ensure_check"		"0"
-			"params"		"-both -final -TextureShadows -StaticPropLighting -StaticPropPolys -smooth 30 -game $gamedir $path\$file"
+			"params"		"-allowdynamicpropsasstatic -both -final -TextureShadows -StaticPropLighting -StaticPropPolys -smooth 30 -game $gamedir $path\$file"
 			"run"		"$light_exe"
 			"special_cmd"		"0"
 		}
@@ -253,7 +253,7 @@
 		{
 			"enabled"		"1"
 			"ensure_check"		"0"
-			"params"		"-game $gamedir $path\$file"
+			"params"		"-allowdynamicpropsasstatic -game $gamedir $path\$file"
 			"run"		"$bsp_exe"
 			"special_cmd"		"0"
 		}
@@ -269,7 +269,7 @@
 		{
 			"enabled"		"1"
 			"ensure_check"		"0"
-			"params"		"-hdr -final -TextureShadows -StaticPropLighting -StaticPropPolys -smooth 30 -game $gamedir $path\$file"
+			"params"		"-allowdynamicpropsasstatic -hdr -final -TextureShadows -StaticPropLighting -StaticPropPolys -smooth 30 -game $gamedir $path\$file"
 			"run"		"$light_exe"
 			"special_cmd"		"0"
 		}
