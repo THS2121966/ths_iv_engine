@@ -1,5 +1,5 @@
 #include "shaderlib/cshader.h"
-class pp_water_ps20_Static_Index
+class ths_water_ps30_Static_Index
 {
 private:
 	int m_nBASETEXTURE;
@@ -114,7 +114,7 @@ private:
 public:
 	void SetFLOWMAP( int i )
 	{
-		Assert( i >= 0 && i <= 0 );
+		Assert( i >= 0 && i <= 1 );
 		m_nFLOWMAP = i;
 #ifdef _DEBUG
 		m_bFLOWMAP = true;
@@ -156,7 +156,7 @@ private:
 public:
 	void SetFLASHLIGHT( int i )
 	{
-		Assert( i >= 0 && i <= 0 );
+		Assert( i >= 0 && i <= 1 );
 		m_nFLASHLIGHT = i;
 #ifdef _DEBUG
 		m_bFLASHLIGHT = true;
@@ -177,7 +177,7 @@ private:
 public:
 	void SetLIGHTMAPWATERFOG( int i )
 	{
-		Assert( i >= 0 && i <= 0 );
+		Assert( i >= 0 && i <= 1 );
 		m_nLIGHTMAPWATERFOG = i;
 #ifdef _DEBUG
 		m_bLIGHTMAPWATERFOG = true;
@@ -211,8 +211,29 @@ public:
 		m_bFORCEFRESNEL = true;
 #endif
 	}
+private:
+	int m_nCONVERT_TO_SRGB;
+#ifdef _DEBUG
+	bool m_bCONVERT_TO_SRGB;
+#endif
 public:
-	pp_water_ps20_Static_Index( )
+	void SetCONVERT_TO_SRGB( int i )
+	{
+		Assert( i >= 0 && i <= 1 );
+		m_nCONVERT_TO_SRGB = i;
+#ifdef _DEBUG
+		m_bCONVERT_TO_SRGB = true;
+#endif
+	}
+	void SetCONVERT_TO_SRGB( bool i )
+	{
+		m_nCONVERT_TO_SRGB = i ? 1 : 0;
+#ifdef _DEBUG
+		m_bCONVERT_TO_SRGB = true;
+#endif
+	}
+public:
+	ths_water_ps30_Static_Index( )
 	{
 #ifdef _DEBUG
 		m_bBASETEXTURE = false;
@@ -254,20 +275,24 @@ public:
 		m_bFORCEFRESNEL = false;
 #endif // _DEBUG
 		m_nFORCEFRESNEL = 0;
+#ifdef _DEBUG
+		m_bCONVERT_TO_SRGB = true;
+#endif // _DEBUG
+		m_nCONVERT_TO_SRGB =  g_pHardwareConfig->NeedsShaderSRGBConversion();
 	}
 	int GetIndex()
 	{
 		// Asserts to make sure that we aren't using any skipped combinations.
 		// Asserts to make sure that we are setting all of the combination vars.
 #ifdef _DEBUG
-		bool bAllStaticVarsDefined = m_bBASETEXTURE && m_bMULTITEXTURE && m_bREFLECT && m_bREFRACT && m_bABOVEWATER && m_bFLOWMAP && m_bFLOW_DEBUG && m_bFLASHLIGHT && m_bLIGHTMAPWATERFOG && m_bFORCEFRESNEL;
+		bool bAllStaticVarsDefined = m_bBASETEXTURE && m_bMULTITEXTURE && m_bREFLECT && m_bREFRACT && m_bABOVEWATER && m_bFLOWMAP && m_bFLOW_DEBUG && m_bFLASHLIGHT && m_bLIGHTMAPWATERFOG && m_bFORCEFRESNEL && m_bCONVERT_TO_SRGB;
 		Assert( bAllStaticVarsDefined );
 #endif // _DEBUG
-		return ( 2 * m_nBASETEXTURE ) + ( 4 * m_nMULTITEXTURE ) + ( 8 * m_nREFLECT ) + ( 16 * m_nREFRACT ) + ( 32 * m_nABOVEWATER ) + ( 64 * m_nFLOWMAP ) + ( 64 * m_nFLOW_DEBUG ) + ( 192 * m_nFLASHLIGHT ) + ( 192 * m_nLIGHTMAPWATERFOG ) + ( 192 * m_nFORCEFRESNEL ) + 0;
+		return ( 4 * m_nBASETEXTURE ) + ( 8 * m_nMULTITEXTURE ) + ( 16 * m_nREFLECT ) + ( 32 * m_nREFRACT ) + ( 64 * m_nABOVEWATER ) + ( 128 * m_nFLOWMAP ) + ( 256 * m_nFLOW_DEBUG ) + ( 768 * m_nFLASHLIGHT ) + ( 1536 * m_nLIGHTMAPWATERFOG ) + ( 3072 * m_nFORCEFRESNEL ) + ( 6144 * m_nCONVERT_TO_SRGB ) + 0;
 	}
 };
-#define shaderStaticTest_pp_water_ps20 psh_forgot_to_set_static_BASETEXTURE + psh_forgot_to_set_static_MULTITEXTURE + psh_forgot_to_set_static_REFLECT + psh_forgot_to_set_static_REFRACT + psh_forgot_to_set_static_ABOVEWATER + psh_forgot_to_set_static_FLOWMAP + psh_forgot_to_set_static_FLOW_DEBUG + psh_forgot_to_set_static_FLASHLIGHT + psh_forgot_to_set_static_LIGHTMAPWATERFOG + psh_forgot_to_set_static_FORCEFRESNEL + 0
-class pp_water_ps20_Dynamic_Index
+#define shaderStaticTest_ths_water_ps30 psh_forgot_to_set_static_BASETEXTURE + psh_forgot_to_set_static_MULTITEXTURE + psh_forgot_to_set_static_REFLECT + psh_forgot_to_set_static_REFRACT + psh_forgot_to_set_static_ABOVEWATER + psh_forgot_to_set_static_FLOWMAP + psh_forgot_to_set_static_FLOW_DEBUG + psh_forgot_to_set_static_FLASHLIGHT + psh_forgot_to_set_static_LIGHTMAPWATERFOG + psh_forgot_to_set_static_FORCEFRESNEL + 0
+class ths_water_ps30_Dynamic_Index
 {
 private:
 	int m_nFLASHLIGHTSHADOWS;
@@ -277,7 +302,7 @@ private:
 public:
 	void SetFLASHLIGHTSHADOWS( int i )
 	{
-		Assert( i >= 0 && i <= 0 );
+		Assert( i >= 0 && i <= 1 );
 		m_nFLASHLIGHTSHADOWS = i;
 #ifdef _DEBUG
 		m_bFLASHLIGHTSHADOWS = true;
@@ -312,7 +337,7 @@ public:
 #endif
 	}
 public:
-	pp_water_ps20_Dynamic_Index()
+	ths_water_ps30_Dynamic_Index()
 	{
 #ifdef _DEBUG
 		m_bFLASHLIGHTSHADOWS = false;
@@ -331,7 +356,7 @@ public:
 		bool bAllDynamicVarsDefined = m_bFLASHLIGHTSHADOWS && m_bPIXELFOGTYPE;
 		Assert( bAllDynamicVarsDefined );
 #endif // _DEBUG
-		return ( 1 * m_nFLASHLIGHTSHADOWS ) + ( 1 * m_nPIXELFOGTYPE ) + 0;
+		return ( 1 * m_nFLASHLIGHTSHADOWS ) + ( 2 * m_nPIXELFOGTYPE ) + 0;
 	}
 };
-#define shaderDynamicTest_pp_water_ps20 psh_forgot_to_set_dynamic_FLASHLIGHTSHADOWS + psh_forgot_to_set_dynamic_PIXELFOGTYPE + 0
+#define shaderDynamicTest_ths_water_ps30 psh_forgot_to_set_dynamic_FLASHLIGHTSHADOWS + psh_forgot_to_set_dynamic_PIXELFOGTYPE + 0

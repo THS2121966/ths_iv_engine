@@ -1,4 +1,4 @@
-..\..\..\game\hl2\shaders\fxc\pp_water_ps30.vcs
-..\..\..\game\hl2\shaders\fxc\pp_Water_vs30.vcs
-..\..\..\game\hl2\shaders\fxc\pp_WaterCheap_ps30.vcs
-..\..\..\game\hl2\shaders\fxc\pp_WaterCheap_vs30.vcs
+..\..\..\game\hl2\shaders\fxc\THS_water_ps30.vcs
+..\..\..\game\hl2\shaders\fxc\THS_Water_vs30.vcs
+..\..\..\game\hl2\shaders\fxc\THS_WaterCheap_ps30.vcs
+..\..\..\game\hl2\shaders\fxc\THS_WaterCheap_vs30.vcs

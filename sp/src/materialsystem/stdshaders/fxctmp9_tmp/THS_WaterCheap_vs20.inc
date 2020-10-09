@@ -1,5 +1,5 @@
 #include "shaderlib/cshader.h"
-class pp_watercheap_vs30_Static_Index
+class ths_watercheap_vs20_Static_Index
 {
 private:
 	int m_nBLEND;
@@ -23,7 +23,7 @@ public:
 #endif
 	}
 public:
-	pp_watercheap_vs30_Static_Index( )
+	ths_watercheap_vs20_Static_Index( )
 	{
 #ifdef _DEBUG
 		m_bBLEND = false;
@@ -41,11 +41,11 @@ public:
 		return ( 1 * m_nBLEND ) + 0;
 	}
 };
-#define shaderStaticTest_pp_watercheap_vs30 vsh_forgot_to_set_static_BLEND + 0
-class pp_watercheap_vs30_Dynamic_Index
+#define shaderStaticTest_ths_watercheap_vs20 vsh_forgot_to_set_static_BLEND + 0
+class ths_watercheap_vs20_Dynamic_Index
 {
 public:
-	pp_watercheap_vs30_Dynamic_Index()
+	ths_watercheap_vs20_Dynamic_Index()
 	{
 	}
 	int GetIndex()
@@ -57,4 +57,4 @@ public:
 		return 0;
 	}
 };
-#define shaderDynamicTest_pp_watercheap_vs30 0
+#define shaderDynamicTest_ths_watercheap_vs20 0

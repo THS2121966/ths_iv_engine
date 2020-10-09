@@ -13,7 +13,7 @@ $Project "Shaders (IV)"
 	$Folder	"Source Files"
 	{
 	//$File	"DepthOfField_dx9.cpp"
-	$File	"pp_water.cpp"
+	$File	"ths_water.cpp"
 	$File	"BlurFilterX.cpp"
 	$File	"BlurFilterY.cpp"
 	}

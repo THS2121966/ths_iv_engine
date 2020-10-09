@@ -1,5 +1,5 @@
 #include "shaderlib/cshader.h"
-class pp_water_vs30_Static_Index
+class ths_water_vs20_Static_Index
 {
 private:
 	int m_nBASETEXTURE;
@@ -107,7 +107,7 @@ public:
 #endif
 	}
 public:
-	pp_water_vs30_Static_Index( )
+	ths_water_vs20_Static_Index( )
 	{
 #ifdef _DEBUG
 		m_bBASETEXTURE = false;
@@ -141,11 +141,11 @@ public:
 		return ( 1 * m_nBASETEXTURE ) + ( 2 * m_nMULTITEXTURE ) + ( 4 * m_nFLASHLIGHT ) + ( 8 * m_nLIGHTMAPWATERFOG ) + ( 16 * m_nFLOWMAP ) + 0;
 	}
 };
-#define shaderStaticTest_pp_water_vs30 vsh_forgot_to_set_static_BASETEXTURE + vsh_forgot_to_set_static_MULTITEXTURE + vsh_forgot_to_set_static_FLASHLIGHT + vsh_forgot_to_set_static_LIGHTMAPWATERFOG + vsh_forgot_to_set_static_FLOWMAP + 0
-class pp_water_vs30_Dynamic_Index
+#define shaderStaticTest_ths_water_vs20 vsh_forgot_to_set_static_BASETEXTURE + vsh_forgot_to_set_static_MULTITEXTURE + vsh_forgot_to_set_static_FLASHLIGHT + vsh_forgot_to_set_static_LIGHTMAPWATERFOG + vsh_forgot_to_set_static_FLOWMAP + 0
+class ths_water_vs20_Dynamic_Index
 {
 public:
-	pp_water_vs30_Dynamic_Index()
+	ths_water_vs20_Dynamic_Index()
 	{
 	}
 	int GetIndex()
@@ -157,4 +157,4 @@ public:
 		return 0;
 	}
 };
-#define shaderDynamicTest_pp_water_vs30 0
+#define shaderDynamicTest_ths_water_vs20 0
