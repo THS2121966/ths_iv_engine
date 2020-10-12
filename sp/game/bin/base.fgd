@@ -3711,7 +3711,7 @@
 	"An entity to control the SSAO Effect."
 [
 	
-	ssaoenable(Choices) : "[THS] Enable SSAO Effect." : 1 : "Enable SSAO Advanced shadow effect. Only one entity can be correctly placed on the map." = 
+	EnableSSAOEffect(Choices) : "[THS] Enable SSAO Effect." : 1 : "Enable SSAO Advanced shadow effect. Only one entity can be correctly placed on the map." = 
 	[
 		0 : "No"
 		1 : "Yes"
