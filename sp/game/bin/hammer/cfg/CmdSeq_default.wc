@@ -269,7 +269,7 @@
 		{
 			"enabled"		"1"
 			"ensure_check"		"0"
-			"params"		"-allowdynamicpropsasstatic -hdr -final -TextureShadows -StaticPropLighting -StaticPropPolys -smooth 30 -game $gamedir $path\$file"
+			"params"		"-allowdynamicpropsasstatic -hdr -final -TextureShadows -StaticPropLighting -StaticPropPolys -game $gamedir $path\$file"
 			"run"		"$light_exe"
 			"special_cmd"		"0"
 		}
