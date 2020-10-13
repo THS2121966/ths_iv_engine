@@ -3725,7 +3725,7 @@
 // RAIN control
 //-------------------------------------------------------------------------
 
-@PointClass base(Targetname) iconsprite("editor/ssao_control.vmt") = ssao_control : //FIXME: Need new icon for release!!!
+@PointClass base(Targetname) iconsprite("editor/ssao_control.vmt") = rain_control : //FIXME: Need new icon for release!!!
 	"An entity to control the Rain splashes and more soon."
 [
 	
