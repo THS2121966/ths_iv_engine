@@ -3721,6 +3721,20 @@
 	input SetSSAOEnabled(bool) : "Toggles SSAO Effect."
 ]
 
+//-------------------------------------------------------------------------
+// RAIN control
+//-------------------------------------------------------------------------
+
+@PointClass base(Targetname) iconsprite("editor/rain_control.vmt") = rain_control :
+	"An entity to control the Rain splashes and more soon."
+[
+	
+	EnableRainSplash(float) : "Rain splash chance" : "25" : "You know... NO?! This entity control rain splashes and (in future) rain at all."
+
+	// Inputs
+	input SetRainSplashEnabled(float) : "Set Rain splash chance."
+]
+
 
 //-------------------------------------------------------------------------
 // Color correction control
