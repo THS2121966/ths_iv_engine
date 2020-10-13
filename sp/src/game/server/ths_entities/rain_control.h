@@ -1,16 +1,16 @@
-#if !defined ( SSAO_CONTROL_H )
-#define SSAO_CONTROL_H
+#if !defined ( RAIN_CONTROL_H )
+#define RAIN_CONTROL_H
 #ifdef _WIN32
 #pragma once
 #endif
 
 
 //-----------------------------------------------------------------------------
-// Purpose: Entity that controls SSAO postprocessing
+// Purpose: Entity that controls rain splashes
 //-----------------------------------------------------------------------------
-class CSSAOControl : public CPointEntity
+class CRainControl : public CPointEntity
 {
-	DECLARE_CLASS( CSSAOControl, CPointEntity );
+	DECLARE_CLASS( CRainControl, CPointEntity );
 public:
 	DECLARE_DATADESC();
 	DECLARE_SERVERCLASS();
@@ -21,7 +21,7 @@ public:
 	// Inputs
 
 
-	CNetworkVar( bool, ths_local_ssao_init );
+	CNetworkVar( float, thsdev_rain_splash_chance_local );
 };
 
-#endif//  SSAO_CONTROL_H
+#endif//  RAIN_CONTROL_H

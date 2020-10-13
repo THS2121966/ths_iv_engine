@@ -47,6 +47,7 @@ $Project "Client (IV)"
 			{
 				$File	"ths_entities\thsdev_hud_tasklist.cpp"
 				$File	"ths_entities\c_ssao_control.cpp"
+				$File	"ths_entities\c_rain_control.cpp"
 			}
 		}		
 		

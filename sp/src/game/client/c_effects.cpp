@@ -33,7 +33,10 @@ Vector g_vSplashColor( 0.5, 0.5, 0.5 );
 float g_flSplashScale = 0.15;
 float g_flSplashLifetime = 0.5f;
 float g_flSplashAlpha = 0.3f;
-ConVar r_RainSplashPercentage( "r_RainSplashPercentage", "99", FCVAR_CHEAT ); // N% chance of a rain particle making a splash.
+
+float thsdev_rain_splash_chance = 0;
+
+//ConVar r_RainSplashPercentage( "r_RainSplashPercentage", "99", FCVAR_CHEAT ); // N% chance of a rain particle making a splash.
 
 
 float GUST_INTERVAL_MIN = 1;
@@ -357,7 +360,7 @@ inline bool CClient_Precipitation::SimulateRain( CPrecipitationParticle* pPartic
 
     if( trace.fraction < 1 || trace.DidHit() )
    {
-        if ( RandomInt( 0, 100 ) <= r_RainSplashPercentage.GetInt() )
+        if ( RandomInt( 0, 100 ) <= thsdev_rain_splash_chance )
            DispatchParticleEffect( "ths_rain_splash01", trace.endpos,trace.m_pEnt->GetAbsAngles() , NULL );
 
        // Tell the framework it's time to remove the particle from the list
