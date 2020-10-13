@@ -3729,7 +3729,7 @@
 	"An entity to control the Rain splashes and more soon."
 [
 	
-	EnableRainSplash(float) : "Rain splash chance." : "25" : "You know... NO?! This entity control rain splashes and (in future) rain at all."
+	EnableRainSplash(float) : "Rain splash chance" : "25" : "You know... NO?! This entity control rain splashes and (in future) rain at all."
 
 	// Inputs
 	input SetRainSplashEnabled(float) : "Set Rain splash chance."
