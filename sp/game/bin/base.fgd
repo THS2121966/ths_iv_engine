@@ -1512,6 +1512,29 @@
 @PointClass base(Targetname) iconsprite("editor/env_tonemap_controller.vmt") = env_tonemap_controller : 
 	"An entity that controls the HDR tonemapping for the player. Think of it as a method of controlling the exposure of the player's eyes."
 [
+	BlendTonemapStart(string) : "BlendTonemapStart" : "0" : "FIXME!!!"
+	BlendTonemapEnd(string) : "BlendTonemapEnd" : "0" : "FIXME!!!"
+	BlendStartTime(string) : "BlendStartTime (seconds)" : "0" : "FIXME!!!"
+	BlendEndTime(string) : "Hold Fade (seconds)" : "0" : "FIXME!!!"
+	UseCustomAutoExposureMax(choices) : "UseCustomAutoExposureMax" : 0 =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	UseCustomAutoExposureMin(choices) : "UseCustomAutoExposureMin" : 0 =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	CustomAutoExposureMax(string) : "CustomAutoExposureMax" : "0" : "FIXME!!!"
+	CustomAutoExposureMin(string) : "CustomAutoExposureMin" : "0" : "FIXME!!!"
+	UseCustomBloomScale(choices) : "UseCustomBloomScale" : 0 =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	CustomBloomScale(string) : "CustomBloomScale" : "0" : "FIXME!!!"
+	CustomBloomScaleMinimum(string) : "CustomBloomScaleMinimum" : "0" : "FIXME!!!"
 	// Inputs
 	input SetTonemapScale(float) : "Set the player's tonemap scale. It should be a value between 0 and 2, where 0 is the eyes fully closed, 1 is use the unchanged autoexposure (default), and 2 is the eye fully wide open."
 	input BlendTonemapScale(string) : "Blend from the player's current tonemap scale to a new one. The parameter syntax is as follows: <target tonemap scale> <blend duration>. For example: '0.5 10' would blend from the current tonemap scale to 0.5 over a period of 10 seconds. Tonemap scale is a value between 0 and 2, where 0 is the eyes fully closed, 1 is use the unchanged autoexposure (default), and 2 is the eye fully wide open."
