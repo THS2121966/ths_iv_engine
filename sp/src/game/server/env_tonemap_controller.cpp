@@ -63,17 +63,17 @@ private:
 LINK_ENTITY_TO_CLASS( env_tonemap_controller, CEnvTonemapController );
 
 BEGIN_DATADESC( CEnvTonemapController )
-	DEFINE_FIELD( m_flBlendTonemapStart, FIELD_FLOAT ),
-	DEFINE_FIELD( m_flBlendTonemapEnd, FIELD_FLOAT ),
-	DEFINE_FIELD( m_flBlendEndTime, FIELD_TIME ),
-	DEFINE_FIELD( m_flBlendStartTime, FIELD_TIME ),
-	DEFINE_FIELD( m_bUseCustomAutoExposureMin, FIELD_BOOLEAN ),
-	DEFINE_FIELD( m_bUseCustomAutoExposureMax, FIELD_BOOLEAN ),
-	DEFINE_FIELD( m_flCustomAutoExposureMin, FIELD_FLOAT ),
-	DEFINE_FIELD( m_flCustomAutoExposureMax, FIELD_FLOAT ),
-	DEFINE_FIELD( m_flCustomBloomScale, FIELD_FLOAT ),
-	DEFINE_FIELD( m_flCustomBloomScaleMinimum, FIELD_FLOAT ),
-	DEFINE_FIELD( m_bUseCustomBloomScale, FIELD_BOOLEAN ),
+	DEFINE_KEYFIELD( m_flBlendTonemapStart, FIELD_FLOAT, "BlendTonemapStart" ),
+	DEFINE_KEYFIELD( m_flBlendTonemapEnd, FIELD_FLOAT, "BlendTonemapEnd" ),
+	DEFINE_KEYFIELD( m_flBlendEndTime, FIELD_TIME, "BlendEndTime" ),
+	DEFINE_KEYFIELD( m_flBlendStartTime, FIELD_TIME, "BlendStartTime" ),
+	DEFINE_KEYFIELD( m_bUseCustomAutoExposureMin, FIELD_BOOLEAN, "UseCustomAutoExposureMin" ),
+	DEFINE_KEYFIELD( m_bUseCustomAutoExposureMax, FIELD_BOOLEAN, "UseCustomAutoExposureMax" ),
+	DEFINE_KEYFIELD( m_flCustomAutoExposureMin, FIELD_FLOAT, "CustomAutoExposureMin" ),
+	DEFINE_KEYFIELD( m_flCustomAutoExposureMax, FIELD_FLOAT, "CustomAutoExposureMax" ),
+	DEFINE_KEYFIELD( m_flCustomBloomScale, FIELD_FLOAT, "CustomBloomScale" ),
+	DEFINE_KEYFIELD( m_flCustomBloomScaleMinimum, FIELD_FLOAT, "CustomBloomScaleMinimum" ),
+	DEFINE_KEYFIELD( m_bUseCustomBloomScale, FIELD_BOOLEAN, "UseCustomBloomScale" ),
 
 	DEFINE_THINKFUNC( UpdateTonemapScaleBlend ),
 
