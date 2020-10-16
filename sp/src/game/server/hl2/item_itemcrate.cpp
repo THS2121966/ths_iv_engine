@@ -7,6 +7,7 @@
 #include "cbase.h"
 #include "props.h"
 #include "items.h"
+#include "particle_parse.h"
 #include "item_dynamic_resupply.h"
 #ifdef MAPBASE
 #include "point_template.h"
@@ -298,6 +299,7 @@ void CItem_ItemCrate::OnBreak( const Vector &vecVelocity, const AngularImpulse &
 		{
 		case CRATE_SPECIFIC_ITEM:
 			pSpawn = CreateEntityByName( STRING(m_strItemClass) );
+			DispatchParticleEffect( "hl2mmod_explosion_grenade_noaftersmoke_Shit", GetAbsOrigin(), GetAbsAngles()); //code by combine_moron.mdl!
 			break;
 
 #ifdef MAPBASE

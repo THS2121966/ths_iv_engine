@@ -6,6 +6,7 @@
 //=============================================================================//
 #include "cbase.h"
 #include "fx_explosion.h"
+#include "particle_parse.h"
 #include "clienteffectprecachesystem.h"
 #include "fx_sparks.h"
 #include "dlight.h"
@@ -182,6 +183,8 @@ void C_BaseExplosionEffect::Create( const Vector &position, float force, float s
 #endif
 
 	PlaySound();
+
+	DispatchParticleEffect("hl2mmod_explosion_grenade", m_vecOrigin, m_vecDirection, QAngle(0,0,0) ); //code by combine_moron.mdl!
 
 	if ( scale != 0 )
 	{
