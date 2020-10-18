@@ -42,7 +42,6 @@ void CRainControl::Spawn( void )
 {
 	SetSolid( SOLID_NONE );
 	SetMoveType( MOVETYPE_NONE );
-	SetThink( &CRainControl::UpdateRainOutputThink );
 }
 
 void CRainControl::UpdateRainOutputThink( void )
@@ -51,7 +50,7 @@ void CRainControl::UpdateRainOutputThink( void )
 	{
 		thsdev_rain_splash_output.FireOutput( NULL, this );
 	}
-	else 
+	else if ( thsdev_rain_splash_chance_local <= 0 )
 	{
 		thsdev_rain_splash_output_none.FireOutput( NULL, this );
 	}
@@ -63,4 +62,5 @@ void CRainControl::UpdateRainOutputThink( void )
 int CRainControl::UpdateTransmitState()
 {
 	return SetTransmitState( FL_EDICT_ALWAYS );
+	SetThink( &CRainControl::UpdateRainOutputThink );
 }
