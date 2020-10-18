@@ -3757,6 +3757,10 @@
 
 	// Inputs
 	input SetRainSplashEnabled(float) : "Set Rain splash chance."
+	
+	// Outputs
+	output OnRainChanceChanged(void) : "Fired when the chance of this splash system changed to >0."
+	output OnRainChanceNOTChanged(void) : "Fired when the chance of this splash system changed to <0."
 ]
 
 
