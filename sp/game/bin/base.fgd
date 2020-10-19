@@ -9623,7 +9623,7 @@
 	output OnPlaybackFinished(void) : "Fired when the movie has completed playing back or was skipped by the user."
 ]
 
-@PointClass base(Targetname, Parentname) iconsprite("editor/light.vmt") sphere(distance) size(-4 -4 -4, 4 4 4) = iv_dynamic_light : 
+@PointClass base(Targetname, Parentname) iconsprite("editor/iv_dynamic_light.vmt") sphere(distance) size(-4 -4 -4, 4 4 4) = iv_dynamic_light : 
 	"An invisible lightsource that changes in some way over time." 
 [
 	LightColor(color255) : "Light color" : "255 255 255"
