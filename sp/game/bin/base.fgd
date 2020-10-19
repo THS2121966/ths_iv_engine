@@ -9622,3 +9622,20 @@
 	// Outputs
 	output OnPlaybackFinished(void) : "Fired when the movie has completed playing back or was skipped by the user."
 ]
+
+@PointClass base(Targetname, Parentname) iconsprite("editor/iv_dynamic_light.vmt") sphere(distance) size(-1 -1 -1, 1 1 1) = iv_dynamic_light : 
+	"An invisible lightsource that changes in some way over time." 
+[
+	LightColor(color255) : "Light color" : "255 255 255"
+	brightness(integer) : "Light brightness" : 1
+	distance(float) : "Maximum distance" : 120 : "This is the distance that light is allowed to cast, in units."
+
+	// Inputs
+	input Color(color255) : "Set the light's render color (R G B)."
+	input brightness(integer) : "Set the light brightness."
+	input distance(float) : "Set the maximum light distance."
+
+	input TurnOn(void) : "Turn the light on."
+	input TurnOff(void) : "Turn the light off."
+	input Toggle(void) : "Toggle the light on/off."
+]
