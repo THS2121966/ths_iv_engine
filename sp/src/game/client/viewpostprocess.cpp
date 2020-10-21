@@ -43,6 +43,7 @@ bool g_bFlashlightIsOn = false;
 
 //ths_dev_hammer_parms_to_this
 bool ths_ssao_init = false;
+bool ths_nightvision_init = false;
 
 // hdr parameters
 ConVar mat_bloomscale( "mat_bloomscale", "1" );
@@ -68,6 +69,9 @@ ConVar mat_colorcorrection( "mat_colorcorrection", "0" );
 
 //ths_dev_ssao_command
 static ConVar ths_ssao( "thsdev_ssao_enable", "0" );
+
+//ths_dev_nightvision_command
+static ConVar ths_nightvision( "ths_nightvision_enable", "0" );
 
 ConVar mat_accelerate_adjust_exposure_down( "mat_accelerate_adjust_exposure_down", "3.0", FCVAR_CHEAT );
 ConVar mat_hdr_manual_tonemap_rate( "mat_hdr_manual_tonemap_rate", "1.0" );
@@ -2708,6 +2712,23 @@ static IMaterial *ths_ssao_effect = materials->FindMaterial( "ths_shaderedit_eff
 	{
 		UpdateScreenEffectTexture();
 		pRenderContext->DrawScreenSpaceRectangle( ths_ssao_effect, 0, 0, w, h,
+							0, 0, w - 1, h - 1,
+							w, h );
+	}
+}
+else
+{
+	return;
+}
+
+//ths_nightvision
+if ( ths_nightvision.GetBool() || ths_nightvision_init )
+{
+static IMaterial *ths_nightvision_effect = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_nightvision_main", TEXTURE_GROUP_OTHER );
+	if ( ths_nightvision_effect )
+	{
+		UpdateScreenEffectTexture();
+		pRenderContext->DrawScreenSpaceRectangle( ths_nightvision_effect, 0, 0, w, h,
 							0, 0, w - 1, h - 1,
 							w, h );
 	}

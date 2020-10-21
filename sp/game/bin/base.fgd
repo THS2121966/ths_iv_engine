@@ -3746,6 +3746,24 @@
 ]
 
 //-------------------------------------------------------------------------
+// NightVision control
+//-------------------------------------------------------------------------
+
+@PointClass base(Targetname) iconsprite("editor/ssao_control.vmt") = ssao_control : 
+	"An entity to control the Night Vision Effect."
+[
+	
+	EnableNVEffect(Choices) : "[THS] Enable Night Vision Effect." : 1 : "Enable Night Vision. Only one entity can be correctly placed on the map." = 
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	// Inputs
+	input SetNVEnabled(bool) : "Toggles Night Vision Effect."
+]
+
+//-------------------------------------------------------------------------
 // RAIN control
 //-------------------------------------------------------------------------
 
