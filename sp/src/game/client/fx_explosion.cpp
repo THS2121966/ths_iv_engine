@@ -188,7 +188,7 @@ void C_BaseExplosionEffect::Create( const Vector &position, float force, float s
 
 	PlaySound();
 	
-	if( ths_env_echanced_expfx && ths_env_echanced_expfx_setup.GetBool() )
+	if( ths_env_echanced_expfx && thsdev_env_echanced_expfx_setup.GetBool() )
 	{
 		DispatchParticleEffect("hl2mmod_explosion_grenade", m_vecOrigin, m_vecDirection, QAngle(0,0,0) ); //code by combine_moron.mdl!
 	}
