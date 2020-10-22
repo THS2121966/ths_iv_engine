@@ -27,7 +27,7 @@
 //ths_dev_for_mappers
 bool ths_env_echanced_expfx = true;
 
-static ConVar ths_env_echanced_expfx_setup( "ths_env_echanced_expfx_setup", "1" );
+static ConVar thsdev_env_echanced_expfx_setup( "ths_env_echanced_expfx_setup", "1" );
 
 CLIENTEFFECT_REGISTER_BEGIN( PrecacheEffectExplosion )
 CLIENTEFFECT_MATERIAL( "effects/fire_cloud1" )
