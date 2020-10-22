@@ -3746,7 +3746,7 @@
 ]
 
 //-------------------------------------------------------------------------
-// NightVision control
+// Night Vision control
 //-------------------------------------------------------------------------
 
 @PointClass base(Targetname) iconsprite("editor/ssao_control.vmt") = ssao_control : 
