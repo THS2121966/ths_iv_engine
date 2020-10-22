@@ -24,6 +24,10 @@
 #include "tier0/memdbgon.h"
 
 #define	__EXPLOSION_DEBUG	0
+//ths_dev_for_mappers
+bool ths_env_echanced_expfx = true;
+
+static ConVar ths_env_echanced_expfx_setup( "ths_env_echanced_expfx_setup", "1" );
 
 CLIENTEFFECT_REGISTER_BEGIN( PrecacheEffectExplosion )
 CLIENTEFFECT_MATERIAL( "effects/fire_cloud1" )
@@ -183,8 +187,11 @@ void C_BaseExplosionEffect::Create( const Vector &position, float force, float s
 #endif
 
 	PlaySound();
-
-	DispatchParticleEffect("hl2mmod_explosion_grenade", m_vecOrigin, m_vecDirection, QAngle(0,0,0) ); //code by combine_moron.mdl!
+	
+	if( ths_env_echanced_expfx && ths_env_echanced_expfx_setup.GetBool() )
+	{
+		DispatchParticleEffect("hl2mmod_explosion_grenade", m_vecOrigin, m_vecDirection, QAngle(0,0,0) ); //code by combine_moron.mdl!
+	}
 
 	if ( scale != 0 )
 	{

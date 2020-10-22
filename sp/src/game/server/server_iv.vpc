@@ -57,6 +57,7 @@ $Project "Server (IV)"
 			{
 				$File	"ths_entities\ssao_control.h"
 				$File	"ths_entities\rain_control.h"
+				$File	"ths_entities\iv_effects_setup.h"
 				$File	"ths_entities\nightvision_control.h"
 				$File	"ths_entities\iv_dynamic_light.h"
 			}
@@ -66,6 +67,7 @@ $Project "Server (IV)"
 				$File	"ths_entities\ths_EnvHudTasklist.cpp"
 				$File	"ths_entities\ssao_control.cpp"
 				$File	"ths_entities\rain_control.cpp"
+				$File	"ths_entities\iv_effects_setup.cpp"
 				$File	"ths_entities\nightvision_control.cpp"
 				$File	"ths_entities\iv_dynamic_light.cpp"
 			}

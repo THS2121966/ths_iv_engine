@@ -9657,3 +9657,17 @@
 	input TurnOff(void) : "Turn the light off."
 	input Toggle(void) : "Toggle the light on/off."
 ]
+
+@PointClass base(Targetname) iconsprite("editor/iv_effects_main_setup.vmt") = iv_effects_main_setup : 
+	"An entity to control the IV Engine main FX effects."
+[
+	
+	EnableEnchancedExpFX(Choices) : "[THS] Enable Enchanced Explosion FX." : 1 : "Enable Enchanced particle explosion effect." = 
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	// Inputs
+	input SetEnchancedExpFXEnabled(bool) : "Toggles Enchanced Explosion FX."
+]
