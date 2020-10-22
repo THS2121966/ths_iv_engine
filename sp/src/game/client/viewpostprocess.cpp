@@ -71,7 +71,7 @@ ConVar mat_colorcorrection( "mat_colorcorrection", "0" );
 static ConVar ths_ssao( "thsdev_ssao_enable", "0" );
 
 //ths_dev_nightvision_command
-static ConVar ths_nightvision( "ths_nightvision_enable", "0" );
+static ConVar ths_nightvision( "thsdev_nightvision_enable", "0" );
 
 ConVar mat_accelerate_adjust_exposure_down( "mat_accelerate_adjust_exposure_down", "3.0", FCVAR_CHEAT );
 ConVar mat_hdr_manual_tonemap_rate( "mat_hdr_manual_tonemap_rate", "1.0" );
