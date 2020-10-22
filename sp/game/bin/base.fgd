@@ -3749,7 +3749,7 @@
 // Night Vision control
 //-------------------------------------------------------------------------
 
-@PointClass base(Targetname) iconsprite("editor/ssao_control.vmt") = ssao_control : 
+@PointClass base(Targetname) iconsprite("editor/ssao_control.vmt") = nightvision_control : 
 	"An entity to control the Night Vision Effect."
 [
 	
