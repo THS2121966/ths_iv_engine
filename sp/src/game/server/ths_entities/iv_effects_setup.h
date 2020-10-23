@@ -22,6 +22,8 @@ public:
 
 
 	CNetworkVar( bool, ths_enable_expfx_local );
+	CNetworkVar( int, thsdev_mapping_numb_shadows_local );
+//	CNetworkVar( float, m_flShadowFilterSize_local );
 };
 
 #endif//  IV_EFFECTS_SETUP_H

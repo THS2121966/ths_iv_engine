@@ -19,14 +19,19 @@ LINK_ENTITY_TO_CLASS( iv_effects_main_setup, CIVEffectsMain );
 BEGIN_DATADESC( CIVEffectsMain )
 	
 	DEFINE_KEYFIELD( ths_enable_expfx_local,			FIELD_BOOLEAN,	"EnableEnchancedExpFX" ),
+	DEFINE_KEYFIELD( thsdev_mapping_numb_shadows_local,			FIELD_INTEGER,	"SetMaxShadowedLights" ),
+//	DEFINE_KEYFIELD( m_flShadowFilterSize_local,			FIELD_FLOAT,	"SetDynShadowFilterSize" ),
 
 	// Inputs
 	DEFINE_INPUT( ths_enable_expfx_local,	FIELD_BOOLEAN, "SetEnchancedExpFXEnabled" ),
+//	DEFINE_INPUT( m_flShadowFilterSize_local,	FIELD_FLOAT, "InputSetDynShadowsFilterSize" ),
 
 END_DATADESC()
 
 IMPLEMENT_SERVERCLASS_ST( CIVEffectsMain, DT_IVEffectsMain )
 	SendPropInt( SENDINFO(ths_enable_expfx_local), 1, SPROP_UNSIGNED ),
+	SendPropInt( SENDINFO(thsdev_mapping_numb_shadows_local), 5, SPROP_UNSIGNED ),
+//	SendPropInt( SENDINFO(m_flShadowFilterSize_local), 0.7, SPROP_UNSIGNED ),
 END_SEND_TABLE()
 
 //-----------------------------------------------------------------------------

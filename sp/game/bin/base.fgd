@@ -9662,10 +9662,22 @@
 	"An entity to control the IV Engine main FX effects."
 [
 	
-	EnableEnchancedExpFX(Choices) : "[THS] Enable Enchanced Explosion FX." : 1 : "Enable Enchanced particle explosion effect." = 
+	EnableEnchancedExpFX(Choices) : "[THS] Enable Enchanced Explosion FX" : 1 : "Enable Enchanced particle explosion effect." = 
 	[
 		0 : "No"
 		1 : "Yes"
+	]
+	
+	SetMaxShadowedLights(Choices) : "[Engine] Set Max dynamic shadowed maps lights" : 5 : "Set Max dynamic shadowed maps lights on this map. For perfomance." = 
+	[
+		1 : "1 - MIN"
+		2 : "2"
+		3 : "3"
+		4 : "4"
+		5 : "5"
+		6 : "6"
+		7 : "7"
+		8 : "8 - MAX"
 	]
 
 	// Inputs

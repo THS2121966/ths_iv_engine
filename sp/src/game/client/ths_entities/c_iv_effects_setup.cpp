@@ -11,6 +11,8 @@
 
 
 extern bool  ths_env_echanced_expfx;
+extern int  thsdev_mapping_numb_shadows;
+//extern float  m_flShadowFilterSize;
 
 EHANDLE g_IVEffectsControlInUse = NULL;
 
@@ -29,6 +31,8 @@ public:
 
 private:
 	bool  ths_enable_expfx_local;
+	int  thsdev_mapping_numb_shadows_local;
+//	float  m_flShadowFilterSize_local;
 
 private:
 	C_IVEffectsMain( const C_IVEffectsMain & );
@@ -36,13 +40,17 @@ private:
 
 IMPLEMENT_CLIENTCLASS_DT( C_IVEffectsMain, DT_IVEffectsMain, CIVEffectsMain )
 	RecvPropInt( RECVINFO(ths_enable_expfx_local) ),
+	RecvPropInt( RECVINFO(thsdev_mapping_numb_shadows_local) ),
+//	RecvPropInt( RECVINFO(m_flShadowFilterSize_local) ),
 END_RECV_TABLE()
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
 C_IVEffectsMain::C_IVEffectsMain( void )
-:	ths_enable_expfx_local( true )
+:	ths_enable_expfx_local( true ),
+	thsdev_mapping_numb_shadows_local( 5 )
+//	m_flShadowFilterSize_local( 0.7 )
 {
 }
 
@@ -53,7 +61,9 @@ C_IVEffectsMain::~C_IVEffectsMain( void )
 {
 	if ( g_IVEffectsControlInUse == this )
 	{
-		ths_env_echanced_expfx = false;
+		ths_env_echanced_expfx = true;
+		thsdev_mapping_numb_shadows_local = 5;
+//		m_flShadowFilterSize_local = 0.7;
 	}
 }
 
@@ -65,6 +75,8 @@ void C_IVEffectsMain::OnDataChanged( DataUpdateType_t updateType )
 	BaseClass::OnDataChanged( updateType );
 
 	ths_env_echanced_expfx = ths_enable_expfx_local;
+	thsdev_mapping_numb_shadows = thsdev_mapping_numb_shadows_local;
+//	m_flShadowFilterSize = m_flShadowFilterSize_local;
 
 	g_IVEffectsControlInUse = this;
 }
