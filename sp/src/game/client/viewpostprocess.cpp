@@ -2703,6 +2703,8 @@ static IMaterial *ths_fl_an01 = materials->FindMaterial( "ths_shaderedit_effects
 	}
 
 //ths_branch_exp_effect
+if ( ths_ssao_init = false )
+{
 static IMaterial *exp_effect = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_branch_exp01", TEXTURE_GROUP_OTHER );
 	if ( exp_effect )
 	{
@@ -2711,6 +2713,11 @@ static IMaterial *exp_effect = materials->FindMaterial( "ths_shaderedit_effects/
 							0, 0, w - 1, h - 1,
 							w, h );
 	}
+}
+else
+{
+	return;
+}
 
 //ths_ssao
 if ( ths_ssao.GetBool() || ths_ssao_init )
