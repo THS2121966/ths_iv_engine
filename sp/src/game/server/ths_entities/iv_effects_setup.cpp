@@ -22,9 +22,15 @@ BEGIN_DATADESC( CIVEffectsMain )
 	DEFINE_KEYFIELD( thsdev_mapping_numb_shadows_local,			FIELD_INTEGER,	"SetMaxShadowedLights" ),
 //	DEFINE_KEYFIELD( m_flShadowFilterSize_local,			FIELD_FLOAT,	"SetDynShadowFilterSize" ),
 
+	DEFINE_KEYFIELD( ths_water_fx_init_local,			FIELD_BOOLEAN,	"EnableScreenWaterFX" ),
+	DEFINE_KEYFIELD( ths_blood_fx_init_local,			FIELD_BOOLEAN,	"EnableScreenBloodFX" ),
+
 	// Inputs
 	DEFINE_INPUT( ths_enable_expfx_local,	FIELD_BOOLEAN, "SetEnchancedExpFXEnabled" ),
 //	DEFINE_INPUT( m_flShadowFilterSize_local,	FIELD_FLOAT, "InputSetDynShadowsFilterSize" ),
+
+	DEFINE_INPUT( ths_water_fx_init_local,	FIELD_BOOLEAN, "SetEnabledScreenWaterFX" ),
+	DEFINE_INPUT( ths_blood_fx_init_local,	FIELD_BOOLEAN, "SetEnabledScreenBloodFX" ),
 
 END_DATADESC()
 
@@ -32,6 +38,9 @@ IMPLEMENT_SERVERCLASS_ST( CIVEffectsMain, DT_IVEffectsMain )
 	SendPropInt( SENDINFO(ths_enable_expfx_local), 1, SPROP_UNSIGNED ),
 	SendPropInt( SENDINFO(thsdev_mapping_numb_shadows_local), 5, SPROP_UNSIGNED ),
 //	SendPropInt( SENDINFO(m_flShadowFilterSize_local), 0.7, SPROP_UNSIGNED ),
+
+	SendPropInt( SENDINFO(ths_water_fx_init_local), 0, SPROP_UNSIGNED ),
+	SendPropInt( SENDINFO(ths_blood_fx_init_local), 0, SPROP_UNSIGNED ),
 END_SEND_TABLE()
 
 //-----------------------------------------------------------------------------

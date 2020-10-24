@@ -3775,10 +3775,6 @@
 
 	// Inputs
 	input SetRainSplashEnabled(float) : "Set Rain splash chance."
-	
-	// Outputs
-	output OnRainChanceChanged(void) : "Fired when the chance of this splash system changed to >0."
-	output OnRainChanceNOTChanged(void) : "Fired when the chance of this splash system changed to <0."
 ]
 
 
@@ -9662,12 +9658,24 @@
 	"An entity to control the IV Engine main FX effects."
 [
 	
-	EnableEnchancedExpFX(Choices) : "[THS] Enable Enchanced Explosion FX" : 1 : "Enable Enchanced particle explosion effect." = 
+	EnableEnchancedExpFX(Choices) : "[THS] Enable Enchanced Exp FX" : 1 : "Enable Enchanced particle explosion effect." = 
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	EnableScreenWaterFX(Choices) : "[THS] Enable Screen Water FX" : 1 : "Enable Screen Water FX Effect." = 
 	[
 		0 : "No"
 		1 : "Yes"
 	]
 	
+	EnableScreenBloodFX(Choices) : "[THS] Enable Screen Blood FX" : 1 : "Enable Screen Blood FX Effect." = 
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
 	SetMaxShadowedLights(Choices) : "[Engine] Set Max dynamic shadowed maps lights" : 5 : "Set Max dynamic shadowed maps lights on this map. For perfomance." = 
 	[
 		1 : "1 - MIN"
@@ -9682,4 +9690,6 @@
 
 	// Inputs
 	input SetEnchancedExpFXEnabled(bool) : "Toggles Enchanced Explosion FX."
+	input SetEnabledScreenWaterFX(bool) : "Toggles Screen Water FX."
+	input SetEnabledScreenBloodFX(bool) : "Toggles Screen Blood FX."
 ]

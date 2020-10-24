@@ -19,15 +19,9 @@ LINK_ENTITY_TO_CLASS( rain_control, CRainControl );
 BEGIN_DATADESC( CRainControl )
 	
 	DEFINE_KEYFIELD( thsdev_rain_splash_chance_local,			FIELD_FLOAT,	"EnableRainSplash" ),
-	
-	DEFINE_THINKFUNC( UpdateRainOutputThink ),
 
 	// Inputs
 	DEFINE_INPUT( thsdev_rain_splash_chance_local,	FIELD_FLOAT, "SetRainSplashEnabled" ),
-	
-	// Outputs
-	DEFINE_OUTPUT(thsdev_rain_splash_output, "OnRainChanceChanged"),
-	DEFINE_OUTPUT(thsdev_rain_splash_output_none, "OnRainChanceNOTChanged"),
 
 END_DATADESC()
 
@@ -44,7 +38,7 @@ void CRainControl::Spawn( void )
 	SetMoveType( MOVETYPE_NONE );
 }
 
-void CRainControl::UpdateRainOutputThink( void )
+/*void CRainControl::UpdateRainOutputThink( void )
 {
 	if ( thsdev_rain_splash_chance_local > 0 )
 	{
@@ -54,7 +48,7 @@ void CRainControl::UpdateRainOutputThink( void )
 	{
 		thsdev_rain_splash_output_none.FireOutput( NULL, this );
 	}
-}
+}*/
 
 //-----------------------------------------------------------------------------
 // Purpose: 
@@ -62,5 +56,4 @@ void CRainControl::UpdateRainOutputThink( void )
 int CRainControl::UpdateTransmitState()
 {
 	return SetTransmitState( FL_EDICT_ALWAYS );
-	SetThink( &CRainControl::UpdateRainOutputThink );
 }

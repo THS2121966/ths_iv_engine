@@ -16,16 +16,11 @@ public:
 	DECLARE_SERVERCLASS();
 
 	virtual void	Spawn( void );
-	void	UpdateRainOutputThink( void );
 	virtual int		UpdateTransmitState( void );
 
 	// Inputs
 
 	CNetworkVar( float, thsdev_rain_splash_chance_local );
-	
-	// Outputs
-	COutputEvent thsdev_rain_splash_output;
-	COutputEvent thsdev_rain_splash_output_none;
 };
 
 #endif//  RAIN_CONTROL_H
