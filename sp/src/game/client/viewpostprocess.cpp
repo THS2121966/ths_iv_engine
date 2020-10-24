@@ -2702,24 +2702,7 @@ static IMaterial *ths_fl_an01 = materials->FindMaterial( "ths_shaderedit_effects
 							w, h );
 	}
 
-//ths_branch_exp_effect
-if ( ths_ssao_init == false )
-{
-static IMaterial *exp_effect = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_branch_exp01", TEXTURE_GROUP_OTHER );
-	if ( exp_effect )
-	{
-		UpdateScreenEffectTexture();
-		pRenderContext->DrawScreenSpaceRectangle( exp_effect, 0, 0, w, h,
-							0, 0, w - 1, h - 1,
-							w, h );
-	}
-}
-else
-{
-	return;
-}
-
-//ths_ssao
+//ths_ssao_and_branch_exp_effect
 if ( ths_ssao.GetBool() || ths_ssao_init )
 {
 static IMaterial *ths_ssao_effect = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_ssao_main", TEXTURE_GROUP_OTHER );
@@ -2733,7 +2716,14 @@ static IMaterial *ths_ssao_effect = materials->FindMaterial( "ths_shaderedit_eff
 }
 else
 {
-	return;
+static IMaterial *exp_effect = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_branch_exp01", TEXTURE_GROUP_OTHER );
+	if ( exp_effect )
+	{
+		UpdateScreenEffectTexture();
+		pRenderContext->DrawScreenSpaceRectangle( exp_effect, 0, 0, w, h,
+							0, 0, w - 1, h - 1,
+							w, h );
+	}
 }
 
 //ths_nightvision
