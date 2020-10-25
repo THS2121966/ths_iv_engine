@@ -838,7 +838,11 @@ CLIENTEFFECT_REGISTER_BEGIN( PrecachePostProcessingEffects )
 	CLIENTEFFECT_MATERIAL( "ths_shaderedit_effects/post_screen/ths_water_fx01" )
 	CLIENTEFFECT_MATERIAL( "ths_shaderedit_effects/post_screen/ths_blood_fx01" )
 	//ths_dev_gclusters_fix_precache
-	CLIENTEFFECT_MATERIAL( "detail/detailsprites_editor" )	
+	CLIENTEFFECT_MATERIAL( "detail/detailsprites_editor" )
+	//ths_dev_dog_fix
+	CLIENTEFFECT_MATERIAL( "cable/red" )
+	CLIENTEFFECT_MATERIAL( "cable/green" )
+	CLIENTEFFECT_MATERIAL( "cable/blue" )
 
 #ifdef TF_CLIENT_DLL
 	CLIENTEFFECT_MATERIAL( "dev/pyro_blur_filter_y" )
