@@ -1,0 +1,5 @@
+"editor_shader"
+{
+	"$shadername"	"ths_nightvision_main"
+	"$basetexture"	"texture_samples\noise_2d"
+}

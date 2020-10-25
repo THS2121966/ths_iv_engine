@@ -43,6 +43,9 @@ bool g_bFlashlightIsOn = false;
 
 //ths_dev_hammer_parms_to_this
 bool ths_ssao_init = false;
+bool ths_nightvision_init = false;
+bool ths_water_fx_init = false;
+bool ths_blood_fx_init = false;
 
 // hdr parameters
 ConVar mat_bloomscale( "mat_bloomscale", "1" );
@@ -68,6 +71,15 @@ ConVar mat_colorcorrection( "mat_colorcorrection", "0" );
 
 //ths_dev_ssao_command
 static ConVar ths_ssao( "thsdev_ssao_enable", "0" );
+
+//ths_dev_nightvision_command
+static ConVar ths_nightvision( "thsdev_nightvision_enable", "0" );
+
+//ths_dev_waterfx_command
+static ConVar ths_water_fx( "thsdev_water_fx_enable", "0" );
+
+//ths_dev_bloodfx_command
+static ConVar ths_blood_fx( "thsdev_blood_fx_enable", "0" );
 
 ConVar mat_accelerate_adjust_exposure_down( "mat_accelerate_adjust_exposure_down", "3.0", FCVAR_CHEAT );
 ConVar mat_hdr_manual_tonemap_rate( "mat_hdr_manual_tonemap_rate", "1.0" );
@@ -2690,7 +2702,20 @@ static IMaterial *ths_fl_an01 = materials->FindMaterial( "ths_shaderedit_effects
 							w, h );
 	}
 
-//ths_branch_exp_effect
+//ths_ssao_and_branch_exp_effect
+if ( ths_ssao.GetBool() || ths_ssao_init )
+{
+static IMaterial *ths_ssao_effect = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_ssao_main", TEXTURE_GROUP_OTHER );
+	if ( ths_ssao_effect )
+	{
+		UpdateScreenEffectTexture();
+		pRenderContext->DrawScreenSpaceRectangle( ths_ssao_effect, 0, 0, w, h,
+							0, 0, w - 1, h - 1,
+							w, h );
+	}
+}
+else
+{
 static IMaterial *exp_effect = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_branch_exp01", TEXTURE_GROUP_OTHER );
 	if ( exp_effect )
 	{
@@ -2699,15 +2724,50 @@ static IMaterial *exp_effect = materials->FindMaterial( "ths_shaderedit_effects/
 							0, 0, w - 1, h - 1,
 							w, h );
 	}
+}
 
-//ths_ssao
-if ( ths_ssao.GetBool() || ths_ssao_init )
+//ths_nightvision
+if ( ths_nightvision.GetBool() || ths_nightvision_init )
 {
-static IMaterial *ths_ssao_effect = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_ssao_main", TEXTURE_GROUP_OTHER );
-	if ( ths_ssao_effect )
+static IMaterial *ths_nightvision_effect = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_nightvision_main", TEXTURE_GROUP_OTHER );
+	if ( ths_nightvision_effect )
 	{
 		UpdateScreenEffectTexture();
-		pRenderContext->DrawScreenSpaceRectangle( ths_ssao_effect, 0, 0, w, h,
+		pRenderContext->DrawScreenSpaceRectangle( ths_nightvision_effect, 0, 0, w, h,
+							0, 0, w - 1, h - 1,
+							w, h );
+	}
+}
+else
+{
+	return;
+}
+
+//ths_water_fx
+if ( ths_water_fx.GetBool() || ths_water_fx_init )
+{
+static IMaterial *ths_water_fx_effect = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_water_fx01", TEXTURE_GROUP_OTHER );
+	if ( ths_water_fx_effect )
+	{
+		UpdateScreenEffectTexture();
+		pRenderContext->DrawScreenSpaceRectangle( ths_water_fx_effect, 0, 0, w, h,
+							0, 0, w - 1, h - 1,
+							w, h );
+	}
+}
+else
+{
+	return;
+}
+
+//ths_blood_fx
+if ( ths_blood_fx.GetBool() || ths_blood_fx_init )
+{
+static IMaterial *ths_blood_fx_effect = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_blood_fx01", TEXTURE_GROUP_OTHER );
+	if ( ths_blood_fx_effect )
+	{
+		UpdateScreenEffectTexture();
+		pRenderContext->DrawScreenSpaceRectangle( ths_blood_fx_effect, 0, 0, w, h,
 							0, 0, w - 1, h - 1,
 							w, h );
 	}

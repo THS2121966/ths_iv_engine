@@ -1,16 +1,16 @@
-#if !defined ( RAIN_CONTROL_H )
-#define RAIN_CONTROL_H
+#if !defined ( NIGHTVISION_CONTROL_H )
+#define NIGHTVISION_CONTROL_H
 #ifdef _WIN32
 #pragma once
 #endif
 
 
 //-----------------------------------------------------------------------------
-// Purpose: Entity that controls rain splashes
+// Purpose: Entity that controls NightVision postprocessing
 //-----------------------------------------------------------------------------
-class CRainControl : public CPointEntity
+class CNVControl : public CPointEntity
 {
-	DECLARE_CLASS( CRainControl, CPointEntity );
+	DECLARE_CLASS( CNVControl, CPointEntity );
 public:
 	DECLARE_DATADESC();
 	DECLARE_SERVERCLASS();
@@ -20,7 +20,8 @@ public:
 
 	// Inputs
 
-	CNetworkVar( float, thsdev_rain_splash_chance_local );
+
+	CNetworkVar( bool, ths_local_nightvision_init );
 };
 
-#endif//  RAIN_CONTROL_H
+#endif//  NIGHTVISION_CONTROL_H
