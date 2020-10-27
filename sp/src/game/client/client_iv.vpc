@@ -52,6 +52,7 @@ $Project "Client (IV)"
 				$File	"ths_entities\c_iv_effects_setup.cpp"
 				$File	"ths_entities\c_nightvision_control.cpp"
 				$File	"ths_entities\c_iv_dynamic_light.cpp"
+				$File	"ths_entities\c_iv_global_light.cpp"
 			}
 		}		
 		

@@ -9693,3 +9693,46 @@
 	input SetEnabledScreenWaterFX(bool) : "Toggles Screen Water FX."
 	input SetEnabledScreenBloodFX(bool) : "Toggles Screen Blood FX."
 ]
+
+@PointClass base(Targetname, Angles, EnableDisable) iconsprite("editor/light_env.vmt") = iv_global_light : 
+	"An orthographic projected texture that follows the player."
+[
+	distance(float)				: "Distance" : "10000" : "Height above the player where the projection originates from."
+	fov(float)					: "FOV" : "5.0" : "This is the field of view that the sunlight casts in. Use lower values to simulate a more distant sun and sharper shadows."
+	nearz(float)				: "NearZ" : "512" : "Distance from the player where the near Z plane is. Anything closer to the projection origin"
+	northoffset(float)			: "North Offset" : "200" : "This offsets the from the player position where the sun is attached. (???)"	
+	
+	eastoffset(float)			: "X Offset" : "0" : "X/East offset the from the player position."	
+	forwardoffset(float)		: "Y Offset" : "0" : "Y/Forward offset the from the player position."	
+	
+	orthosize(float)			: "Ortho Size" : "1000.0" : "The iv_global_light's 'size', or how much ground it covers."
+	
+	enableshadows(Choices) : "Enable Shadows" : 1 : "Enables shadows. If shadows are disabled, light may appear to go through objects. Disabling shadows may be ideal for lower-detail environments due to being less expensive." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	lightcolor(color255)		: "Light Color" : "255 255 255 200" : "RGBA color of the sunlight. Intensity can only range from 0 to 255, so use the Brightness Scale keyvalue to make the sunlight brighter than 255."
+	colortransitiontime(float)	: "Color Transition Time" : "0" : "Amount of time it takes for a color or brightness change to occur. 0 = instant"
+	
+	brightnessscale(float)		: "Brightness Scale" : "1.0" : "The light color's brightness scale."	
+
+	texturename(material) : "Texture Name" : "effects/flashlight001"
+	textureframe(integer) : "Texture Frame" : 0 : "Sets the frame of the iv_global_light. Only relevant if the texture is animated/has multiple frames."
+
+	// Inputs
+	input SetFOV(float)		: "Set the field of view the sun casts."
+	input SetTexture(string)		: "Set the texture cookie of the sunlight."
+	input EnableShadows(bool)		: "Set whether shadow maps are enabled"
+	input LightColor(color255)		: "Set the light color."
+	input SetBrightness(float)		: "Sets brightness."
+	input SetColorTransitionTime(float)		: "Sets the color transition time."
+	input SetAngles(string) : "Set the sun direction."
+	input SetDistance(float) : "Set the distance of the sun."
+	input SetNearZDistance(float) : "Set the near z distance."
+	input SetNorthOffset(float) : "Sets the north offset."
+	input SetXOffset(float) : "Sets the X offset."
+	input SetYOffset(float) : "Sets the Y offset."
+	input SetOrthoSize(float) : "Sets the light's size."
+]

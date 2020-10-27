@@ -70,6 +70,7 @@ $Project "Server (IV)"
 				$File	"ths_entities\iv_effects_setup.cpp"
 				$File	"ths_entities\nightvision_control.cpp"
 				$File	"ths_entities\iv_dynamic_light.cpp"
+				$File	"ths_entities\iv_global_light.cpp"
 			}
 		}		
 
