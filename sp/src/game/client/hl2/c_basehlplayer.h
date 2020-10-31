@@ -15,9 +15,6 @@
 #include "c_baseplayer.h"
 #include "c_hl2_playerlocaldata.h"
 
-#ifdef MAPBASE
-class C_MuzzleflashEffect;
-#endif
 
 class C_BaseHLPlayer : public C_BasePlayer
 {
@@ -27,9 +24,7 @@ public:
 	DECLARE_PREDICTABLE();
 
 						C_BaseHLPlayer();
-#ifdef MAPBASE						
-						~C_BaseHLPlayer();						
-#endif
+
 	virtual void		OnDataChanged( DataUpdateType_t updateType );
 
 	void				Weapon_DropPrimary( void );
@@ -70,14 +65,6 @@ public:
 	EHANDLE				m_hClosestNPC;
 	float				m_flSpeedModTime;
 	bool				m_fIsSprinting;
-#ifdef MAPBASE	
-	virtual void ProcessMuzzleFlashEvent();
-	virtual void UpdateFlashlight();
-	virtual bool IsRenderingFlashlight() const;
-	virtual void GetFlashlightPosition( Vector &vecPos ) const;
-	virtual void GetFlashlightForward( Vector &vecForward ) const;
-	virtual float GetFlashlightDot() const;
-#endif
 
 private:
 	C_BaseHLPlayer( const C_BaseHLPlayer & ); // not defined, not accessible
@@ -92,15 +79,6 @@ private:
 	bool				m_bPlayUseDenySound;		// Signaled by PlayerUse, but can be unset by HL2 ladder code...
 	float				m_flSpeedMod;
 	float				m_flExitSpeedMod;
-#ifdef MAPBASE
-	float m_flMuzzleFlashTime;
-	float m_flMuzzleFlashDuration;
-	C_MuzzleflashEffect *m_pMuzzleFlashEffect;
-	bool m_bFlashlightVisible;
-	Vector m_vecFlashlightPosition;
-	Vector m_vecFlashlightForward;
-	float m_flFlashlightDot;
-#endif
 
 friend class CHL2GameMovement;
 };
