@@ -146,6 +146,10 @@ public:
 	virtual bool			ShouldReceiveProjectedTextures( int flags )
 	{
 #ifdef MAPBASE
+
+		if( GetOwner() && GetOwner() == C_BasePlayer::GetLocalPlayer() )
+			return !( GetOwner()->IsEffectActive( EF_DIMLIGHT ) || C_BasePlayer::GetLocalPlayer()->ShouldDisplayMuzzleLight() );
+
 		return true;
 #else
 		return false;

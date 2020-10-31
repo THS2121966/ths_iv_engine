@@ -3363,17 +3363,30 @@ int C_BaseAnimating::InternalDrawModel( int flags )
 }
 
 extern ConVar muzzleflash_light;
+extern ConVar insolence_muzzleflash_light;
 
 void C_BaseAnimating::ProcessMuzzleFlashEvent()
 {
-	// If we have an attachment, then stick a light on it.
-	if ( muzzleflash_light.GetBool() )
+	// [THS] and INSOLENCE: Only triggers the dynamic lighting based muzzleflash if it's enabled, and if the muzzleflash is coming from the player's viewmodel
+	//			  For everything else, or if the dynamic lighting based muzzleflash is disabled, it uses the HL2 Beta muzzleflash light effect
+	if ( IsViewModel() && insolence_muzzleflash_light.GetBool() )
 	{
-		//FIXME: We should really use a named attachment for this
-		if ( m_Attachments.Count() > 0 )
+		C_BasePlayer *pPlayer = ToBasePlayer( dynamic_cast<C_BaseViewModel *>(this)->GetOwner() );
+		if ( pPlayer && pPlayer == C_BasePlayer::GetLocalPlayer())
 		{
-			if ( thsdev_wp_enable_muzzledlight.GetBool() )
-			{	
+			pPlayer->DisplayMuzzleLight();
+		}
+	}
+	else
+	{
+		// If we have an attachment, then stick a light on it.
+		if ( muzzleflash_light.GetBool() )
+		{
+			//FIXME: We should really use a named attachment for this
+			if ( m_Attachments.Count() > 0 )
+			{
+//			if ( thsdev_wp_enable_muzzledlight.GetBool() )
+//			{	
 				Vector vAttachment, vAng;
 				QAngle angles;
 				GetAttachment( 1, vAttachment, angles );
@@ -3390,7 +3403,7 @@ void C_BaseAnimating::ProcessMuzzleFlashEvent()
 				dl->radius = random->RandomFloat( 245.0f, 256.0f );
 				dl->decay = 512.0f;
 			}
-			else
+/*			else
 			{
 				Vector vAttachment;
 				QAngle dummyAngles;
@@ -3406,7 +3419,7 @@ void C_BaseAnimating::ProcessMuzzleFlashEvent()
 				el->color.g = 192;
 				el->color.b = 64;
 				el->color.exponent = 5;
-			}	
+			}*/	
 		}
 	}
 }
