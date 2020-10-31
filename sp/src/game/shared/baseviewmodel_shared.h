@@ -147,8 +147,8 @@ public:
 	{
 #ifdef MAPBASE
 
-		if( GetOwner() && GetOwner() == C_BasePlayer::GetLocalPlayer() )
-			return !( GetOwner()->IsEffectActive( EF_DIMLIGHT ) || C_BasePlayer::GetLocalPlayer()->ShouldDisplayMuzzleLight() );
+//		if( GetOwner() && GetOwner() == C_BasePlayer::GetLocalPlayer() )
+//			return !( GetOwner()->IsEffectActive( EF_DIMLIGHT ) || C_BasePlayer::GetLocalPlayer()->ShouldDisplayMuzzleLight() );
 
 		return true;
 #else
