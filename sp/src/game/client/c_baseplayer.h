@@ -297,6 +297,9 @@ public:
 	bool				IsPlayerDead();
 	bool				IsPoisoned( void ) { return m_Local.m_bPoisoned; }
 
+	bool				ShouldDisplayMuzzleLight();
+	void				DisplayMuzzleLight();
+
 	C_BaseEntity				*GetUseEntity();
 
 	// Vehicles...
@@ -501,9 +504,6 @@ protected:
 	float			m_flStepSoundTime;
 	bool			m_IsFootprintOnLeft;
 
-	// Player flashlight dynamic light pointers
-	CFlashlightEffect *m_pFlashlight; // L4D2 made protected
-
 private:
 	// Make sure no one calls this...
 	C_BasePlayer& operator=( const C_BasePlayer& src );
@@ -515,6 +515,8 @@ private:
 	EHANDLE			m_hUseEntity;
 	
 	float			m_flMaxspeed;
+
+	float			m_flMuzzleFlashTime;
 
 	int				m_iBonusProgress;
 	int				m_iBonusChallenge;
@@ -541,6 +543,9 @@ private:
 
 	bool			m_bFiredWeapon;
 
+
+	// Player flashlight dynamic light pointers
+	CFlashlightEffect *m_pFlashlight;
 
 	typedef CHandle<C_BaseCombatWeapon> CBaseCombatWeaponHandle;
 	CNetworkVar( CBaseCombatWeaponHandle, m_hLastWeapon );
