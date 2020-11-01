@@ -38,7 +38,7 @@
 	{
 		"texsamp_0"
 		{
-			"sz_param"		"waterNormal"
+			"sz_param"		"WaterMain"
 			"sz_fallback"		"texture_samples\drew\water_droplets"
 			"i_sampidx"		"0"
 			"i_texmode"		"0"

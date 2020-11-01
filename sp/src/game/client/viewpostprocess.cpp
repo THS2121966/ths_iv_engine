@@ -47,20 +47,9 @@ bool ths_nightvision_init = false;
 bool ths_water_fx_init = false;
 bool ths_blood_fx_init = false;
 
-bool ths_filmgrain_25 = true;
-bool ths_filmgrain_50 = false;
-bool ths_filmgrain_75 = false;
-bool ths_filmgrain_100 = false;
-
-bool ths_exp_25 = false;
-bool ths_exp_50 = true;
-bool ths_exp_75 = false;
-bool ths_exp_100 = false;
-
-bool ths_flare_25 = true;
-bool ths_flare_50 = false;
-bool ths_flare_75 = false;
-bool ths_flare_100 = false;
+int ths_filmgrain = 50;
+int ths_exp = 50;
+int ths_flare = 25;
 
 static ConVar thsdev_fx_main_enabled( "thsdev_fx_main_enabled", "1" );
 
@@ -2700,7 +2689,7 @@ void DoEnginePostProcessing( int x, int y, int w, int h, bool bFlashlightIsOn, b
 #endif
 
 //ths_filmgrain
-if ( ths_filmgrain_25 && thsdev_fx_main_enabled.GetBool() )
+if ( ths_filmgrain == 25 && thsdev_fx_main_enabled.GetBool() )
 {
 static IMaterial *ths_fg01 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_filmgrain01_25", TEXTURE_GROUP_OTHER );
 	if ( ths_fg01 )
@@ -2711,7 +2700,7 @@ static IMaterial *ths_fg01 = materials->FindMaterial( "ths_shaderedit_effects/po
 							w, h );
 	}
 }
-else if ( ths_filmgrain_50 && thsdev_fx_main_enabled.GetBool() )
+else if ( ths_filmgrain == 50 && thsdev_fx_main_enabled.GetBool() )
 {
 static IMaterial *ths_fg02 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_filmgrain01_50", TEXTURE_GROUP_OTHER );
 	if ( ths_fg02 )
@@ -2722,7 +2711,7 @@ static IMaterial *ths_fg02 = materials->FindMaterial( "ths_shaderedit_effects/po
 							w, h );
 	}
 }
-else if ( ths_filmgrain_75 && thsdev_fx_main_enabled.GetBool() )
+else if ( ths_filmgrain == 75 && thsdev_fx_main_enabled.GetBool() )
 {
 static IMaterial *ths_fg03 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_filmgrain01_75", TEXTURE_GROUP_OTHER );
 	if ( ths_fg03 )
@@ -2733,7 +2722,7 @@ static IMaterial *ths_fg03 = materials->FindMaterial( "ths_shaderedit_effects/po
 							w, h );
 	}
 }
-else if ( ths_filmgrain_100 && thsdev_fx_main_enabled.GetBool() )
+else if ( ths_filmgrain == 100 && thsdev_fx_main_enabled.GetBool() )
 {
 static IMaterial *ths_fg04 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_filmgrain01_100", TEXTURE_GROUP_OTHER );
 	if ( ths_fg04 )
@@ -2746,7 +2735,7 @@ static IMaterial *ths_fg04 = materials->FindMaterial( "ths_shaderedit_effects/po
 }
 
 //ths_flare_an_effect
-if ( ths_flare_25 && thsdev_fx_main_enabled.GetBool() )
+if ( ths_flare == 25 && thsdev_fx_main_enabled.GetBool() )
 {
 static IMaterial *ths_fl_an01 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_flare_an01_25", TEXTURE_GROUP_OTHER );
 	if ( ths_fl_an01 )
@@ -2757,7 +2746,7 @@ static IMaterial *ths_fl_an01 = materials->FindMaterial( "ths_shaderedit_effects
 							w, h );
 	}
 }
-else if ( ths_flare_50 && thsdev_fx_main_enabled.GetBool() )
+else if ( ths_flare == 50 && thsdev_fx_main_enabled.GetBool() )
 {
 static IMaterial *ths_fl_an02 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_flare_an01_50", TEXTURE_GROUP_OTHER );
 	if ( ths_fl_an02 )
@@ -2768,7 +2757,7 @@ static IMaterial *ths_fl_an02 = materials->FindMaterial( "ths_shaderedit_effects
 							w, h );
 	}
 }
-else if ( ths_flare_75 && thsdev_fx_main_enabled.GetBool() )
+else if ( ths_flare == 75 && thsdev_fx_main_enabled.GetBool() )
 {
 static IMaterial *ths_fl_an03 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_flare_an01_75", TEXTURE_GROUP_OTHER );
 	if ( ths_fl_an03 )
@@ -2779,7 +2768,7 @@ static IMaterial *ths_fl_an03 = materials->FindMaterial( "ths_shaderedit_effects
 							w, h );
 	}
 }
-else if ( ths_flare_100 && thsdev_fx_main_enabled.GetBool() )
+else if ( ths_flare == 100 && thsdev_fx_main_enabled.GetBool() )
 {
 static IMaterial *ths_fl_an04 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_flare_an01_100", TEXTURE_GROUP_OTHER );
 	if ( ths_fl_an04 )
@@ -2803,7 +2792,7 @@ static IMaterial *ths_ssao_effect = materials->FindMaterial( "ths_shaderedit_eff
 							w, h );
 	}
 }
-else if ( ths_exp_25 && thsdev_fx_main_enabled.GetBool() )
+else if ( ths_exp == 25 && thsdev_fx_main_enabled.GetBool() )
 {
 static IMaterial *exp_effect01 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_branch_exp01_25", TEXTURE_GROUP_OTHER );
 	if ( exp_effect01 )
@@ -2814,7 +2803,7 @@ static IMaterial *exp_effect01 = materials->FindMaterial( "ths_shaderedit_effect
 							w, h );
 	}
 }
-else if ( ths_exp_50 && thsdev_fx_main_enabled.GetBool() )
+else if ( ths_exp == 50 && thsdev_fx_main_enabled.GetBool() )
 {
 static IMaterial *exp_effect02 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_branch_exp01_50", TEXTURE_GROUP_OTHER );
 	if ( exp_effect02 )
@@ -2825,7 +2814,7 @@ static IMaterial *exp_effect02 = materials->FindMaterial( "ths_shaderedit_effect
 							w, h );
 	}
 }
-else if ( ths_exp_75 && thsdev_fx_main_enabled.GetBool() )
+else if ( ths_exp == 75 && thsdev_fx_main_enabled.GetBool() )
 {
 static IMaterial *exp_effect03 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_branch_exp01_75", TEXTURE_GROUP_OTHER );
 	if ( exp_effect03 )
@@ -2836,7 +2825,7 @@ static IMaterial *exp_effect03 = materials->FindMaterial( "ths_shaderedit_effect
 							w, h );
 	}
 }
-else if ( ths_exp_100 && thsdev_fx_main_enabled.GetBool() )
+else if ( ths_exp == 100 && thsdev_fx_main_enabled.GetBool() )
 {
 static IMaterial *exp_effect04 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_branch_exp01_100", TEXTURE_GROUP_OTHER );
 	if ( exp_effect04 )

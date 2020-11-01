@@ -65,7 +65,7 @@
 			{
 				"jackIn_00"
 				{
-					"iTarget_node"		"10"
+					"iTarget_node"		"9"
 					"iTarget_jack"		"0"
 				}
 			}
@@ -153,7 +153,7 @@
 				}
 				"jackIn_01"
 				{
-					"iTarget_node"		"11"
+					"iTarget_node"		"10"
 					"iTarget_jack"		"0"
 				}
 			}
@@ -220,21 +220,6 @@
 		}
 		"Node_009"
 		{
-			"iType"		"94"
-			"pos_x"		"-325.796722"
-			"pos_y"		"-413.763763"
-			"size_x"		"84.000000"
-			"size_y"		"-50.000000"
-			"iPreview"		"1"
-			"szParamname"		"waterNormal"
-			"iTextureType"		"0"
-			"IsCubemap"		"0"
-			"szDemoTexturePath"		"texture_samples\drew\water_droplets"
-			"szFallbackTexturePath"		"texture_samples\drew\water_droplets"
-			"iFallbackMode"		"4"
-		}
-		"Node_010"
-		{
 			"iType"		"99"
 			"szName"		"Pixel Shader"
 			"pos_x"		"57.687988"
@@ -256,7 +241,7 @@
 				}
 				"jackIn_02"
 				{
-					"iTarget_node"		"9"
+					"iTarget_node"		"11"
 					"iTarget_jack"		"0"
 				}
 				"jackIn_03"
@@ -284,7 +269,7 @@
 			"szcode_body_partial_01"		"efraction0.xy*0.25).r;\r\n		//distort the red channel with refraction1\r\n		frameColor.b = tex2D(frameBuffer, texCoords - refraction1.xy*0.25).b;\r\n	}\r\n\r\n	//modified refraction vector for our highlight\r\n	refraction = normalize(noiseVec.xyz*float3(0.025, 0.025, 1));\r\n\r\n	//do the highlight\r\n	float highlight = saturate(pow(refraction.x, 10.0) * 0.5) * 1.0;\r\n	//add the highlight to the distorted framebuffer\r\n	finalColor.rgb = frameColor.rgb + highlight;\r\n\r\n	//assign an alpha\r\n	finalColor.a = 1.0;\n"
 			"iEnvFlags"		"0"
 		}
-		"Node_011"
+		"Node_010"
 		{
 			"iType"		"5"
 			"szName"		"speed of water ( time )"
@@ -294,6 +279,21 @@
 			"size_y"		"-17.000000"
 			"iPreview"		"1"
 			"szConstantString"		"0.15"
+		}
+		"Node_011"
+		{
+			"iType"		"94"
+			"pos_x"		"-325.796722"
+			"pos_y"		"-413.763763"
+			"size_x"		"84.000000"
+			"size_y"		"-50.000000"
+			"iPreview"		"1"
+			"szParamname"		"WaterMain"
+			"iTextureType"		"0"
+			"IsCubemap"		"0"
+			"szDemoTexturePath"		"texture_samples\drew\water_droplets"
+			"szFallbackTexturePath"		"texture_samples\drew\water_droplets"
+			"iFallbackMode"		"4"
 		}
 	}
 }
