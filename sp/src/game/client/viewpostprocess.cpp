@@ -47,6 +47,23 @@ bool ths_nightvision_init = false;
 bool ths_water_fx_init = false;
 bool ths_blood_fx_init = false;
 
+bool ths_filmgrain_25 = true;
+bool ths_filmgrain_50 = false;
+bool ths_filmgrain_75 = false;
+bool ths_filmgrain_100 = false;
+
+bool ths_exp_25 = false;
+bool ths_exp_50 = true;
+bool ths_exp_75 = false;
+bool ths_exp_100 = false;
+
+bool ths_flare_25 = true;
+bool ths_flare_50 = false;
+bool ths_flare_75 = false;
+bool ths_flare_100 = false;
+
+static ConVar thsdev_fx_main_enabled( "thsdev_fx_main_enabled", "1" );
+
 // hdr parameters
 ConVar mat_bloomscale( "mat_bloomscale", "1" );
 ConVar mat_hdr_level( "mat_hdr_level", "2", FCVAR_ARCHIVE );
@@ -2683,7 +2700,9 @@ void DoEnginePostProcessing( int x, int y, int w, int h, bool bFlashlightIsOn, b
 #endif
 
 //ths_filmgrain
-static IMaterial *ths_fg01 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_filmgrain01", TEXTURE_GROUP_OTHER );
+if ( ths_filmgrain_25 && thsdev_fx_main_enabled.GetBool() )
+{
+static IMaterial *ths_fg01 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_filmgrain01_25", TEXTURE_GROUP_OTHER );
 	if ( ths_fg01 )
 	{
 		UpdateScreenEffectTexture();
@@ -2691,9 +2710,45 @@ static IMaterial *ths_fg01 = materials->FindMaterial( "ths_shaderedit_effects/po
 							0, 0, w - 1, h - 1,
 							w, h );
 	}
+}
+else if ( ths_filmgrain_50 && thsdev_fx_main_enabled.GetBool() )
+{
+static IMaterial *ths_fg02 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_filmgrain01_50", TEXTURE_GROUP_OTHER );
+	if ( ths_fg02 )
+	{
+		UpdateScreenEffectTexture();
+		pRenderContext->DrawScreenSpaceRectangle( ths_fg02, 0, 0, w, h,
+							0, 0, w - 1, h - 1,
+							w, h );
+	}
+}
+else if ( ths_filmgrain_75 && thsdev_fx_main_enabled.GetBool() )
+{
+static IMaterial *ths_fg03 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_filmgrain01_75", TEXTURE_GROUP_OTHER );
+	if ( ths_fg03 )
+	{
+		UpdateScreenEffectTexture();
+		pRenderContext->DrawScreenSpaceRectangle( ths_fg03, 0, 0, w, h,
+							0, 0, w - 1, h - 1,
+							w, h );
+	}
+}
+else if ( ths_filmgrain_100 && thsdev_fx_main_enabled.GetBool() )
+{
+static IMaterial *ths_fg04 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_filmgrain01_100", TEXTURE_GROUP_OTHER );
+	if ( ths_fg04 )
+	{
+		UpdateScreenEffectTexture();
+		pRenderContext->DrawScreenSpaceRectangle( ths_fg04, 0, 0, w, h,
+							0, 0, w - 1, h - 1,
+							w, h );
+	}
+}
 
 //ths_flare_an_effect
-static IMaterial *ths_fl_an01 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_flare_an01", TEXTURE_GROUP_OTHER );
+if ( ths_flare_25 && thsdev_fx_main_enabled.GetBool() )
+{
+static IMaterial *ths_fl_an01 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_flare_an01_25", TEXTURE_GROUP_OTHER );
 	if ( ths_fl_an01 )
 	{
 		UpdateScreenEffectTexture();
@@ -2701,6 +2756,40 @@ static IMaterial *ths_fl_an01 = materials->FindMaterial( "ths_shaderedit_effects
 							0, 0, w - 1, h - 1,
 							w, h );
 	}
+}
+else if ( ths_flare_50 && thsdev_fx_main_enabled.GetBool() )
+{
+static IMaterial *ths_fl_an02 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_flare_an01_50", TEXTURE_GROUP_OTHER );
+	if ( ths_fl_an02 )
+	{
+		UpdateScreenEffectTexture();
+		pRenderContext->DrawScreenSpaceRectangle( ths_fl_an02, 0, 0, w, h,
+							0, 0, w - 1, h - 1,
+							w, h );
+	}
+}
+else if ( ths_flare_75 && thsdev_fx_main_enabled.GetBool() )
+{
+static IMaterial *ths_fl_an03 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_flare_an01_75", TEXTURE_GROUP_OTHER );
+	if ( ths_fl_an03 )
+	{
+		UpdateScreenEffectTexture();
+		pRenderContext->DrawScreenSpaceRectangle( ths_fl_an03, 0, 0, w, h,
+							0, 0, w - 1, h - 1,
+							w, h );
+	}
+}
+else if ( ths_flare_100 && thsdev_fx_main_enabled.GetBool() )
+{
+static IMaterial *ths_fl_an04 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_flare_an01_100", TEXTURE_GROUP_OTHER );
+	if ( ths_fl_an04 )
+	{
+		UpdateScreenEffectTexture();
+		pRenderContext->DrawScreenSpaceRectangle( ths_fl_an04, 0, 0, w, h,
+							0, 0, w - 1, h - 1,
+							w, h );
+	}
+}
 
 //ths_ssao_and_branch_exp_effect
 if ( ths_ssao.GetBool() || ths_ssao_init )
@@ -2714,13 +2803,46 @@ static IMaterial *ths_ssao_effect = materials->FindMaterial( "ths_shaderedit_eff
 							w, h );
 	}
 }
-else
+else if ( ths_exp_25 && thsdev_fx_main_enabled.GetBool() )
 {
-static IMaterial *exp_effect = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_branch_exp01", TEXTURE_GROUP_OTHER );
-	if ( exp_effect )
+static IMaterial *exp_effect01 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_branch_exp01_25", TEXTURE_GROUP_OTHER );
+	if ( exp_effect01 )
 	{
 		UpdateScreenEffectTexture();
-		pRenderContext->DrawScreenSpaceRectangle( exp_effect, 0, 0, w, h,
+		pRenderContext->DrawScreenSpaceRectangle( exp_effect01, 0, 0, w, h,
+							0, 0, w - 1, h - 1,
+							w, h );
+	}
+}
+else if ( ths_exp_50 && thsdev_fx_main_enabled.GetBool() )
+{
+static IMaterial *exp_effect02 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_branch_exp01_50", TEXTURE_GROUP_OTHER );
+	if ( exp_effect02 )
+	{
+		UpdateScreenEffectTexture();
+		pRenderContext->DrawScreenSpaceRectangle( exp_effect02, 0, 0, w, h,
+							0, 0, w - 1, h - 1,
+							w, h );
+	}
+}
+else if ( ths_exp_75 && thsdev_fx_main_enabled.GetBool() )
+{
+static IMaterial *exp_effect03 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_branch_exp01_75", TEXTURE_GROUP_OTHER );
+	if ( exp_effect03 )
+	{
+		UpdateScreenEffectTexture();
+		pRenderContext->DrawScreenSpaceRectangle( exp_effect03, 0, 0, w, h,
+							0, 0, w - 1, h - 1,
+							w, h );
+	}
+}
+else if ( ths_exp_100 && thsdev_fx_main_enabled.GetBool() )
+{
+static IMaterial *exp_effect04 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_branch_exp01_100", TEXTURE_GROUP_OTHER );
+	if ( exp_effect04 )
+	{
+		UpdateScreenEffectTexture();
+		pRenderContext->DrawScreenSpaceRectangle( exp_effect04, 0, 0, w, h,
 							0, 0, w - 1, h - 1,
 							w, h );
 	}
