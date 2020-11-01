@@ -9736,3 +9736,40 @@
 	input SetYOffset(float) : "Sets the Y offset."
 	input SetOrthoSize(float) : "Sets the light's size."
 ]
+
+@PointClass base(Targetname) iconsprite("editor/iv_engine_fx.vmt") = iv_engine_fx : 
+	"An entity to control the IV SSE Main Engine Effects."
+[
+	
+	SetupFilmGrainFX(Choices) : "[THS] Film Grain Effect intensity" : 0 : "Set Film Grain Effect intensity or Disable it." = 
+	[
+		0 : "0"
+		25 : "25"
+		50 : "50"
+		75 : "75"
+		100 : "100"
+	]
+
+	SetupExponentFX(Choices) : "[THS] Exponent Effect intensity" : 0 : "Set Exponent Effect intensity or Disable it." = 
+	[
+		0 : "0"
+		25 : "25"
+		50 : "50"
+		75 : "75"
+		100 : "100"
+	]
+	
+	SetupFlareFX(Choices) : "[THS] Flare Effect intensity" : 0 : "Set Flare Effect intensity or Disable it." = 
+	[
+		0 : "0"
+		25 : "25"
+		50 : "50"
+		75 : "75"
+		100 : "100"
+	]
+
+	// Inputs
+	input SetParmFilmGrainFX(integer) : "Set Film Grain Effect intensity or Disable it."
+	input SetParmExponentFX(integer) : "Set Exponent Effect intensity or Disable it."
+	input SetParmFlareFX(integer) : "Set Flare Effect intensity or Disable it."
+]

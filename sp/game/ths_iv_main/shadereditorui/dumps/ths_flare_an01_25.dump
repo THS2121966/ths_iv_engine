@@ -1,8 +1,8 @@
-"ths_blood_fx01"
+"ths_flare_an01_25"
 {
-	"vs_name"		"ths_blood_fx01_vs30"
-	"ps_name"		"ths_blood_fx01_ps30"
-	"shader_filename"		"shadereditorui\canvas\ths_sse\ths_blood_fx01.txt"
+	"vs_name"		"ths_flare_an01_25_vs30"
+	"ps_name"		"ths_flare_an01_25_ps30"
+	"shader_filename"		"shadereditorui\canvas\ths_sse\ths_flare_an01_25.txt"
 	"dump_version"		"dumpver#001"
 	"i_sm"		"1"
 	"i_cull"		"0"
@@ -21,35 +21,21 @@
 	"i_vrefract"		"1"
 	"identifiers_VS"
 	{
-		"econst_0"
-		{
-			"i_envconstidx"		"0"
-			"i_normregister"		"0"
-			"i_econstsize"		"1"
-			"i_smartcomps"		"1"
-			"fl_smartdefault_00"		"0.000000"
-			"fl_smartdefault_01"		"0.000000"
-			"fl_smartdefault_02"		"0.000000"
-			"fl_smartdefault_03"		"0.000000"
-		}
 		"i_numdcombos"		"1"
 	}
 	"identifiers_PS"
 	{
 		"texsamp_0"
 		{
-			"sz_param"		"WaterMain"
-			"sz_fallback"		"texture_samples\drew\water_droplets"
 			"i_sampidx"		"0"
-			"i_texmode"		"0"
+			"i_texmode"		"5"
 			"i_cubemap"		"0"
 			"i_srgb"		"0"
 		}
 		"texsamp_1"
 		{
-			"sz_fallback"		"black"
 			"i_sampidx"		"1"
-			"i_texmode"		"5"
+			"i_texmode"		"1"
 			"i_cubemap"		"0"
 			"i_srgb"		"0"
 		}
