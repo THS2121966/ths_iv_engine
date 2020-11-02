@@ -490,6 +490,17 @@ int CBaseEntityOutput::Restore( IRestore &restore, int elementCount )
 	return 1;
 }
 
+const CEventAction *CBaseEntityOutput::GetActionForTarget( string_t iSearchTarget ) const
+{
+	for ( CEventAction *ev = m_ActionList; ev != NULL; ev = ev->m_pNext )
+	{
+		if ( ev->m_iTarget == iSearchTarget )
+			return ev;
+	}
+
+	return NULL;
+}
+
 int CBaseEntityOutput::NumberOfElements( void )
 {
 	int count = 0;

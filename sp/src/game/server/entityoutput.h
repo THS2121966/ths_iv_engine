@@ -76,6 +76,8 @@ public:
 
 	void FireOutput( variant_t Value, CBaseEntity *pActivator, CBaseEntity *pCaller, float fDelay = 0 );
 
+	const CEventAction *GetActionForTarget( string_t iSearchTarget ) const;
+
 	/// Delete every single action in the action list. 
 	void DeleteAllElements( void ) ;
 
