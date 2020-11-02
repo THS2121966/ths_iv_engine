@@ -7662,6 +7662,7 @@
 	input TurnOff(void) : "Makes the prop invisible."
 	input EnableCollision(void) : "Enables collision on the prop."
 	input DisableCollision(void) : "Disables collision on the prop."
+	input FadeAndKill(void) : "Fade out then remove this prop."
 
 	// Outputs
 	output OnAnimationBegun(void) : "Fired whenever a new animation has begun playing."

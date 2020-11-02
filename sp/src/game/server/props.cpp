@@ -2010,6 +2010,7 @@ BEGIN_DATADESC( CDynamicProp )
 	DEFINE_INPUTFUNC( FIELD_VOID,		"EnableCollision",	InputEnableCollision ),
 	DEFINE_INPUTFUNC( FIELD_VOID,		"DisableCollision",	InputDisableCollision ),
 	DEFINE_INPUTFUNC( FIELD_FLOAT,		"SetPlaybackRate",	InputSetPlaybackRate ),
+	DEFINE_INPUTFUNC( FIELD_VOID,	"FadeAndKill", InputFadeAndKill ),
 
 	// Outputs
 	DEFINE_OUTPUT( m_pOutputAnimBegun, "OnAnimationBegun" ),
@@ -2200,6 +2201,11 @@ bool CDynamicProp::CreateVPhysics( void )
 		VPhysicsInitStatic();
 	}
 	return true;
+}
+
+void CDynamicProp::InputFadeAndKill( inputdata_t &inputdata )
+{
+	SUB_StartFadeOutInstant();
 }
 
 void CDynamicProp::CreateBoneFollowers()
