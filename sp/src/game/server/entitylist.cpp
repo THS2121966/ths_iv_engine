@@ -683,47 +683,6 @@ CBaseEntity *CGlobalEntityList::FindEntityByName( CBaseEntity *pStartEntity, con
 }
 
 //-----------------------------------------------------------------------------
-// Purpose: Iterates the entities with a given target.
-// Input  : pStartEntity - 
-//			szName - 
-//-----------------------------------------------------------------------------
-// FIXME: obsolete, remove
-CBaseEntity	*CGlobalEntityList::FindEntityByOutputTarget( CBaseEntity *pStartEntity, string_t iTarget )
-{
-	const CEntInfo *pInfo = pStartEntity ? GetEntInfoPtr( pStartEntity->GetRefEHandle() )->m_pNext : FirstEntInfo();
-
-	for ( ;pInfo; pInfo = pInfo->m_pNext )
-	{
-		CBaseEntity *ent = (CBaseEntity *)pInfo->m_pEntity;
-		if ( !ent )
-		{
-			DevWarning( "NULL entity in global entity list!\n" );
-			continue;
-		}
-
-		datamap_t *dmap = ent->GetDataDescMap();
-		while ( dmap )
-		{
-			int fields = dmap->dataNumFields;
-			for ( int i = 0; i < fields; i++ )
-			{
-				typedescription_t *dataDesc = &dmap->dataDesc[i];
-				if ( ( dataDesc->fieldType == FIELD_CUSTOM ) && ( dataDesc->flags & FTYPEDESC_OUTPUT ) )
-				{
-					CBaseEntityOutput *pOutput = (CBaseEntityOutput *)((int)ent + (int)dataDesc->fieldOffset);
-					if ( pOutput->GetActionForTarget( iTarget ) )
-						return ent;
-				}
-			}
-
-			dmap = dmap->baseMap;
-		}
-	}
-
-	return NULL;
-}
-
-//-----------------------------------------------------------------------------
 // Purpose: 
 // Input  : pStartEntity - 
 //			szModelName - 

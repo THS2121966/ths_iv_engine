@@ -50,8 +50,6 @@ $Project "Server (IV)"
 		//$File	"env_dof_controller.cpp"
 		//$File	"env_dof_controller.h"
 		$File	"logic_playmovie.cpp"
-		$File	"func_elevator.cpp"
-		$File	"func_elevator.h"
 
 		$Folder "ths_entities"
 		{
