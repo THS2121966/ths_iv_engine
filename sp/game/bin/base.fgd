@@ -9677,6 +9677,13 @@
 		1 : "Yes"
 	]
 
+	PJShadowRes(Choices) : "[Engine] Set Projected Shadow RES" : 2048 : "Set in game Projected shadow map Resolution." = 
+	[
+		1024 : "1024"
+		2048 : "2048"
+		4096 : "4096"
+	]
+
 	SetMaxShadowedLights(Choices) : "[Engine] Set Max dynamic shadowed maps lights" : 5 : "Set Max dynamic shadowed maps lights on this map. For perfomance." = 
 	[
 		1 : "1 - MIN"
@@ -9693,6 +9700,7 @@
 	input SetEnchancedExpFXEnabled(bool) : "Toggles Enchanced Explosion FX."
 	input SetEnabledScreenWaterFX(bool) : "Toggles Screen Water FX."
 	input SetEnabledScreenBloodFX(bool) : "Toggles Screen Blood FX."
+	input SetPJShadowRes(integer) : "Set Custom Projected Shadow RES."
 ]
 
 @PointClass base(Targetname, Angles, EnableDisable) iconsprite("editor/light_env.vmt") = iv_global_light : 

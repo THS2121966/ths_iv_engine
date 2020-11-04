@@ -23,6 +23,7 @@ public:
 
 	CNetworkVar( bool, ths_enable_expfx_local );
 	CNetworkVar( int, thsdev_mapping_numb_shadows_local );
+	CNetworkVar( int, thsdev_mapping_shadows_res_local );
 //	CNetworkVar( float, m_flShadowFilterSize_local );
 
 	CNetworkVar( bool, ths_water_fx_init_local );

@@ -111,6 +111,7 @@ ConVar r_flashlightdepthtexture( "r_flashlightdepthtexture", "1" );
 
 //ths_dev_parms_for_mappers
 int thsdev_mapping_numb_shadows = 5;
+int thsdev_mapping_shadows_res = 2048;
 
 #if defined( _X360 )
 ConVar r_flashlightdepthres( "r_flashlightdepthres", "512" );
@@ -1277,6 +1278,7 @@ CClientShadowMgr::CClientShadowMgr() :
 	m_bDepthTextureActive( false )
 {
 	m_nDepthTextureResolution = r_flashlightdepthres.GetInt();
+	thsdev_mapping_shadows_res = r_flashlightdepthres.GetInt();
 	m_bThreaded = false;
 }
 
