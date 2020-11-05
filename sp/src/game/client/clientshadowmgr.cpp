@@ -112,6 +112,7 @@ ConVar r_flashlightdepthtexture( "r_flashlightdepthtexture", "1" );
 //ths_dev_parms_for_mappers
 int thsdev_mapping_numb_shadows = 5;
 int thsdev_mapping_shadows_res = 2048;
+int thsdev_mapping_shadows_res_this = 2048;
 
 #if defined( _X360 )
 ConVar r_flashlightdepthres( "r_flashlightdepthres", "512" );
@@ -1277,7 +1278,17 @@ CClientShadowMgr::CClientShadowMgr() :
 #endif
 	m_bDepthTextureActive( false )
 {
-	m_nDepthTextureResolution = thsdev_mapping_shadows_res;
+	if (thsdev_mapping_shadows_res > 0)
+	{
+		thsdev_mapping_shadows_res = thsdev_mapping_shadows_res_this;
+		m_nDepthTextureResolution = thsdev_mapping_shadows_res_this;
+	}
+	else
+	{
+		thsdev_mapping_shadows_res_this = r_flashlightdepthres.GetInt();
+		m_nDepthTextureResolution = thsdev_mapping_shadows_res_this;
+	}
+
 	m_bThreaded = false;
 }
 
@@ -1454,7 +1465,7 @@ void CClientShadowMgr::InitDepthTextureShadows()
 
 #if defined(MAPBASE) //&& !defined(ASW_PROJECTED_TEXTURES)
  	// SAUL: set m_nDepthTextureResolution to the depth resolution we want
-	m_nDepthTextureResolution = thsdev_mapping_shadows_res;
+	m_nDepthTextureResolution = thsdev_mapping_shadows_res_this;
 #endif
 
 	if( !m_bDepthTextureActive )
@@ -1470,14 +1481,14 @@ void CClientShadowMgr::InitDepthTextureShadows()
 #if defined( _X360 )
 		// For the 360, we'll be rendering depth directly into the dummy depth and Resolve()ing to the depth texture.
 		// only need the dummy surface, don't care about color results
-		m_DummyColorTexture.InitRenderTargetTexture( thsdev_mapping_shadows_res, thsdev_mapping_shadows_res, RT_SIZE_OFFSCREEN, IMAGE_FORMAT_BGR565, MATERIAL_RT_DEPTH_SHARED, false, "_rt_ShadowDummy" );
-		m_DummyColorTexture.InitRenderTargetSurface( thsdev_mapping_shadows_res, thsdev_mapping_shadows_res, IMAGE_FORMAT_BGR565, true );
+		m_DummyColorTexture.InitRenderTargetTexture( thsdev_mapping_shadows_res_this, thsdev_mapping_shadows_res_this, RT_SIZE_OFFSCREEN, IMAGE_FORMAT_BGR565, MATERIAL_RT_DEPTH_SHARED, false, "_rt_ShadowDummy" );
+		m_DummyColorTexture.InitRenderTargetSurface( thsdev_mapping_shadows_res_this, thsdev_mapping_shadows_res_this, IMAGE_FORMAT_BGR565, true );
 #else
 #if defined(MAPBASE) //&& !defined(ASW_PROJECTED_TEXTURES)
 		// SAUL: we want to create a render target of specific size, so use RT_SIZE_NO_CHANGE
 		m_DummyColorTexture.InitRenderTarget( m_nDepthTextureResolution, m_nDepthTextureResolution, RT_SIZE_NO_CHANGE, nullFormat, MATERIAL_RT_DEPTH_NONE, false, "_rt_ShadowDummy" );
 #else
-		m_DummyColorTexture.InitRenderTarget( thsdev_mapping_shadows_res, thsdev_mapping_shadows_res, RT_SIZE_OFFSCREEN, nullFormat, MATERIAL_RT_DEPTH_NONE, false, "_rt_ShadowDummy" );
+		m_DummyColorTexture.InitRenderTarget( thsdev_mapping_shadows_res_this, thsdev_mapping_shadows_res_this, RT_SIZE_OFFSCREEN, nullFormat, MATERIAL_RT_DEPTH_NONE, false, "_rt_ShadowDummy" );
 #endif
 #endif
 
@@ -1515,7 +1526,7 @@ void CClientShadowMgr::InitDepthTextureShadows()
 			{
 				// Shadow may be resized during allocation (due to resolution constraints etc)
 				m_nDepthTextureResolution = depthTex->GetActualWidth();
-				thsdev_mapping_shadows_res = m_nDepthTextureResolution;
+				thsdev_mapping_shadows_res_this = m_nDepthTextureResolution;
 			}
 
 			m_DepthTextureCache.AddToTail( depthTex );
@@ -3266,7 +3277,7 @@ void CClientShadowMgr::PreRender()
 		}
 
 		bool bDepthTextureActive     = r_flashlightdepthtexture.GetBool();
-		int  nDepthTextureResolution = thsdev_mapping_shadows_res;
+		int  nDepthTextureResolution = thsdev_mapping_shadows_res_this;
 
 		// If shadow depth texture size or enable/disable changed, do appropriate deallocation/(re)allocation
 		if ( ( bDepthTextureActive != m_bDepthTextureActive ) || ( nDepthTextureResolution != m_nDepthTextureResolution ) )
