@@ -1278,7 +1278,6 @@ CClientShadowMgr::CClientShadowMgr() :
 	m_bDepthTextureActive( false )
 {
 	m_nDepthTextureResolution = thsdev_mapping_shadows_res;
-	thsdev_mapping_shadows_res = r_flashlightdepthres.GetInt();
 	m_bThreaded = false;
 }
 
@@ -1516,7 +1515,7 @@ void CClientShadowMgr::InitDepthTextureShadows()
 			{
 				// Shadow may be resized during allocation (due to resolution constraints etc)
 				m_nDepthTextureResolution = depthTex->GetActualWidth();
-				r_flashlightdepthres.SetValue( m_nDepthTextureResolution );
+				thsdev_mapping_shadows_res = m_nDepthTextureResolution;
 			}
 
 			m_DepthTextureCache.AddToTail( depthTex );
