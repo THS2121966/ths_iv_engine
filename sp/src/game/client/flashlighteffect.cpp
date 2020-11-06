@@ -19,11 +19,8 @@
 #include "c_basehlplayer.h"
 #endif // HL2_CLIENT_DLL
 
-#if defined( _X360 )
 extern ConVar r_flashlightdepthres;
-#else
-extern ConVar r_flashlightdepthres;
-#endif
+extern int thsdev_mapping_shadows_res;
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
@@ -380,7 +377,14 @@ void CFlashlightEffect::UpdateLightNew(const Vector &vecPos, const Vector &vecFo
 	state.m_NearZ = r_flashlightnear.GetFloat() + m_flDistMod;	// Push near plane out so that we don't clip the world when the flashlight pulls back 
 //	state.m_FarZ = r_flashlightfar.GetFloat();
 	state.m_bEnableShadows = r_flashlightdepthtexture.GetBool();
+	if (thsdev_mapping_shadows_res > 0)
+	{
+		state.m_flShadowMapResolution = thsdev_mapping_shadows_res;
+	}
+	else
+	{
 	state.m_flShadowMapResolution = r_flashlightdepthres.GetInt();
+	}
 
 //	state.m_pSpotlightTexture = m_FlashlightTexture;
 	state.m_nSpotlightTextureFrame = 0;

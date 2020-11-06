@@ -9679,6 +9679,7 @@
 
 	PJShadowRes(Choices) : "[Engine] Set Projected Shadow RES" : 2048 : "Set in game Projected shadow map Resolution." = 
 	[
+		0 : "Default"
 		1024 : "1024"
 		2048 : "2048"
 		4096 : "4096"
