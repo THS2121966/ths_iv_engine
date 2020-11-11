@@ -7171,6 +7171,7 @@
 	input DisableMotion(void) : "Disable physics motion/collision response."
 	input ForceDrop(void) : "If this object is being carried by a player, with the physgun or +USE, force it to be dropped."
 	input SetDebris(bool) : "Sets whether this brush is debris."
+	input FadeAndKill(void) : "Fade out then remove this entity."
 	
 	// Outputs
 	output OnDamaged(void) : "Fired when this entity is damaged."

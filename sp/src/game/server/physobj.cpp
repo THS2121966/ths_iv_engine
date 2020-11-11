@@ -384,6 +384,7 @@ BEGIN_DATADESC( CPhysBox )
 	DEFINE_INPUTFUNC( FIELD_VOID, "Wake", InputWake ),
 	DEFINE_INPUTFUNC( FIELD_VOID, "Sleep", InputSleep ),
 	DEFINE_INPUTFUNC( FIELD_VOID, "EnableMotion", InputEnableMotion ),
+	DEFINE_INPUTFUNC( FIELD_VOID,	"FadeAndKill", InputFadeAndKill ),
 	DEFINE_INPUTFUNC( FIELD_VOID, "DisableMotion", InputDisableMotion ),
 	DEFINE_INPUTFUNC( FIELD_VOID, "ForceDrop", InputForceDrop ),
 	DEFINE_INPUTFUNC( FIELD_VOID, "DisableFloating", InputDisableFloating ),
@@ -661,6 +662,12 @@ void CPhysBox::InputSleep( inputdata_t &inputdata )
 void CPhysBox::InputEnableMotion( inputdata_t &inputdata )
 {
 	EnableMotion();
+}
+
+//ths_dev_add_fade-and-kill
+void CPhysBox::InputFadeAndKill( inputdata_t &inputdata )
+{
+	SUB_StartFadeOutInstant();
 }
 
 //-----------------------------------------------------------------------------

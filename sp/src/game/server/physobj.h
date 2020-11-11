@@ -76,6 +76,7 @@ public:
 	void InputWake( inputdata_t &inputdata );
 	void InputSleep( inputdata_t &inputdata );
 	void InputEnableMotion( inputdata_t &inputdata );
+	void InputFadeAndKill( inputdata_t &inputdata );
 	void InputDisableMotion( inputdata_t &inputdata );
 	void InputForceDrop( inputdata_t &inputdata );
 	void InputDisableFloating( inputdata_t &inputdata );
