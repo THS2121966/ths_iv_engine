@@ -667,7 +667,7 @@ void CPhysBox::InputEnableMotion( inputdata_t &inputdata )
 //ths_dev_add_fade-and-kill
 void CPhysBox::InputFadeAndKill( inputdata_t &inputdata )
 {
-	SUB_StartFadeOutInstant();
+	SUB_StartFadeOut( 3, true );
 }
 
 //-----------------------------------------------------------------------------

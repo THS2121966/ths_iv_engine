@@ -7793,6 +7793,7 @@
 	input Wake(void) : "Wake up this physics object, if it is sleeping."
 	input Sleep(void) : "Put this physics object to sleep. It will wake if given the Wake input, or if force is applied to it. Note that physics objects go to sleep automatically after coming to rest for a while, so you don't really need to use this."
 	input EnableMotion(void) : "Enable physics motion/collision response."
+	input FadeAndKill(void) : "Fade out then remove this prop."
 	input DisableMotion(void) : "Disable physics motion/collision response."
 	input DisableFloating(void) : "Disable fluid/floating simulation to reduce cost."
 	input SetBodyGroup(integer) : "Set this prop's body group (from 0 - n)."

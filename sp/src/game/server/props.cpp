@@ -2205,7 +2205,7 @@ bool CDynamicProp::CreateVPhysics( void )
 
 void CDynamicProp::InputFadeAndKill( inputdata_t &inputdata )
 {
-	SUB_StartFadeOutInstant();
+	SUB_StartFadeOut( 5, true );
 }
 
 void CDynamicProp::CreateBoneFollowers()
@@ -2936,6 +2936,7 @@ LINK_ENTITY_TO_CLASS( prop_physics_override, CPhysicsProp );
 BEGIN_DATADESC( CPhysicsProp )
 
 	DEFINE_INPUTFUNC( FIELD_VOID, "EnableMotion", InputEnableMotion ),
+	DEFINE_INPUTFUNC( FIELD_VOID,	"FadeAndKill", InputFadeAndKill ),
 	DEFINE_INPUTFUNC( FIELD_VOID, "DisableMotion", InputDisableMotion ),
 	DEFINE_INPUTFUNC( FIELD_VOID, "Wake", InputWake ),
 	DEFINE_INPUTFUNC( FIELD_VOID, "Sleep", InputSleep ),
@@ -3233,6 +3234,11 @@ void CPhysicsProp::InputDisableMotion( inputdata_t &inputdata )
 	{
 		pPhysicsObject->EnableMotion( false );
 	}
+}
+
+void CPhysicsProp::InputFadeAndKill( inputdata_t &inputdata )
+{
+	SUB_StartFadeOut( 3, true );
 }
 
 // Turn off floating simulation (and cost)
