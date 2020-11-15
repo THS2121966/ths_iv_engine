@@ -44,8 +44,8 @@ bool g_bFlashlightIsOn = false;
 //ths_dev_hammer_parms_to_this
 bool ths_ssao_init = false;
 bool ths_nightvision_init = false;
-bool ths_water_fx_init = false;
-bool ths_blood_fx_init = false;
+//bool ths_water_fx_init = false;
+//bool ths_blood_fx_init = false;
 
 int ths_filmgrain = 50;
 int ths_exp = 50;
@@ -2867,7 +2867,7 @@ else
 }
 
 //ths_water_fx
-if ( ths_water_fx.GetBool() || ths_water_fx_init )
+/*if ( ths_water_fx.GetBool() || ths_water_fx_init )
 {
 static IMaterial *ths_water_fx_effect = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_water_fx01", TEXTURE_GROUP_OTHER );
 	if ( ths_water_fx_effect )
@@ -2898,7 +2898,7 @@ static IMaterial *ths_blood_fx_effect = materials->FindMaterial( "ths_shaderedit
 else
 {
 	return;
-}
+}*/
 
 }
 

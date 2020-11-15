@@ -845,8 +845,8 @@ CLIENTEFFECT_REGISTER_BEGIN( PrecachePostProcessingEffects )
 
 	CLIENTEFFECT_MATERIAL( "ths_shaderedit_effects/post_screen/ths_ssao_main" )
 	CLIENTEFFECT_MATERIAL( "ths_shaderedit_effects/post_screen/ths_nightvision_main" )
-	CLIENTEFFECT_MATERIAL( "ths_shaderedit_effects/post_screen/ths_water_fx01" )
-	CLIENTEFFECT_MATERIAL( "ths_shaderedit_effects/post_screen/ths_blood_fx01" )
+/*	CLIENTEFFECT_MATERIAL( "ths_shaderedit_effects/post_screen/ths_water_fx01" )
+	CLIENTEFFECT_MATERIAL( "ths_shaderedit_effects/post_screen/ths_blood_fx01" )*/
 	//ths_dev_gclusters_fix_precache
 	CLIENTEFFECT_MATERIAL( "detail/detailsprites_editor" )
 	//ths_dev_dog_fix

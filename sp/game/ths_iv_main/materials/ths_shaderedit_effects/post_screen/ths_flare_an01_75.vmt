@@ -1,5 +1,5 @@
 "editor_shader"
 {
-	"$shadername"	"ths_flare_an01"
+	"$shadername"	"ths_flare_an01_75"
 	"$basetexture"	"_rt_SmallFB1"
 }

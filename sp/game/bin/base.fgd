@@ -9667,17 +9667,17 @@
 		1 : "Yes"
 	]
 
-	EnableScreenWaterFX(Choices) : "[THS] Enable Screen Water FX" : 0 : "Enable Screen Water FX Effect." = 
-	[
-		0 : "No"
-		1 : "Yes"
-	]
+//	EnableScreenWaterFX(Choices) : "[THS] Enable Screen Water FX" : 0 : "Enable Screen Water FX Effect." = 
+//	[
+//		0 : "No"
+//		1 : "Yes"
+//	]
 	
-	EnableScreenBloodFX(Choices) : "[THS] Enable Screen Blood FX" : 0 : "Enable Screen Blood FX Effect." = 
-	[
-		0 : "No"
-		1 : "Yes"
-	]
+//	EnableScreenBloodFX(Choices) : "[THS] Enable Screen Blood FX" : 0 : "Enable Screen Blood FX Effect." = 
+//	[
+//		0 : "No"
+//		1 : "Yes"
+//	]
 
 	PJShadowRes(Choices) : "[Engine] Set Projected Shadow RES" : 2048 : "Set in game Projected shadow map Resolution." = 
 	[
@@ -9701,8 +9701,8 @@
 
 	// Inputs
 	input SetEnchancedExpFXEnabled(bool) : "Toggles Enchanced Explosion FX."
-	input SetEnabledScreenWaterFX(bool) : "Toggles Screen Water FX."
-	input SetEnabledScreenBloodFX(bool) : "Toggles Screen Blood FX."
+//	input SetEnabledScreenWaterFX(bool) : "Toggles Screen Water FX."
+//	input SetEnabledScreenBloodFX(bool) : "Toggles Screen Blood FX."
 	input SetPJShadowRes(integer) : "Set Custom Projected Shadow RES."
 ]
 

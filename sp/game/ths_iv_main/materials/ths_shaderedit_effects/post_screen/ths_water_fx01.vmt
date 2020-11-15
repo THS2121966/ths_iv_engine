@@ -1,5 +1,0 @@
-"editor_shader"
-{
-	"$shadername"	"ths_water_fx01"
-	"$waterNormal"	"texture_samples\drew\water_droplets"
-}

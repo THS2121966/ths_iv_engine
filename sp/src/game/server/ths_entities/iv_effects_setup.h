@@ -26,8 +26,8 @@ public:
 	CNetworkVar( int, thsdev_mapping_shadows_res_local );
 //	CNetworkVar( float, m_flShadowFilterSize_local );
 
-	CNetworkVar( bool, ths_water_fx_init_local );
-	CNetworkVar( bool, ths_blood_fx_init_local );
+//	CNetworkVar( bool, ths_water_fx_init_local );
+//	CNetworkVar( bool, ths_blood_fx_init_local );
 };
 
 #endif//  IV_EFFECTS_SETUP_H
