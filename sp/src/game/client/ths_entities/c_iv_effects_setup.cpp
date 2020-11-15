@@ -62,7 +62,7 @@ END_RECV_TABLE()
 C_IVEffectsMain::C_IVEffectsMain( void )
 :	ths_enable_expfx_local( true ),
 	thsdev_mapping_numb_shadows_local( 5 ),
-	thsdev_mapping_shadows_res_local( 2048 ),
+	thsdev_mapping_shadows_res_local( 0 ),
 //	m_flShadowFilterSize_local( 0.7 ),
 	ths_water_fx_init_local( false ),
 	ths_blood_fx_init_local( false )
@@ -78,7 +78,7 @@ C_IVEffectsMain::~C_IVEffectsMain( void )
 	{
 		ths_env_echanced_expfx = true;
 		thsdev_mapping_numb_shadows = 5;
-		thsdev_mapping_shadows_res = 2048;
+		thsdev_mapping_shadows_res = 0;
 //		m_flShadowFilterSize = 0.7;
 
 		ths_water_fx_init = false;
