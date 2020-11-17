@@ -904,6 +904,13 @@
 		4 : "Fast strobe"
 		9 : "Slow strobe"
 	]
+	
+	_castentityshadow(Choices) : "Cast entity shadows" : 1 =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	
 	pattern(string) : "Custom Appearance" : "" : "Set a custom pattern of light brightness for this light. Pattern format is a string of characters, where 'a' is total darkness, 'z' fully bright. i.e. 'aaggnnttzz' would be a steppy fade in from dark to light."
 	_constant_attn(string)	: "Constant" : "0"
 	_linear_attn(string)	: "Linear" : "0"

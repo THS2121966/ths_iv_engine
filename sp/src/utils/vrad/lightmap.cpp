@@ -1244,6 +1244,16 @@ static void ParseLightGeneric( entity_t *e, directlight_t *dl )
 
 	dl->light.style = (int)FloatForKey (e, "style");
 	dl->m_bSkyLightIsDirectionalLight = false;
+	
+	if( (int)FloatForKeyWithDefault(e, "_castentityshadow", 1.0f ) != 0 )
+	{
+		dl->light.flags |= DWL_FLAGS_CASTENTITYSHADOWS;
+	}
+	else
+	{
+		dl->light.flags &= ~DWL_FLAGS_CASTENTITYSHADOWS;
+	}
+	
 	// get intenfsity
 	if( g_bHDR && LightForKey( e, "_lightHDR", dl->light.intensity ) ) 
 	{
@@ -1632,7 +1642,11 @@ static void ParseLightEnvironment( entity_t* e )
 						 FloatForKeyWithDefault( e, "_AmbientScaleHDR", 1.0 ), 
 						 gAmbient->light.intensity );
 		}
-		
+
+		// skylight and ambient light never cast entity shadows
+		gSkyLight->light.flags &= ~DWL_FLAGS_CASTENTITYSHADOWS;
+		gAmbient->light.flags &= ~DWL_FLAGS_CASTENTITYSHADOWS;
+
 		directlight_t* lights[] = { gSkyLight, gAmbient };
 		BuildVisForLightEnvironment( 2, lights );
  
@@ -1663,6 +1677,9 @@ static void ParseLightDirectional( entity_t* e )
 	// Set an additional flag identifying this as "not the global skylight" for vrad. This will cause it to use the angular extent associated with this light
 	// instead of the global one.
 	dl->m_bSkyLightIsDirectionalLight = true;
+
+	// directional lights never cast entity shadows
+	dl->light.flags &= ~DWL_FLAGS_CASTENTITYSHADOWS;
 
 	BuildVisForLightEnvironment( 1, &dl );
 }
@@ -1719,6 +1736,8 @@ void CreateDirectLights (void)
 			dl = AllocDLight( p->origin, true );
 
 			dl->light.type = emit_surface;
+			dl->light.flags &= ~DWL_FLAGS_CASTENTITYSHADOWS;
+
 			VectorCopy (p->normal, dl->light.normal);
 			Assert( VectorLength( p->normal ) > 1.0e-20 );
 			// scale intensity by number of texture instances
