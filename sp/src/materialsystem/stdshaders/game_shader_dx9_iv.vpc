@@ -16,5 +16,6 @@ $Project "Shaders (IV)"
 	$File	"ths_water.cpp"
 	$File	"BlurFilterX.cpp"
 	$File	"BlurFilterY.cpp"
+	$File	"iv_light_volumetrics.cpp"
 	}
 }
