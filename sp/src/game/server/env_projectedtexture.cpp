@@ -429,7 +429,6 @@ void CEnvProjectedTexture::Activate( void )
 #ifndef MAPBASE // Putting this in Activate() breaks projected textures which start off or don't start always updating in savegames. Moved to Spawn() instead
 	m_bState = ( ( GetSpawnFlags() & ENV_PROJECTEDTEXTURE_STARTON ) != 0 );
 	m_bAlwaysUpdate = ( ( GetSpawnFlags() & ENV_PROJECTEDTEXTURE_ALWAYSUPDATE ) != 0 );
-	m_bEnableVolumetrics = ( ( GetSpawnFlags() & ENV_PROJECTEDTEXTURE_VOLUMETRICS_START_ON ) != 0 );
 #endif
 
 	SetThink( &CEnvProjectedTexture::InitialThink );
