@@ -101,6 +101,9 @@ public:
 	virtual void GetFrustumExtents( ClientShadowHandle_t handle, Vector &vecMin, Vector &vecMax ) = 0;
 #endif
 
+	virtual ShadowHandle_t GetActiveDepthTextureHandle() = 0;
+	virtual ShadowHandle_t GetShadowDepthHandle( int num ) = 0;
+
 #ifdef DYNAMIC_RTT_SHADOWS
 	// Toggle shadow casting from world light sources
 	virtual void SetShadowFromWorldLightsEnabled( bool bEnable ) = 0;

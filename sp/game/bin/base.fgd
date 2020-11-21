@@ -9131,6 +9131,7 @@
 	[
 		1  : "Enabled"				: 1
 		2  : "Always Update (moving light)"	: 0
+		4  : "Volumetrics Enabled"				: 0
 	]
 
 	target(target_destination)	: "Target" : : "The entity will rotate to point at this target. Make sure you check the 'Always Update' flag if you set this."	
@@ -9168,6 +9169,17 @@
 		0 : "No"
 		1 : "Yes"
 	]
+
+	volumetricslod(Choices) : "Volumetrics Lod" : 1 : "" =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	
+	volumetricsfadedistance(float) 	: "Volumetrics fade distance" : 512 : ""
+	volumetricsqualitybias(float) 	: "Volumetrics quality bias" : 1 : ""
+	volumetricsmultiplier(float)	: "Volumetrics multiplier" : 2 : ""
+	volumetricsquality(integer) 	: "Volumetrics quality" : 20 : ""
 	
 	brightnessscale(float)		: "Brightness Scale" : "1.0" : "The light color's brightness scale."	
 
@@ -9216,6 +9228,7 @@
 	input SetFarZ(float)		: "Sets FarZ."
 	input AlwaysDrawOn(void)	: "Turns off BBox culling (for skybox or monitor lights)"
 	input AlwaysDrawOff(void)	: "Turns on BBox culling if it was off before"
+	input EnableVolumetrics(bool)	: "Set EnableVolumetrics"
 	input StopFollowingTarget(void)	: "Causes this entity to stop following the target, if it has one"
 	input StartFollowingTarget(void)	: "Causes this entity to start following the target if it was set to not follow it before"
 ]

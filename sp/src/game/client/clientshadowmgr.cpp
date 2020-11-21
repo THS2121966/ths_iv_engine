@@ -909,15 +909,30 @@ private:
 	void RemoveShadowFromDirtyList( ClientShadowHandle_t handle );
 
 	// NOTE: this will ONLY return SHADOWS_NONE, SHADOWS_SIMPLE, or SHADOW_RENDER_TO_TEXTURE.
-	//ths_dev_grass_clusters_start
 public:
 	ShadowHandle_t GetShadowHandle( ClientShadowHandle_t clienthandle ){ return m_Shadows[ clienthandle ].m_ShadowHandle; };
+	virtual ShadowHandle_t GetActiveDepthTextureHandle() { return m_ActiveDepthTextureHandle; }
+
 	int GetNumShadowDepthtextures(){ return m_DepthTextureCache.Count(); };
 	CTextureReference GetShadowDepthTex( int num ){ return m_DepthTextureCache[num]; };
-	//ths_dev_grass_clusters_end
+	virtual ShadowHandle_t GetShadowDepthHandle( int num )
+	{
+		if ( num < 0 || num >= ARRAYSIZE( m_ActiveDepthTextureShadows ) )
+			return SHADOW_HANDLE_INVALID;
+
+		ClientShadowHandle_t handle = m_ActiveDepthTextureShadows[ num ];
+
+		if ( handle == CLIENTSHADOW_INVALID_HANDLE )
+			return SHADOW_HANDLE_INVALID;
+
+		return m_Shadows[ handle ].m_ShadowHandle;
+	}
 
 	ShadowType_t GetActualShadowCastType( ClientShadowHandle_t handle ) const;
 private:
+	ClientShadowHandle_t m_ActiveDepthTextureShadows[ 64 ];
+	ShadowHandle_t m_ActiveDepthTextureHandle;
+
 	ShadowType_t GetActualShadowCastType( IClientRenderable *pRenderable ) const;
 
 	// Builds a simple blobby shadow
@@ -1287,6 +1302,8 @@ CClientShadowMgr::CClientShadowMgr() :
 	}
 
 	m_bThreaded = false;
+	
+	m_ActiveDepthTextureHandle = SHADOW_HANDLE_INVALID;
 }
 
 
@@ -4490,6 +4507,11 @@ void CClientShadowMgr::ComputeShadowDepthTextures( const CViewSetup &viewSetup )
 	ClientShadowHandle_t pActiveDepthShadows[1024];
 	int nActiveDepthShadowCount = BuildActiveShadowDepthList( viewSetup, ARRAYSIZE( pActiveDepthShadows ), pActiveDepthShadows );
 
+	for ( int i = 0; i < m_nMaxDepthTextureShadows; i++ )
+		m_ActiveDepthTextureShadows[ i ] = SHADOW_HANDLE_INVALID;
+
+	Assert( m_nMaxDepthTextureShadows < ARRAYSIZE( m_ActiveDepthTextureShadows ) );
+
 	// Iterate over all existing textures and allocate shadow textures
 	bool bDebugFrustum = r_flashlightdrawfrustum.GetBool();
 	for ( int j = 0; j < nActiveDepthShadowCount; ++j )
@@ -4522,6 +4544,9 @@ void CClientShadowMgr::ComputeShadowDepthTextures( const CViewSetup &viewSetup )
 #endif
 			continue;
 		}
+
+		m_ActiveDepthTextureHandle = shadow.m_ShadowHandle;
+		m_ActiveDepthTextureShadows[ j ] = shadow.m_ShadowHandle;
 
 		CViewSetup shadowView;
 		shadowView.m_flAspectRatio = 1.0f;
@@ -4584,6 +4609,8 @@ void CClientShadowMgr::ComputeShadowDepthTextures( const CViewSetup &viewSetup )
 			shadowmgr->UpdateFlashlightState( shadow.m_ShadowHandle, state );
 		}
 #endif
+
+		m_ActiveDepthTextureHandle = SHADOW_HANDLE_INVALID;
 
 		// Associate the shadow depth texture and stencil bit with the flashlight for use during scene rendering
 		shadowmgr->SetFlashlightDepthTexture( shadow.m_ShadowHandle, shadowDepthTexture, 0 );

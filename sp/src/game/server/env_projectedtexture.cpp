@@ -85,6 +85,15 @@ BEGIN_DATADESC( CEnvProjectedTexture )
 	DEFINE_INPUTFUNC( FIELD_VOID, "StartFollowingTarget", InputStartFollowingTarget ),
 #endif
 	DEFINE_THINKFUNC( InitialThink ),
+	
+	DEFINE_INPUTFUNC( FIELD_BOOLEAN, "EnableVolumetrics", InputSetEnableVolumetrics ),
+
+	DEFINE_FIELD( m_bEnableVolumetrics, FIELD_BOOLEAN ),
+	DEFINE_KEYFIELD( m_bEnableVolumetricsLOD, FIELD_BOOLEAN, "volumetricslod" ),
+	DEFINE_KEYFIELD( m_flVolumetricsFadeDistance, FIELD_FLOAT, "volumetricsfadedistance" ),
+	DEFINE_KEYFIELD( m_iVolumetricsQuality, FIELD_INTEGER, "volumetricsquality" ),
+	DEFINE_KEYFIELD( m_flVolumetricsQualityBias, FIELD_FLOAT, "volumetricsqualitybias" ),
+	DEFINE_KEYFIELD( m_flVolumetricsMultiplier, FIELD_FLOAT, "volumetricsmultiplier" ),
 END_DATADESC()
 
 IMPLEMENT_SERVERCLASS_ST( CEnvProjectedTexture, DT_EnvProjectedTexture )
@@ -108,9 +117,15 @@ IMPLEMENT_SERVERCLASS_ST( CEnvProjectedTexture, DT_EnvProjectedTexture )
 	SendPropFloat( SENDINFO( m_flAmbient ) ),
 	SendPropString( SENDINFO( m_SpotlightTextureName ) ),
 	SendPropInt( SENDINFO( m_nSpotlightTextureFrame ) ),
-	SendPropFloat( SENDINFO( m_flNearZ ), 16, SPROP_ROUNDDOWN, 0.0f,  500.0f ),
-	SendPropFloat( SENDINFO( m_flFarZ ),  18, SPROP_ROUNDDOWN, 0.0f, 1500.0f ),
+	SendPropFloat( SENDINFO( m_flNearZ ), 16, SPROP_ROUNDDOWN, 0.1f,  500.0f ),
+	SendPropFloat( SENDINFO( m_flFarZ ),  18, SPROP_ROUNDDOWN, 5.0f, 1500.0f ),
 	SendPropInt( SENDINFO( m_nShadowQuality ), 1, SPROP_UNSIGNED ),  // Just one bit for now
+	SendPropBool( SENDINFO( m_bEnableVolumetrics ) ),
+	SendPropBool( SENDINFO( m_bEnableVolumetricsLOD ) ),
+	SendPropFloat( SENDINFO( m_flVolumetricsFadeDistance ) ),
+	SendPropInt( SENDINFO( m_iVolumetricsQuality ) ),
+	SendPropFloat( SENDINFO( m_flVolumetricsQualityBias ) ),
+	SendPropFloat( SENDINFO( m_flVolumetricsMultiplier ) ),
 #ifdef MAPBASE
 	SendPropFloat( SENDINFO( m_flConstantAtten ) ),
 	SendPropFloat( SENDINFO( m_flLinearAtten ) ),
@@ -153,6 +168,7 @@ CEnvProjectedTexture::CEnvProjectedTexture( void )
 	m_flNearZ = 4.0f;
 	m_flFarZ = 750.0f;
 	m_nShadowQuality = 0;
+	m_flVolumetricsQualityBias = 3.0f;
 #ifdef MAPBASE
 	m_flQuadraticAtten = 0.0f;
 	m_flLinearAtten = 100.0f;
@@ -401,6 +417,7 @@ void CEnvProjectedTexture::Spawn( void )
 
 	m_bState = ( ( GetSpawnFlags() & ENV_PROJECTEDTEXTURE_STARTON ) != 0 );
 	m_bAlwaysUpdate = ( ( GetSpawnFlags() & ENV_PROJECTEDTEXTURE_ALWAYSUPDATE ) != 0 );
+	m_bEnableVolumetrics = ( ( GetSpawnFlags() & ENV_PROJECTEDTEXTURE_VOLUMETRICS_START_ON ) != 0 );
 
 	BaseClass::Spawn();
 }
@@ -411,6 +428,7 @@ void CEnvProjectedTexture::Activate( void )
 #ifndef MAPBASE // Putting this in Activate() breaks projected textures which start off or don't start always updating in savegames. Moved to Spawn() instead
 	m_bState = ( ( GetSpawnFlags() & ENV_PROJECTEDTEXTURE_STARTON ) != 0 );
 	m_bAlwaysUpdate = ( ( GetSpawnFlags() & ENV_PROJECTEDTEXTURE_ALWAYSUPDATE ) != 0 );
+	m_bEnableVolumetrics = ( ( GetSpawnFlags() & ENV_PROJECTEDTEXTURE_VOLUMETRICS_START_ON ) != 0 );
 #endif
 
 	SetThink( &CEnvProjectedTexture::InitialThink );
@@ -454,6 +472,11 @@ void CEnvProjectedTexture::InitialThink( void )
 int CEnvProjectedTexture::UpdateTransmitState()
 {
 	return SetTransmitState( FL_EDICT_ALWAYS );
+}
+
+void CEnvProjectedTexture::InputSetEnableVolumetrics( inputdata_t &inputdata )
+{
+	m_bEnableVolumetrics = inputdata.value.Bool();
 }
 
 #else
