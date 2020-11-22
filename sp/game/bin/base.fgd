@@ -9131,7 +9131,7 @@
 	[
 		1  : "Enabled"				: 1
 		2  : "Always Update (moving light)"	: 0
-		4  : "Volumetrics Enabled"				: 0
+		4  : "(Beta) Volumetrics Enabled"				: 0
 	]
 
 	target(target_destination)	: "Target" : : "The entity will rotate to point at this target. Make sure you check the 'Always Update' flag if you set this."	
