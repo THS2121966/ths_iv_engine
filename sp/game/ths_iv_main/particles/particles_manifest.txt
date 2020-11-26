@@ -52,5 +52,4 @@ particles_manifest
 	"file"		"!particles/hl2mmod_explosions.pcf"
 	
 	"file"		"!particles/ths_rain_effect.pcf"
-	"file"		"particles/rain_fx.pcf"
 }

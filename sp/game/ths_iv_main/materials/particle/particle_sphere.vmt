@@ -1,7 +1,0 @@
-SDK_UnlitGeneric
-{
-
-$translucent 1
-$basetexture "particle/particle_sphere"
-$vertexcolor 1
-}
