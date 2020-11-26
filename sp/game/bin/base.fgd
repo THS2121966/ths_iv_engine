@@ -8078,7 +8078,7 @@
 @SolidClass base(Targetname, Parentname) = func_precipitation : 
 	"A brush entity that creates rain and snow inside its volume."
 [
-	renderamt(integer) : "Density (0-100%)" : 100	
+	renderamt(integer) : "Density (0-100%)" : 5	
 	rendercolor(color255) : "Color (R G B)" : "100 100 100"
 	preciptype(choices) : "Precipitation Type" : 0 =	
 	[
@@ -8086,13 +8086,7 @@
 		1 : "Snow"
 		2 : "Ash"
 		3 : "Snowfall"
-		4 : "Particle Rain"
-		5 : "Particle Ash"
-		6 : "Particle Rainstorm"
-		7 : "Particle Snow"
 	]
-	minSpeed(float) : "Minimum speed (snowfall only)" : 25
-	maxSpeed(float) : "Maximum speed (snowfall only)" : 35
 ]
 
 @SolidClass base(func_wall) = func_wall_toggle : 
