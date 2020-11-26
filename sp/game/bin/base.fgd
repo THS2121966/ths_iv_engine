@@ -601,7 +601,7 @@
 		256 : "[256] Long Visibility/Shoot" : 0
 		512 : "[512] Fade Corpse" : 1
 		1024 : "[1024] Think outside PVS (allows AI to stay active outside of combat and PVS)" : 0
-		2048 : "[2048] Template NPC (used by npc_maker, will not spawn)" : 0
+		2048 : "[2048] Template NPC (used by npc_maker, will not spawn; NOT used by point_template)" : 0
 		4096 : "[4096] Do alternate collision/player avoidance (largely obsolete, use Start/StopScripting)" : 0
 		8192 : "[8192] Don't drop weapons" : 0
 		16384 : "[16384] Ignore player push (dont give way to player)" : 0
@@ -1239,7 +1239,7 @@
 	]
 ]
 
-@PointClass base(Targetname) = env_zoom : 
+@PointClass base(Targetname) frustum(FOV,4,250,250 250 250,-1) = env_zoom : 
 	"An entity that can be used to control the player's FOV. Useful for scenes where the player's view is being controlled, or player-usable binoculars/telescopes, etc."
 [
 	Rate(float) : "Seconds to reach target" : "1.0" : "Amount of time it should take to reach the specified FOV."
@@ -2881,6 +2881,12 @@
 		5 : "Channel 5 (warning: may be used by some HUD elements)"
 	]
 	master(target_destination) : "Master" : : "Legacy support: The name of a master entity. If the master hasn't been activated, this entity will not activate."
+	
+	autobreak(choices) : "Automatically break lines" : 0 : "Allows text to automatically shift to the next line whenever it can't fit on a player's screen. This accounts for a player's aspect ratio and adds hyphens when necessary." =
+	[
+		0: "No"
+		1: "Yes"
+	]
 
 	// Inputs
 	input Display(void) : "Display the message text."
@@ -2962,6 +2968,7 @@
 	// Inputs
 	input LightOn(void) : "Turn the spotlight on."
 	input LightOff(void) : "Turn the spotlight off"
+	input LightToggle(void) : "Toggles the spotlight on or off"
 	
 	// outputs
 	output OnLightOn(void) : "Fires when light turns on."
@@ -3613,7 +3620,7 @@
 [
 	target(target_destination) : "Entity To Point At" : : "The name of an entity in the map that the spotlight will point at. This will override the spotlight's angles."
 	spawnflags(Flags) = [ 1 : "[1] Initially dark" : 0 ]
-	_distance(integer) : "Maximum Distance" : 0 : "This is the distance that light is allowed to cast, in inches."
+	_distance(integer) : "Maximum Distance" : 0 : "This is the distance that light is allowed to cast."
 ]
 
 @PointClass base(Angles) iconsprite("editor/light_env.vmt") = light_environment : 
@@ -3640,14 +3647,14 @@
 	SunSpreadAngle(float) : "SpreadAngle" : 0 : "The angular extent of the light for casting soft shadows. Higher numbers are more diffuse. 5 is a good starting value."
 ]
 
-@PointClass base(Targetname, Angles, Light) lightprop("models/editor/spot.mdl") lightcone() sphere(_fifty_percent_distance) sphere(_zero_percent_distance) sphere(_hardfalloff) = light_spot :
+@PointClass base(Targetname, Angles, Light) lightprop("models/editor/spot.mdl") lightcone() sphere(_fifty_percent_distance) sphere(_zero_percent_distance) sphere(_hardfalloff) sphere(_distance) = light_spot :
 	"An invisible and directional spotlight."
 [
 	target(target_destination) : "Entity to point at" : : "The name of an entity in the map that the spotlight will point at. This will override the spotlight's angles."
 	_inner_cone(integer) : "Inner (bright) angle" : 30
 	_cone(integer) : "Outer (fading) angle" : 45
 	_exponent(integer) : "Focus" : 1
-	_distance(integer) : "Maximum distance" : 0 : "This is the distance that light is allowed to cast, in inches."
+	_distance(integer) : "Maximum distance" : 0 : "This is the distance that light is allowed to cast."
 	pitch(angle_negative_pitch) : "Pitch" : -90
 	spawnflags(Flags) = [ 1 : "Initially dark" : 0 ]
 ]
@@ -4716,7 +4723,7 @@
 	output OnMultiNewRound(void) : "Fired only in multiplayer, when a new round is started. Only fired in multiplayer games that use round-based gameplay."
 ]
 
-@PointClass base(Targetname,Angles,Parentname) studioprop("models/editor/camera.mdl") = point_viewcontrol : 
+@PointClass base(Targetname,Angles,Parentname) studioprop("models/editor/camera.mdl") frustum(fov,4,250,250 250 250,-1) = point_viewcontrol : 
 	"A camera entity that controls the player's view. While it's active, the player will see out of the camera." 
 [
 	target(target_destination) : "Entity to Look At" : : "Name of the entity that the camera should point at and track while active."
@@ -4746,7 +4753,7 @@
 	acceleration(string) : "Acceleration units/sec^2" : "500" : "The speed at which the camera accelerates to path corner's desired speeds."
 	deceleration(string) : "Stop Deceleration units/sec^2" : "500" : "The speed at which the camera decelerates to path corner's desired speeds."
 	
-	fov(float) : "FOV" : "90" : "The player's FOV when using this camera. Be sure to have the 'Set FOV' spawnflag enabled if you want to use this."
+	fov(float) : "FOV" : "75" : "The player's FOV when using this camera. Be sure to have the 'Set FOV' spawnflag enabled if you want to use this."
 	fov_rate(float) : "FOV rate" : "0" : "How quickly the FOV should be set. Be sure to have the 'Set FOV' spawnflag enabled if you want to use this."
 	
 	DontSetPlayerView(choices) : "Don't set player view" : 0 : "Prevents this point_viewcontrol from actually controlling the player's view. FOV, player-affecting spawnflags, etc. may still happen." =
@@ -4810,8 +4817,8 @@
 	"If the input value is greater than the compare value, the OnGreaterThan output is fired with the input value."
 [
 	// Keys
-	InitialValue(string) : "Initial value" : : "Initial value for the input value."
-	CompareValue(string) : "Compare value" : : "The value to compare against."
+	InitialValue(string) : "Initial value" : : "Initial value for the input value. This keyvalue supports matchers (<, >, !=, etc.)."
+	CompareValue(string) : "Compare value" : : "The value to compare against. This keyvalue supports matchers (<, >, !=, etc.)."
 	
 	// Inputs
 	input SetValue(string) : "Sets the value that will be compared against the compare value."
@@ -4893,22 +4900,22 @@
 		1 : "Yes"
 	]
 	
-	Case01(string) : "Case 01"
-	Case02(string) : "Case 02"
-	Case03(string) : "Case 03"
-	Case04(string) : "Case 04"
-	Case05(string) : "Case 05"
-	Case06(string) : "Case 06"
-	Case07(string) : "Case 07"
-	Case08(string) : "Case 08"
-	Case09(string) : "Case 09"
-	Case10(string) : "Case 10"
-	Case11(string) : "Case 11"
-	Case12(string) : "Case 12"
-	Case13(string) : "Case 13"
-	Case14(string) : "Case 14"
-	Case15(string) : "Case 15"
-	Case16(string) : "Case 16"
+	Case01(string) : "Case 01" : : "Fires OnCase01 if the InValue parameter matches this value. This keyvalue supports matchers (<, >, !=, etc.). Not needed for PickRandom or PickRandomShuffle."
+	Case02(string) : "Case 02" : : "Fires OnCase02 if the InValue parameter matches this value. This keyvalue supports matchers (<, >, !=, etc.). Not needed for PickRandom or PickRandomShuffle."
+	Case03(string) : "Case 03" : : "Fires OnCase03 if the InValue parameter matches this value. This keyvalue supports matchers (<, >, !=, etc.). Not needed for PickRandom or PickRandomShuffle."
+	Case04(string) : "Case 04" : : "Fires OnCase04 if the InValue parameter matches this value. This keyvalue supports matchers (<, >, !=, etc.). Not needed for PickRandom or PickRandomShuffle."
+	Case05(string) : "Case 05" : : "Fires OnCase05 if the InValue parameter matches this value. This keyvalue supports matchers (<, >, !=, etc.). Not needed for PickRandom or PickRandomShuffle."
+	Case06(string) : "Case 06" : : "Fires OnCase06 if the InValue parameter matches this value. This keyvalue supports matchers (<, >, !=, etc.). Not needed for PickRandom or PickRandomShuffle."
+	Case07(string) : "Case 07" : : "Fires OnCase07 if the InValue parameter matches this value. This keyvalue supports matchers (<, >, !=, etc.). Not needed for PickRandom or PickRandomShuffle."
+	Case08(string) : "Case 08" : : "Fires OnCase08 if the InValue parameter matches this value. This keyvalue supports matchers (<, >, !=, etc.). Not needed for PickRandom or PickRandomShuffle."
+	Case09(string) : "Case 09" : : "Fires OnCase09 if the InValue parameter matches this value. This keyvalue supports matchers (<, >, !=, etc.). Not needed for PickRandom or PickRandomShuffle."
+	Case10(string) : "Case 10" : : "Fires OnCase10 if the InValue parameter matches this value. This keyvalue supports matchers (<, >, !=, etc.). Not needed for PickRandom or PickRandomShuffle."
+	Case11(string) : "Case 11" : : "Fires OnCase11 if the InValue parameter matches this value. This keyvalue supports matchers (<, >, !=, etc.). Not needed for PickRandom or PickRandomShuffle."
+	Case12(string) : "Case 12" : : "Fires OnCase12 if the InValue parameter matches this value. This keyvalue supports matchers (<, >, !=, etc.). Not needed for PickRandom or PickRandomShuffle."
+	Case13(string) : "Case 13" : : "Fires OnCase13 if the InValue parameter matches this value. This keyvalue supports matchers (<, >, !=, etc.). Not needed for PickRandom or PickRandomShuffle."
+	Case14(string) : "Case 14" : : "Fires OnCase14 if the InValue parameter matches this value. This keyvalue supports matchers (<, >, !=, etc.). Not needed for PickRandom or PickRandomShuffle."
+	Case15(string) : "Case 15" : : "Fires OnCase15 if the InValue parameter matches this value. This keyvalue supports matchers (<, >, !=, etc.). Not needed for PickRandom or PickRandomShuffle."
+	Case16(string) : "Case 16" : : "Fires OnCase16 if the InValue parameter matches this value. This keyvalue supports matchers (<, >, !=, etc.). Not needed for PickRandom or PickRandomShuffle."
 
 	// Inputs
 	input InValue(string) : "Compares the Input value to the case values, and fires the appropriate output, if any."
@@ -5598,7 +5605,7 @@
 [
 	// Keys
 	SetConVar(string) : "ConVar" : : "The ConVar to read. Can be serverside or clientside(?)"
-	SetTestValue(string) : "Compare value" : : "The value to compare with the ConVar's value during comparisons. You could use <, !=, etc. at the beginning similar to a Response System criterion."
+	SetTestValue(string) : "Compare value" : : "The value to compare with the ConVar's value during comparisons. This keyvalue supports matchers (<, >, !=, etc.)."
 	
 	// Inputs
 	input SetConVar(string) : "Sets the ConVar whose variable will be retrieved."
@@ -5968,23 +5975,23 @@
 		0 : "No"
 		1 : "Yes"
 	]
-
-	Case01(string) : "Case 01"
-	Case02(string) : "Case 02"
-	Case03(string) : "Case 03"
-	Case04(string) : "Case 04"
-	Case05(string) : "Case 05"
-	Case06(string) : "Case 06"
-	Case07(string) : "Case 07"
-	Case08(string) : "Case 08"
-	Case09(string) : "Case 09"
-	Case10(string) : "Case 10"
-	Case11(string) : "Case 11"
-	Case12(string) : "Case 12"
-	Case13(string) : "Case 13"
-	Case14(string) : "Case 14"
-	Case15(string) : "Case 15"
-	Case16(string) : "Case 16"
+	
+	Case01(string) : "Case 01" : : "If the sequence's current case is 01, fires OnCasePass or OnCaseFail based on whether this value matches the InValue parameter. This keyvalue supports matchers (<, >, !=, etc.)."
+	Case02(string) : "Case 02" : : "If the sequence's current case is 02, fires OnCasePass or OnCaseFail based on whether this value matches the InValue parameter. This keyvalue supports matchers (<, >, !=, etc.)."
+	Case03(string) : "Case 03" : : "If the sequence's current case is 03, fires OnCasePass or OnCaseFail based on whether this value matches the InValue parameter. This keyvalue supports matchers (<, >, !=, etc.)."
+	Case04(string) : "Case 04" : : "If the sequence's current case is 04, fires OnCasePass or OnCaseFail based on whether this value matches the InValue parameter. This keyvalue supports matchers (<, >, !=, etc.)."
+	Case05(string) : "Case 05" : : "If the sequence's current case is 05, fires OnCasePass or OnCaseFail based on whether this value matches the InValue parameter. This keyvalue supports matchers (<, >, !=, etc.)."
+	Case06(string) : "Case 06" : : "If the sequence's current case is 06, fires OnCasePass or OnCaseFail based on whether this value matches the InValue parameter. This keyvalue supports matchers (<, >, !=, etc.)."
+	Case07(string) : "Case 07" : : "If the sequence's current case is 07, fires OnCasePass or OnCaseFail based on whether this value matches the InValue parameter. This keyvalue supports matchers (<, >, !=, etc.)."
+	Case08(string) : "Case 08" : : "If the sequence's current case is 08, fires OnCasePass or OnCaseFail based on whether this value matches the InValue parameter. This keyvalue supports matchers (<, >, !=, etc.)."
+	Case09(string) : "Case 09" : : "If the sequence's current case is 09, fires OnCasePass or OnCaseFail based on whether this value matches the InValue parameter. This keyvalue supports matchers (<, >, !=, etc.)."
+	Case10(string) : "Case 10" : : "If the sequence's current case is 10, fires OnCasePass or OnCaseFail based on whether this value matches the InValue parameter. This keyvalue supports matchers (<, >, !=, etc.)."
+	Case11(string) : "Case 11" : : "If the sequence's current case is 11, fires OnCasePass or OnCaseFail based on whether this value matches the InValue parameter. This keyvalue supports matchers (<, >, !=, etc.)."
+	Case12(string) : "Case 12" : : "If the sequence's current case is 12, fires OnCasePass or OnCaseFail based on whether this value matches the InValue parameter. This keyvalue supports matchers (<, >, !=, etc.)."
+	Case13(string) : "Case 13" : : "If the sequence's current case is 13, fires OnCasePass or OnCaseFail based on whether this value matches the InValue parameter. This keyvalue supports matchers (<, >, !=, etc.)."
+	Case14(string) : "Case 14" : : "If the sequence's current case is 14, fires OnCasePass or OnCaseFail based on whether this value matches the InValue parameter. This keyvalue supports matchers (<, >, !=, etc.)."
+	Case15(string) : "Case 15" : : "If the sequence's current case is 15, fires OnCasePass or OnCaseFail based on whether this value matches the InValue parameter. This keyvalue supports matchers (<, >, !=, etc.)."
+	Case16(string) : "Case 16" : : "If the sequence's current case is 16, fires OnCasePass or OnCaseFail based on whether this value matches the InValue parameter. This keyvalue supports matchers (<, >, !=, etc.)."
 	
 	DontIncrementOnPass(choices) : "Suppress auto increment" : 0 : "Prevents automatically incrementing the sequence each time a case passes." =
 	[
@@ -6637,7 +6644,7 @@
 		"model matches the given string will pass the filter. If the filter mode is Disallow, "+
 		"all entities EXCEPT those whose model matches the given string will pass the filter."
 		
-	skin(string) : "Skin" : -1 : "Some models have multiple versions of their textures, called skins. Use this if you want to filter by skins as well. If you want any skin to be allowed, be sure to leave this at -1! It might automatically change when you choose a model."
+	skin(string) : "Skin" : -1 : "Some models have multiple versions of their textures, called skins. Use this if you want to filter by skins as well. If you want any skin to be allowed, be sure to leave this at -1! It might automatically change when you choose a model. This keyvalue supports matchers (<, >, !=, etc.)."
 ]
 
 @FilterClass base(BaseFilter) iconsprite("editor/filter_context.vmt") = filter_activator_context :
@@ -8078,7 +8085,7 @@
 @SolidClass base(Targetname, Parentname) = func_precipitation : 
 	"A brush entity that creates rain and snow inside its volume."
 [
-	renderamt(integer) : "Density (0-100%)" : 5	
+	renderamt(integer) : "Density (0-100%)" : 5	: "How dense the precipitation should be. This can be changed later with the 'Alpha' input."
 	rendercolor(color255) : "Color (R G B)" : "100 100 100"
 	preciptype(choices) : "Precipitation Type" : 0 =	
 	[
@@ -8086,6 +8093,16 @@
 		1 : "Snow"
 		2 : "Ash"
 		3 : "Snowfall"
+		4 : "Particle Rain"
+		5 : "Particle Ash"
+		6 : "Particle Rainstorm"
+		7 : "Particle Snow"
+	]
+	
+	spawnflags(flags) =
+	[
+		1 : "[1] Particle types only: Clamp precipitation to brush bounds" : 1
+		2 : "[2] Particle types only: Suppress outer particle (recommended if clamping)" : 1
 	]
 ]
 
@@ -8131,11 +8148,24 @@
 	output OnDeath(void) : "Fires when the target is killed."
 ]
 
-@PointClass = func_fish_pool : "Creates a school of interactive fish that swim near this entity."
+@PointClass sphere(max_range) sphere(LoudPanicRange) sphere(QuietPanicRange) = func_fish_pool : "Creates a school of interactive fish that swim near this entity."
 [
 	model(studio) : "World model" : "models/Junkola.mdl"
+	skin(integer) : "Skin" : 0 : "Some models have multiple versions of their textures, called skins. Set this to a number other than 0 to make each fish use that skin instead of the default."
 	fish_count(integer) : "Fish Count" : 10 : "Number of Fish in this Pool"
 	max_range(float) : "Max Range" : 150 : "How far away a Fish can wander (max 255)"
+	
+	LoudPanicRange(float) : "Loud Panic Range" : 500 : "How far away an event has to be to make the fish in this pool panic."
+	QuietPanicRange(float) : "Quiet Panic Range" : 75 : "How far away a quiet event (a footstep) has to be to make the fish in this pool panic."
+	
+	// Inputs
+	input SpawnFish(void) : "Spawns an additonal fish. This ignores the fish count keyvalue."
+	input PanicLoudFromPoint(vector) : "Causes a loud panic event at the specified location vector."
+	input PanicQuietFromPoint(vector) : "Causes a quiet panic event at the specified location vector."
+	input Skin(integer) : "Changes the fish skin to the specified number."
+	
+	// Outputs
+	output OnSpawnFish(ehandle) : "Fires when a fish is spawned, passing the fish as the activator."
 ]
 
 
@@ -8569,8 +8599,12 @@
 		256: "[256] Affects Ladders (Half-Life 2)" : 0 
 	]
 
-	speed(integer) : "Speed of Push" : 40 : "The speed at which to push entities away, in inches / second."
+	speed(integer) : "Speed of Push" : 40 : "The speed at which to push entities away, in units / second."
 	alternateticksfix(float) : "Scale force for alternate ticks" : "0" : "If nonzero, scale the force by this amount when running with alternate ticks. This fixes problems with an overly large force due to the longer frametime on when running with sv_alternateticks 1."
+	
+	// Inputs
+	input SetSpeed(float) : "Set the speed at which to push entities away."
+	input SetPushDir(vector) : "Set the angles indicating the direction to push touched entities."
 ]
 
 @SolidClass base(Trigger, Angles) = trigger_wind : 
