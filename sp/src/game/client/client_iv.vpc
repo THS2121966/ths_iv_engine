@@ -175,8 +175,5 @@ $Project "Client (IV)"
 			$File	"episodic\c_npc_puppet.cpp"
 		}
 	}
-	$Folder	"Link Libraries"
-	{
-		$Lib raytrace
-	}
+	
 }
