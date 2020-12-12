@@ -17,5 +17,9 @@ $Project "Shaders (IV)"
 	$File	"BlurFilterX.cpp"
 	$File	"BlurFilterY.cpp"
 	$File	"iv_light_volumetrics.cpp"
+	$File	"screenwater.cpp"
+	$File	"chromatic.cpp"
+	$File	"gaussianx.cpp"
+	$File	"gaussiany.cpp"
 	}
 }

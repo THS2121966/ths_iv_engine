@@ -347,6 +347,8 @@ void CViewRender::LevelInit( void )
 
 	// Init all IScreenSpaceEffects
 	g_pScreenSpaceEffects->InitScreenSpaceEffects( );
+	//thsdev_init_this_postprocess
+	g_pScreenSpaceEffects->EnableScreenSpaceEffect( "c17_waterfx" );
 }
 
 //-----------------------------------------------------------------------------
@@ -368,6 +370,8 @@ void CViewRender::Shutdown( void )
 	m_UnderWaterOverlayMaterial.Shutdown();
 	beams->ShutdownBeams();
 	tempents->Shutdown();
+	//thsdev_end_this_postprocess
+	g_pScreenSpaceEffects->DisableScreenSpaceEffect( "c17_waterfx" );
 }
 
 
