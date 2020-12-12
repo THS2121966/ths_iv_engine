@@ -4519,7 +4519,13 @@ int CAI_BaseNPC::SelectIdleSchedule()
 	{
 		return SCHED_ALERT_FACE_BESTSOUND;
 	}
-	
+
+	// Get out of someone's way
+	else if ( HasCondition ( COND_GIVE_WAY ) )
+	{
+		return SCHED_GIVE_WAY;
+	}
+
 	// no valid route!
 	if (GetNavigator()->GetGoalType() == GOALTYPE_NONE)
 		return SCHED_IDLE_STAND;
