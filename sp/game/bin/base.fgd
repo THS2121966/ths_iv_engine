@@ -9697,6 +9697,12 @@
 @PointClass base(Targetname, Parentname) iconsprite("editor/iv_dynamic_light.vmt") sphere(distance) size(-1 -1 -1, 1 1 1) = iv_dynamic_light : 
 	"An invisible lightsource that changes in some way over time." 
 [
+
+	spawnflags(flags) =
+	[
+		1  : "Enabled"				: 1
+	]
+
 	LightColor(color255) : "Light color" : "255 255 255"
 	brightness(integer) : "Light brightness" : 1
 	distance(float) : "Maximum distance" : 120 : "This is the distance that light is allowed to cast, in units."

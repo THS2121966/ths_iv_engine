@@ -9,6 +9,8 @@
 #define MIN_DL_EXPONENT_VALUE	-((1 << (NUM_DL_EXPONENT_BITS-1)) - 1)
 #define MAX_DL_EXPONENT_VALUE	((1 << (NUM_DL_EXPONENT_BITS-1)) - 1)
 
+#define IV_THIS_STARTON			(1<<0)
+
 LINK_ENTITY_TO_CLASS(iv_dynamic_light, CIV_Dynamic_Light);
 
 BEGIN_DATADESC( CIV_Dynamic_Light )
@@ -72,6 +74,23 @@ bool CIV_Dynamic_Light::KeyValue( const char *szKeyName, const char *szValue )
 	}
 
 	return true;
+}
+
+void CIV_Dynamic_Light::Activate( void )
+{
+	m_On = ( ( GetSpawnFlags() & IV_THIS_STARTON ) != 0 );
+	
+	if ( GetSpawnFlags() & IV_THIS_STARTON )
+	{
+		m_Flags = m_ActualFlags;
+		m_On = true;
+	}
+	else
+	{
+	// This basically shuts it off
+	m_Flags = DLIGHT_NO_MODEL_ILLUMINATION | DLIGHT_NO_WORLD_ILLUMINATION;
+	m_On = false;
+	}
 }
 
 //------------------------------------------------------------------------------
