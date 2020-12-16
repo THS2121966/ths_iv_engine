@@ -18,6 +18,7 @@ BEGIN_DATADESC( CIV_Dynamic_Light )
 	DEFINE_FIELD( m_On, FIELD_BOOLEAN ),
 
 	DEFINE_KEYFIELD( m_LightColor, FIELD_COLOR32, "LightColor" ),
+	DEFINE_KEYFIELD( m_bStartDisabled,	FIELD_BOOLEAN, "StartDisabled" ),
 
 	DEFINE_THINKFUNC( DynamicLightThink ),
 
@@ -144,6 +145,18 @@ void CIV_Dynamic_Light::Spawn( void )
 			MAX_DL_EXPONENT_VALUE );
 		
 		m_Exponent = clampedExponent;
+	}
+	
+	if( m_bStartDisabled )
+	{
+		m_On = false;
+		// This basically shuts it off
+		m_Flags = DLIGHT_NO_MODEL_ILLUMINATION | DLIGHT_NO_WORLD_ILLUMINATION;
+	}
+	else
+	{
+		m_On = true;
+		m_Flags = m_ActualFlags;
 	}
 }
 

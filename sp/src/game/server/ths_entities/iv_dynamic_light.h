@@ -18,6 +18,8 @@ public:
 	void InputTurnOff( inputdata_t &inputdata );
 	void InputToggle( inputdata_t &inputdata );
 
+	bool m_bStartDisabled;
+
 	void SetLightRadius(float fRadius) { m_Radius = fRadius; }
 	void SetExponent(int iExponent) { m_Exponent = iExponent; }
 
