@@ -9896,6 +9896,7 @@
     focus_range(float) : "Focus target range" : "200" : "Distance behind the focal plane to remain in focus."
 
     // Inputs
+	input SetDOFEnabled(bool) : "Toggles DepthOfField Effect."
     input SetNearBlurDepth(float) : "Set the distance in front of the focus region at which the scene will be completely blurred using the near blur radius. Must be smaller than NearFocusDepth."
     input SetNearFocusDepth(float) : "The area between the near focus and far focus distances is perfectly in focus. Must be smaller than FarFocusDepth."
     input SetFarFocusDepth(float) : "The area between the near focus and far focus distances is perfectly in focus. Must be smaller than FarBlurDepth."

@@ -32,6 +32,7 @@ BEGIN_DATADESC( CEnvDOFController )
 	DEFINE_THINKFUNC( UpdateParamBlend ),
 
 	// Inputs
+	DEFINE_INPUT( m_bDOFEnabled,	FIELD_BOOLEAN, "SetDOFEnabled" ),
 	DEFINE_INPUTFUNC( FIELD_FLOAT,	"SetNearBlurDepth",		InputSetNearBlurDepth ),
 	DEFINE_INPUTFUNC( FIELD_FLOAT,	"SetNearFocusDepth",	InputSetNearFocusDepth ),
 	DEFINE_INPUTFUNC( FIELD_FLOAT,	"SetFarFocusDepth",		InputSetFarFocusDepth ),
