@@ -46,6 +46,7 @@ class CTextureBar : public CHammerBar
 		afx_msg void OnChangeTextureGroup(void);
 		afx_msg void OnReplace(void);
 		afx_msg void OnUpdateTexname(void);
+		afx_msg void OnQuickNodraw(void);
 		afx_msg void OnWindowPosChanged(WINDOWPOS *pPos);
 		virtual afx_msg void OnSelChangeTexture(void);
 

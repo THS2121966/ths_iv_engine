@@ -42,7 +42,7 @@ BOOL AddLeavesToListCallback(CMapClass *pObject, CMapObjectList *pList);
 void WriteDebug(char *pszStr);
 LPCTSTR GetDefaultTextureName();
 void SetDefaultTextureName( const char *szTexName );
-LPCTSTR GetNullTextureName();
+//LPCTSTR GetNullTextureName();
 int mychdir(LPCTSTR pszDir);
 
 //

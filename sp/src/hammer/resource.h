@@ -957,6 +957,7 @@
 #define IDC_LIGHT_CONE_LENGTH			1660
 #define IDC_BUTTON2                     1661
 #define IDC_STOPSOUND                   1661
+#define IDC_QUICK_NODRAW                1661
 #define IDC_SAVING_TEXT                 1662
 #define IDC_KEY_LABEL                   1663
 #define IDC_VALUE_LABEL                 1664
@@ -1366,7 +1367,7 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        354
+#define _APS_NEXT_RESOURCE_VALUE        363
 #define _APS_NEXT_COMMAND_VALUE         33290
 #define _APS_NEXT_CONTROL_VALUE         1696
 #define _APS_NEXT_SYMED_VALUE           116

@@ -94,7 +94,7 @@ CMapFace::CMapFace(void)
 	texture.scale[0] = g_pGameConfig->GetDefaultTextureScale();
 	texture.scale[1] = g_pGameConfig->GetDefaultTextureScale();
 
-	SetTexture(GetNullTextureName());
+	SetTexture("tools/toolsnodraw");
 	
 	if (m_pLightmapGrid == NULL)
 	{

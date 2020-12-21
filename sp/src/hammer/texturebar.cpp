@@ -33,13 +33,15 @@ BEGIN_MESSAGE_MAP(CTextureBar, CHammerBar)
 	ON_UPDATE_COMMAND_UI(IDC_BROWSE, UpdateControl)
 	ON_BN_CLICKED(IDC_REPLACE, OnReplace)
 	ON_UPDATE_COMMAND_UI(IDC_REPLACE, UpdateControl)
+	ON_BN_CLICKED(IDC_QUICK_NODRAW, &ThisClass::OnQuickNodraw)
+	ON_UPDATE_COMMAND_UI(IDC_QUICK_NODRAW, &ThisClass::UpdateControl)
 	ON_WM_WINDOWPOSCHANGED()
 END_MESSAGE_MAP()
 
 
 static char szDefaultTexture[128];
 
-static char szNullTexture[128] = {"editor/obsolete"};
+//static char szNullTexture[128] = {"editor/obsolete"};
 
 
 //-----------------------------------------------------------------------------
@@ -69,10 +71,10 @@ LPCTSTR GetDefaultTextureName(void)
 // Output : LPCTSTR
 //-----------------------------------------------------------------------------
 
-LPCTSTR GetNullTextureName()
+/*LPCTSTR GetNullTextureName()
 {
 	return szNullTexture;
-}
+}*/
 
 
 //-----------------------------------------------------------------------------
@@ -358,6 +360,34 @@ void CTextureBar::OnReplace(void)
 	dlg.DoReplaceTextures();
 }
 
+void CTextureBar::OnQuickNodraw()
+{
+	m_pCurTex = g_Textures.GetNoDrawTexture();
+	m_TexturePic.SetTexture(m_pCurTex);
+
+	// Make sure the current material is loaded..
+	m_pCurTex->Load();
+	char szBuf[128] = { 0 };
+	if ( !m_pCurTex->IsDummy() )
+		sprintf( szBuf, "%dx%d", m_pCurTex->GetWidth(), m_pCurTex->GetHeight() );
+	GetDlgItem(IDC_TEXTURESIZE)->SetWindowText(szBuf);
+	m_pCurTex->GetShortName(szDefaultTexture);
+
+	int iCount = m_TextureList.GetCount();
+	for ( int i = 0; i < iCount; i++ )
+	{
+		if ( m_pCurTex == (IEditorTexture*)m_TextureList.GetItemDataPtr( i ) )
+		{
+			m_TextureList.SetCurSel( i );
+			m_TextureList.AddMRU( m_pCurTex );
+			return;
+		}
+	}
+	auto pos = m_TextureList.AddString( m_pCurTex->GetName() );
+	m_TextureList.SetItemDataPtr( pos, m_pCurTex );
+	m_TextureList.SetCurSel( pos );
+	m_TextureList.AddMRU( m_pCurTex );
+}
 
 //-----------------------------------------------------------------------------
 // Purpose: Selects a texture by name.

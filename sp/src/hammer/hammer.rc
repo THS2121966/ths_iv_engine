@@ -960,18 +960,19 @@ BEGIN
     CONTROL         "Random Yaw",IDC_RANDOMYAW,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,3,72,59,10
 END
 
-IDD_TEXTUREBAR DIALOG  0, 0, 102, 106
+IDD_TEXTUREBAR DIALOGEX 0, 0, 102, 106
 STYLE DS_SETFONT | DS_3DLOOK | WS_CHILD
-FONT 8, "MS Sans Serif"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
 BEGIN
     COMBOBOX        IDC_TEXTURES,7,34,92,301,CBS_DROPDOWNLIST | CBS_OWNERDRAWVARIABLE | CBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
     CONTROL         "",IDC_TEXTUREPIC,"Static",SS_BLACKRECT | SS_SUNKEN,7,51,50,50
-    LTEXT           "",IDC_TEXTURESIZE,59,52,39,12
-    PUSHBUTTON      "&Browse...",IDC_BROWSE,59,69,40,14
+    LTEXT           "",IDC_TEXTURESIZE,59,50,38,8
+    PUSHBUTTON      "&Browse...",IDC_BROWSE,59,72,40,14
     LTEXT           "Current texture:",IDC_STATIC,3,25,72,8
     COMBOBOX        IDC_TEXTUREGROUPS,7,11,92,55,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Texture group:",IDC_STATIC,3,2,56,8
-    PUSHBUTTON      "&Replace...",IDC_REPLACE,59,86,40,14
+    PUSHBUTTON      "&Replace...",IDC_REPLACE,59,87,40,14
+    PUSHBUTTON      "N",IDC_QUICK_NODRAW,83,57,16,14
 END
 
 IDD_OPTIONS_MAIN DIALOGEX 0, 0, 272, 222
@@ -2978,6 +2979,11 @@ IDC_FACEPAINT           CURSOR                  "facepaint.cur"
 IDC_ROTATE              CURSOR                  "res\\cursor3.cur"
 IDC_EYEDROPPER          CURSOR                  "res\\eyedropper.cur"
 IDC_CROSSHAIR           CURSOR                  "res\\crosshair.cur"
+
+IDD_TEXTUREBAR AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
 
 /////////////////////////////////////////////////////////////////////////////
 //
