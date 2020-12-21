@@ -62,7 +62,7 @@ $Group "everything"
 //	"launcher_main"
 //	"sdklauncher"
 	"vtf"
-	"hammer"
+	"hammer_dll"
 	"hammer_launcher"
 }
 
