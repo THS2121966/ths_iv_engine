@@ -1018,6 +1018,7 @@ int CHammer::StaticHammerInternalInit( void *pParam )
 
 InitReturnVal_t CHammer::HammerInternalInit()
 {
+	SpewActivate( "console", 1 );
 	SpewOutputFunc( HammerDbgOutput );
 	MathLib_Init( 2.2f, 2.2f, 0.0f, 2.0f, false, false, false, false );
 	InitReturnVal_t nRetVal = BaseClass::Init();
