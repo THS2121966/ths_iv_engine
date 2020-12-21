@@ -51,6 +51,12 @@ int		_V_wcslen	( const char* file, int line, const wchar_t *pwch );
 wchar_t*	_V_wcslower (const char* file, int line, wchar_t *start);
 wchar_t*	_V_wcsupr (const char* file, int line, wchar_t *start);
 
+const char *nexttoken(char *token, size_t nMaxTokenLen, const char *str, char sep);
+template <size_t maxLenInChars> inline const char *nexttoken( OUT_Z_ARRAY char (&pToken)[maxLenInChars], const char *str, char sep)
+{
+	return nexttoken( pToken, maxLenInChars, str, sep );
+}
+
 // ASCII-optimized functions which fall back to CRT only when necessary
 char *V_strupr( char *start );
 char *V_strlower( char *start );

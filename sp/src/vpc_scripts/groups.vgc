@@ -59,9 +59,11 @@ $Group "everything"
 	"vvis_dll"
 	"vvis_launcher"
 	"launcher"
-	//"launcher_main"
-	"sdklauncher"
+//	"launcher_main"
+//	"sdklauncher"
 	"vtf"
+	"hammer"
+	"hammer_launcher"
 }
 
 $Group "dedicated"

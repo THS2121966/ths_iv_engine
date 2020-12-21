@@ -2991,3 +2991,40 @@ bool BGetLocalFormattedTime( time_t timeVal, char *pchTime, int cubTime )
 {
 	return BGetLocalFormattedDateAndTime( timeVal, NULL, 0, pchTime, cubTime );
 }
+
+const char *nexttoken(char *token, size_t nMaxTokenLen, const char *str, char sep)
+{
+	if (nMaxTokenLen < 1)
+	{
+		Assert(nMaxTokenLen > 0);
+		return NULL;
+	}
+
+	if ((str == NULL) || (*str == '\0'))
+	{
+		*token = '\0';
+		return(NULL);
+	}
+
+	char *pTokenLast = token + nMaxTokenLen - 1;
+
+	//
+	// Copy everything up to the first separator into the return buffer.
+	// Do not include separators in the return buffer.
+	//
+	while ((*str != sep) && (*str != '\0') && (token < pTokenLast))
+	{
+		*token++ = *str++;
+	}
+	*token = '\0';
+
+	//
+	// Advance the pointer unless we hit the end of the input string.
+	//
+	if (*str == '\0')
+	{
+		return(str);
+	}
+
+	return(++str);
+}
