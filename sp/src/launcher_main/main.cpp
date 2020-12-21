@@ -30,6 +30,13 @@
 
 #include "tier0/basetypes.h"
 
+//ths_dev_add_new_windows_theme_style
+#pragma comment(linker,"/manifestdependency:\"type='win32' \
+    name='Microsoft.Windows.Common-Controls' version='6.0.0.0' \
+    processorArchitecture='*' publicKeyToken='6595b64144ccf1df' \
+    language='*'\"")
+//ths_dev_end_add_new_windows_theme_style
+
 #ifdef WIN32
 typedef int (*LauncherMain_t)( HINSTANCE hInstance, HINSTANCE hPrevInstance, 
 							  LPSTR lpCmdLine, int nCmdShow );
