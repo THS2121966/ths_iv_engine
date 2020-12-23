@@ -102,11 +102,14 @@ public:
 	void					SetAngles( QAngle& pfAngles );
 	bool					IsTranslucent();
 
+	CStudioHdr				*GetStudioHdr() const;
+	studiohwdata_t*			GetHardwareData();
+
 private:
 	CStudioHdr				*m_pStudioHdr;
-	CStudioHdr				*GetStudioHdr() const;
+//	CStudioHdr				*GetStudioHdr() const;
 	studiohdr_t*			GetStudioRenderHdr() const;
-	studiohwdata_t*			GetHardwareData();
+//	studiohwdata_t*			GetHardwareData();
 
 	// entity settings
 	Vector					m_origin;

@@ -1347,8 +1347,8 @@ void AllocateLightingPreviewtextures(void)
 			sg_ExtraFP16Targets[idx].Init(
 				materials->CreateNamedRenderTargetTextureEx2(
 					s_rt_names[idx],
-					512, 512, RT_SIZE_DEFAULT, s_rt_formats[idx],
-					MATERIAL_RT_DEPTH_SHARED, 
+					1024, 1024, RT_SIZE_DEFAULT, s_rt_formats[idx],
+					MATERIAL_RT_DEPTH_SHARED,
 					TEXTUREFLAGS_CLAMPS | TEXTUREFLAGS_CLAMPT,
 					CREATERENDERTARGETFLAGS_HDR )
 				);

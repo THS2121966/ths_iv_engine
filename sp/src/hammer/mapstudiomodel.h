@@ -68,6 +68,8 @@ class CMapStudioModel : public CMapHelper
 
 		const char* GetDescription() { return("Studio model"); }
 
+		void AddShadowingTriangles(CUtlVector<Vector>& tri_list);
+
 		int GetFrame(void);
 		void SetFrame(int nFrame);
 

@@ -988,7 +988,7 @@ bool CompareLightPreview_Lights(CLightPreview_Light const &a, CLightPreview_Ligh
 	return (a.m_flDistanceToEye > b.m_flDistanceToEye);
 }
 
-#define MAX_PREVIEW_LIGHTS 10								// max # of lights to process.
+#define MAX_PREVIEW_LIGHTS 30								// max # of lights to process.
 
 
 void CRender3D::SendShadowTriangles( void )
@@ -1531,15 +1531,19 @@ void CRender3D::EndRenderFrame(void)
 				}
 				// because of no blend support on ati, we have to ping pong. This needs an nvidia-specifc
 				// path for perf
-				IMaterial *add_0_to_1=materials->FindMaterial("editor/addlight0",
-															  TEXTURE_GROUP_OTHER,true);
-				IMaterial *add_1_to_0=materials->FindMaterial("editor/addlight1",
-															  TEXTURE_GROUP_OTHER,true);
-				
-				IMaterial *sample_last=materials->FindMaterial("editor/sample_result_0",
-															   TEXTURE_GROUP_OTHER,true);
-				IMaterial *sample_other=materials->FindMaterial("editor/sample_result_1",
-																TEXTURE_GROUP_OTHER,true);
+				IMaterial* add_0_to_1 = materials->FindMaterial( "editor/addlight0", TEXTURE_GROUP_OTHER, true );
+				IMaterial* add_1_to_0 = materials->FindMaterial( "editor/addlight1", TEXTURE_GROUP_OTHER, true );
+				IMaterial* sample_last = materials->FindMaterial( "editor/sample_result_0", TEXTURE_GROUP_OTHER, true );
+				IMaterial* sample_other = materials->FindMaterial( "editor/sample_result_1", TEXTURE_GROUP_OTHER, true );
+				static bool bIncrementedRefCount = false;
+				if ( !bIncrementedRefCount )
+				{
+					bIncrementedRefCount = true;
+					add_0_to_1->IncrementReferenceCount();
+					add_1_to_0->IncrementReferenceCount();
+					sample_last->IncrementReferenceCount();
+					sample_other->IncrementReferenceCount();
+				}
 
 				ITexture *dest_rt_current=materials->FindTexture("_rt_accbuf_1", TEXTURE_GROUP_RENDER_TARGET );
 				ITexture *dest_rt_other=materials->FindTexture("_rt_accbuf_0", TEXTURE_GROUP_RENDER_TARGET );
@@ -1609,35 +1613,10 @@ void CRender3D::EndRenderFrame(void)
 		}
 		MaterialSystemInterface()->SwapBuffers();
 
-		if ( (m_eCurrentRenderMode == RENDER_MODE_LIGHT_PREVIEW_RAYTRACED) &&
-			 g_pLPreviewOutputBitmap )
+		if ( (m_eCurrentRenderMode == RENDER_MODE_LIGHT_PREVIEW_RAYTRACED) && g_pLPreviewOutputBitmap )
 		{
-			// blit it
-			BITMAPINFOHEADER mybmh;
-			mybmh.biHeight=-g_pLPreviewOutputBitmap->Height();
-			mybmh.biSize=sizeof(BITMAPINFOHEADER);
-			// now, set up bitmapheader struct for StretchDIB
-			mybmh.biWidth=g_pLPreviewOutputBitmap->Width();
-			mybmh.biPlanes=1;
-			mybmh.biBitCount=32;
-			mybmh.biCompression=BI_RGB;
-			mybmh.biSizeImage=g_pLPreviewOutputBitmap->Width()*g_pLPreviewOutputBitmap->Height();
-
-			RECT wrect;
-			memset(&wrect,0,sizeof(wrect));
-  
-			CCamera *pCamera = GetCamera();
-			int width, height;
-			pCamera->GetViewPort( width, height );
-// 			StretchDIBits(
-// 				m_WinData.hDC,0,0,width,height,
-// 				0,0,g_pLPreviewOutputBitmap->m_nWidth, g_pLPreviewOutputBitmap->m_nHeight,
-// 				g_pLPreviewOutputBitmap->m_pBits, (BITMAPINFO *) &mybmh,
-// 				DIB_RGB_COLORS, SRCCOPY);
-
 			// remember that we blitted it
-			m_pView->m_nLastRaytracedBitmapRenderTimeStamp = 
-				GetUpdateCounter( EVTYPE_BITMAP_RECEIVED_FROM_LPREVIEW );
+			m_pView->m_nLastRaytracedBitmapRenderTimeStamp = GetUpdateCounter( EVTYPE_BITMAP_RECEIVED_FROM_LPREVIEW );
 		}
 
 		if (g_bShowStatistics)
@@ -1849,29 +1828,7 @@ void CRender3D::Render(void)
 		 g_pLPreviewOutputBitmap &&
 		 (! view_changed ) )
 	{
-		// blit it
-		BITMAPINFOHEADER mybmh;
-		mybmh.biHeight=-g_pLPreviewOutputBitmap->Height();
-		mybmh.biSize=sizeof(BITMAPINFOHEADER);
-		// now, set up bitmapheader struct for StretchDIB
-		mybmh.biWidth=g_pLPreviewOutputBitmap->Width();
-		mybmh.biPlanes=1;
-		mybmh.biBitCount=32;
-		mybmh.biCompression=BI_RGB;
-		mybmh.biSizeImage=g_pLPreviewOutputBitmap->Width()*g_pLPreviewOutputBitmap->Height();
-
-		RECT wrect;
-		memset(&wrect,0,sizeof(wrect));
-  
-		pCamera->GetViewPort( width, height );
-// 		StretchDIBits(
-// 			m_WinData.hDC,0,0,width,height,
-// 			0,0,g_pLPreviewOutputBitmap->m_nWidth, g_pLPreviewOutputBitmap->m_nHeight,
-// 			g_pLPreviewOutputBitmap->m_pBits, (BITMAPINFO *) &mybmh,
-// 			DIB_RGB_COLORS, SRCCOPY);
-		m_pView->m_nLastRaytracedBitmapRenderTimeStamp = 
-			GetUpdateCounter( EVTYPE_BITMAP_RECEIVED_FROM_LPREVIEW );
-//		return;
+		m_pView->m_nLastRaytracedBitmapRenderTimeStamp = GetUpdateCounter( EVTYPE_BITMAP_RECEIVED_FROM_LPREVIEW );
 	}
 
 	StartRenderFrame();
