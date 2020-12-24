@@ -46,14 +46,11 @@ class CHammerApp : public CAppSystemGroup
 {
 public:
 	// Methods of IApplication
-	virtual bool Create( );
-	virtual bool PreInit( );
-	virtual int Main( );
-	virtual void PostShutdown();
-	virtual void Destroy();
-
-private:
-	int	MainLoop();
+	bool Create();
+	bool PreInit();
+	int Main();
+	void PostShutdown();
+	void Destroy();
 };
 
 

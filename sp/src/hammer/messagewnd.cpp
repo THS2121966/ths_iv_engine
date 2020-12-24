@@ -68,7 +68,7 @@ void CMessageWnd::CreateMessageWindow( CMDIFrameWnd *pwndParent, CRect &rect )
 {
 	Create( NULL, "Messages", WS_OVERLAPPEDWINDOW | WS_CHILD, rect, pwndParent );
 
-	bool bErrors = true;
+/*	bool bErrors = true;
 	MWMSGSTRUCT mws;
 	for ( int i = 0; i < iNumMsgs; i++ )
 	{
@@ -82,7 +82,8 @@ void CMessageWnd::CreateMessageWindow( CMDIFrameWnd *pwndParent, CRect &rect )
 	if ( bErrors )
 	{
 		ShowWindow( SW_SHOW );
-	}
+	}*/
+	ShowWindow( SW_SHOW );
 }
 
 
@@ -90,7 +91,7 @@ void CMessageWnd::CreateMessageWindow( CMDIFrameWnd *pwndParent, CRect &rect )
 // Emit a message to our messages array.
 // NOTE: During startup the window itself might not exist yet!
 //-----------------------------------------------------------------------------
-void CMessageWnd::AddMsg(MWMSGTYPE type, TCHAR* msg)
+void CMessageWnd::AddMsg(MWMSGTYPE type, const TCHAR* msg)
 {
 	int iAddAt = iNumMsgs;
 
@@ -109,7 +110,52 @@ void CMessageWnd::AddMsg(MWMSGTYPE type, TCHAR* msg)
 	// format message
 	MWMSGSTRUCT mws;	
 	mws.MsgLen = strlen(msg);
-	mws.type = type;
+	switch ( type )
+	{
+	case mwError:
+		mws.color.SetColor( 255, 10, 10 );
+		break;
+	case mwStatus:
+		mws.color.SetColor( 0, 0, 0 );
+		break;
+	case mwWarning:
+		mws.color.SetColor( 255, 60, 60 );
+		break;
+	}
+	Assert(mws.MsgLen <= (sizeof(mws.szMsg) / sizeof(TCHAR)));
+	_tcscpy(mws.szMsg, msg);
+
+	// Add the message, growing the array as necessary
+	MsgArray.SetAtGrow(iAddAt, mws);
+
+	// Don't do stuff that requires the window to exist.
+	if ( m_hWnd == NULL )
+		return;
+
+	CalculateScrollSize();
+	Invalidate();
+}
+
+void CMessageWnd::AddMsg( const Color& color, const TCHAR* msg )
+{
+	int iAddAt = iNumMsgs;
+
+	// Don't allow growth after MAX_MESSAGE_WND_LINES
+	if ( iNumMsgs == MAX_MESSAGE_WND_LINES )
+	{
+		MWMSGSTRUCT *p = MsgArray.GetData();
+		memcpy(p, p+1, sizeof(*p) * ( MAX_MESSAGE_WND_LINES - 1 ));
+		iAddAt = MAX_MESSAGE_WND_LINES - 1;
+	}
+	else
+	{
+		++iNumMsgs;
+	}
+
+	// format message
+	MWMSGSTRUCT mws;
+	mws.MsgLen = strlen(msg);
+	mws.color = color;
 	Assert(mws.MsgLen <= (sizeof(mws.szMsg) / sizeof(TCHAR)));
 	_tcscpy(mws.szMsg, msg);
 
@@ -246,14 +292,14 @@ void CMessageWnd::OnPaint()
 	GetScrollRange( SB_VERT, &nScrollMin, &nScrollMax );
 
 	// paint messages
-	MWMSGSTRUCT mws;
+//	MWMSGSTRUCT mws;
 	CRect r(0, 0, 1, iMsgPtSize+2);
 
 	dc.SetWindowOrg(GetScrollPos(SB_HORZ), GetScrollPos(SB_VERT));
 
 	for(int i = 0; i < iNumMsgs; i++)
 	{
-		mws = MsgArray[i];
+		const MWMSGSTRUCT& mws = MsgArray[i];
 
 		r.right = mws.MsgLen * iCharWidth;
 		
@@ -263,15 +309,7 @@ void CMessageWnd::OnPaint()
 			break;
 
 		// color of msg
-		switch(mws.type)
-		{
-		case mwError:
-			dc.SetTextColor(RGB(255, 60, 60));
-			break;
-		case mwStatus:
-			dc.SetTextColor(RGB(0, 0, 0));
-			break;
-		}
+		dc.SetTextColor(RGB(mws.color.r(), mws.color.g(), mws.color.b()));
 
 		// draw text
 		dc.TextOut(r.left, r.top, mws.szMsg, mws.MsgLen);

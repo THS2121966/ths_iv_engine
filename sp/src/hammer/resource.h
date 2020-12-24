@@ -677,6 +677,7 @@
 #define IDC_SPINSCALEY                  1356
 #define IDC_FIZZLEHUCK                  1356
 #define IDC_EXPAND                      1358
+#define IDC_MARK_FACES                  1358
 #define IDC_Q2_LIGHT                    1359
 #define IDC_Q2_SLICK                    1360
 #define IDC_Q2_SKY                      1361
@@ -955,7 +956,7 @@
 #define ID_DISP_NORAY_COLL              1657
 #define IDC_FOV                         1659
 #define IDC_LIGHT_CONE_LENGTH			1660
-#define IDC_BUTTON2                     1661
+//#define IDC_BUTTON2                     1661
 #define IDC_STOPSOUND                   1661
 #define IDC_QUICK_NODRAW                1661
 #define IDC_SAVING_TEXT                 1662
@@ -1367,7 +1368,7 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        363
+#define _APS_NEXT_RESOURCE_VALUE        364
 #define _APS_NEXT_COMMAND_VALUE         33290
 #define _APS_NEXT_CONTROL_VALUE         1696
 #define _APS_NEXT_SYMED_VALUE           116

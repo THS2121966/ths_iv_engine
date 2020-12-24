@@ -805,16 +805,41 @@ void CHammer::Help(const char *pszTopic)
 }
 
 
-static SpewRetval_t HammerDbgOutput( SpewType_t spewType, char const *pMsg )
+static SpewRetval_t HammerDbgOutput( SpewType_t spewType, const char* pMsg )
 {
 	// FIXME: The messages we're getting from the material system
 	// are ones that we really don't care much about.
 	// I'm disabling this for now, we need to decide about what to do with this
 
+	if ( g_pwndMessage )
+	{
+		Color clr = *GetSpewOutputColor();
+		if ( clr.GetRawColor() == 0xFFFFFFFF )
+		{
+			switch( spewType )
+			{
+			case SPEW_WARNING:
+				clr.SetColor( 196, 80, 80 );
+				break;
+			case SPEW_ASSERT:
+				clr.SetColor( 0, 255, 0 );
+				break;
+			case SPEW_ERROR:
+				clr.SetColor( 255, 0, 0 );
+				break;
+			case SPEW_MESSAGE:
+			case SPEW_LOG:
+				clr.SetColor( 0, 0, 0 );
+				break;
+			}
+		}
+		g_pwndMessage->AddMsg( clr, pMsg );
+	}
+
 	switch( spewType )
 	{
 	case SPEW_ERROR:
-		MessageBox( NULL, (LPCTSTR)pMsg, "Fatal Error", MB_OK | MB_ICONINFORMATION );
+		MessageBox( NULL, pMsg, "Fatal Error", MB_OK | MB_ICONINFORMATION );
 #ifdef _DEBUG
 		return SPEW_DEBUGGER;
 #else
@@ -1015,9 +1040,10 @@ int CHammer::StaticHammerInternalInit( void *pParam )
 	return (int)((CHammer*)pParam)->HammerInternalInit();
 }
 
-
+static SpewOutputFunc_t oldSpewFunc = NULL;
 InitReturnVal_t CHammer::HammerInternalInit()
 {
+	oldSpewFunc = GetSpewOutputFunc();
 	SpewActivate( "console", 1 );
 	SpewOutputFunc( HammerDbgOutput );
 	MathLib_Init( 2.2f, 2.2f, 0.0f, 2.0f, false, false, false, false );
@@ -1391,7 +1417,7 @@ int CHammer::ExitInstance()
 
 	if ( GetSpewOutputFunc() == HammerDbgOutput )
 	{
-		SpewOutputFunc( NULL );
+		SpewOutputFunc( oldSpewFunc );
 	}
 
 	SaveStdProfileSettings();
