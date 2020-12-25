@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 
 // Specify source root of your game.
-$Macro TARGET_SRC_DIRECTORY "D:\github\ths_iv_engine\sp\src"
+$Macro TARGET_SRC_DIRECTORY "$SRCDIR\..\..\src"
 
 // Specify target SDK version. Only enable one of them.
 $Conditional "TARGET_PLATFORM_2013" 1
@@ -19,7 +19,7 @@ $Conditional "TARGET_PLATFORM_2006" 0
 $Conditional "TARGET_PLATFORM_PORTAL2" 0
 
 // Specify game root.
-$Macro TARGET_GAME_DIRECTORY "D:\github\ths_iv_engine\sp\game\ths_iv_main"
+$Macro TARGET_GAME_DIRECTORY "$SRCDIR\..\..\game\ths_iv_main"
 
 
 // Toggled through macro above, do not touch.
