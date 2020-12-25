@@ -1523,23 +1523,23 @@
 	BlendTonemapEnd(target_destination) : "BlendTonemapEnd" : "" : "Target HDR Tonemap at the end of the blend."
 	BlendStartTime(string) : "BlendStartTime (seconds)" : "" : "Time at which the blend started."
 	BlendEndTime(string) : "BlendEndTime (seconds)" : "" : "Time at which the blend ends."
-	UseCustomAutoExposureMax(choices) : "UseCustomAutoExposureMax" : "" =
-	[
-		0 : "No"
-		1 : "Yes"
-	]
-	UseCustomAutoExposureMin(choices) : "UseCustomAutoExposureMin" : "" =
-	[
-		0 : "No"
-		1 : "Yes"
-	]
+	UseCustomAutoExposureMax(boolean) : "UseCustomAutoExposureMax" : 0 : "Use Custom Auto Exposure Max"
+//	[
+//		0 : "No"
+//		1 : "Yes"
+//	]
+	UseCustomAutoExposureMin(boolean) : "UseCustomAutoExposureMin" : 0 : "Use Custom Auto Exposure Min"
+//	[
+//		0 : "No"
+//		1 : "Yes"
+//	]
 	CustomAutoExposureMax(string) : "CustomAutoExposureMax" : "" : "This set Auto Exposure Max parm."
 	CustomAutoExposureMin(string) : "CustomAutoExposureMin" : "" : "This set Auto Exposure Min parm."
-	UseCustomBloomScale(choices) : "UseCustomBloomScale" : "" =
-	[
-		0 : "No"
-		1 : "Yes"
-	]
+	UseCustomBloomScale(boolean) : "UseCustomBloomScale" : 0 : "Use Custom Bloom Scale"
+//	[
+//		0 : "No"
+//		1 : "Yes"
+//	]
 	CustomBloomScale(string) : "CustomBloomScale" : "" : "This set Bloom Scale."
 	CustomBloomScaleMinimum(string) : "CustomBloomScaleMinimum" : "" : "This set Minimum parm range of Bloom Scale. Set it to (space) if you want disable it."
 
@@ -9688,7 +9688,7 @@
 @PointClass base(Targetname) = logic_playmovie : "Plays a movie and allows for various playback options"
 [
 	MovieFilename(string) : "Movie to play" : "" : "Filename of the movie to play"
-	allowskip(integer) : "Allow User to Skip" : 0 : "Whether or not the user may skip the video with common keys"
+	allowskip(boolean) : "Allow User to Skip" : 0 : "Whether or not the user may skip the video with common keys"
 
 	input PlayMovie(void) : "Play the movie."
 

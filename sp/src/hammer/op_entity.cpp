@@ -1230,6 +1230,10 @@ void COP_Entity::RefreshKVListValues( const char *pOnlyThisVar )
 								pValue = pTestValue;
 						}
 					}
+					else if (eType == ivBoolean)
+					{
+						pValue = *pUnformattedValue == '0' ? "No" : "Yes";
+					}
 					else if ( 
 						(eType == ivStudioModel) || (eType == ivSprite) || (eType == ivSound) || (eType == ivDecal) ||
 						(eType == ivMaterial) || (eType == ivScene) )
@@ -1868,7 +1872,7 @@ void COP_Entity::CreateSmartControls(GDinputvariable *pVar, CUtlVector<const cha
 	//
 	// Choices, NPC classes and filter classes get a combo box.
 	//
-	if ((eType == ivChoices) || (eType == ivNPCClass) || (eType == ivFilterClass) || (eType == ivPointEntityClass) )
+	if ((eType == ivChoices) || (eType == ivNPCClass) || (eType == ivFilterClass) || (eType == ivPointEntityClass) || (eType == ivBoolean) )
 	{
 		CreateSmartControls_Choices( pVar, ctrlrect, hControlFont );
 	}
@@ -2076,6 +2080,11 @@ void COP_Entity::CreateSmartControls_Choices( GDinputvariable *pVar, CRect &ctrl
 			}
 		}
 	}
+	else if (pVar->GetType() == ivBoolean)
+	{
+		pCombo->AddString("No");
+		pCombo->AddString("Yes");
+	}
 	//
 	// For pointentity fields, fill with all the point entity classes from the FGD.
 	//
@@ -2116,6 +2125,10 @@ void COP_Entity::CreateSmartControls_Choices( GDinputvariable *pVar, CRect &ctrl
 			if (pVar->GetType() == ivChoices)
 			{
 				p = pVar->ItemStringForValue(pszValue);
+			}
+			else if (pVar->GetType() == ivBoolean)
+			{
+				p = *pszValue == '0' ? "No" : "Yes";
 			}
 
 			if (p != NULL)
@@ -3260,6 +3273,10 @@ void COP_Entity::InternalOnChangeSmartcontrol( const char *szValue )
 			strValue = pszValueString;
 		}
 	}
+	else if (pVar->GetType() == ivBoolean)
+	{
+		strValue = !strcmpi( szValue, "No" ) ? "0" : "1";
+	}
 
 	UpdateKeyValue(szKey, strValue);
 
@@ -3388,7 +3405,8 @@ void COP_Entity::OnChangeSmartcontrolSel(void)
 		(pVar->GetType() != ivChoices) &&
 		(pVar->GetType() != ivNPCClass) &&
 		(pVar->GetType() != ivFilterClass) &&
-		(pVar->GetType() != ivPointEntityClass))
+		(pVar->GetType() != ivPointEntityClass) &&
+		(pVar->GetType() != ivBoolean))
 	{
 		return;
 	}
@@ -3418,7 +3436,14 @@ void COP_Entity::OnChangeSmartcontrolSel(void)
 			strcpy(szBuf, pszValue);
 		}
 	}
-	
+	else if (pVar->GetType() == ivBoolean)
+	{
+		if ( !strcmpi(szBuf, "No") )
+			strcpy(szBuf, "0");
+		else
+			strcpy(szBuf, "1");
+	}
+
 	m_LastSmartControlVarValue = szBuf;
 
 	m_kvAdded.SetValue(pVar->GetName(), "1");
