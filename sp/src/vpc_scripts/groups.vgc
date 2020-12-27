@@ -62,8 +62,6 @@ $Group "everything"
 //	"launcher_main"
 //	"sdklauncher"
 	"vtf"
-	"hammer_dll"
-	"hammer_launcher"
 }
 
 $Group "dedicated"
