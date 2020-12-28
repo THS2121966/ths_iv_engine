@@ -86,10 +86,18 @@ int MessageBox( HWND hWnd, const char *message, const char *header, unsigned uTy
 #include "tier0/memdbgon.h"
 
 #define DEFAULT_HL2_GAMEDIR	"hl2"
+#define DEFAULT_IV_GAMEDIR	"ths_so_main"
 
 #if defined( USE_SDL )
 extern void* CreateSDLMgr();
 #endif
+
+//ths_dev_add_new_windows_theme_style
+#pragma comment(linker,"/manifestdependency:\"type='win32' \
+    name='Microsoft.Windows.Common-Controls' version='6.0.0.0' \
+    processorArchitecture='*' publicKeyToken='6595b64144ccf1df' \
+    language='*'\"")
+//ths_dev_end_add_new_windows_theme_style
 
 //-----------------------------------------------------------------------------
 // Modules...
@@ -870,7 +878,7 @@ const char *CSourceAppSystemGroup::DetermineDefaultMod()
 {
 	if ( !m_bEditMode )
 	{   		 
-		return CommandLine()->ParmValue( "-game", DEFAULT_HL2_GAMEDIR );
+		return CommandLine()->ParmValue( "-game", DEFAULT_IV_GAMEDIR );
 	}
 	return g_pHammer->GetDefaultMod();
 }
@@ -928,7 +936,7 @@ bool GrabSourceMutex()
 #elif defined(POSIX)
 
 	// Under OSX use flock in /tmp/source_engine_<game>.lock, create the file if it doesn't exist
-	const char *pchGameParam = CommandLine()->ParmValue( "-game", DEFAULT_HL2_GAMEDIR );
+	const char *pchGameParam = CommandLine()->ParmValue( "-game", DEFAULT_IV_GAMEDIR );
 	CRC32_t gameCRC;
 	CRC32_Init(&gameCRC);
 	CRC32_ProcessBuffer( &gameCRC, (void *)pchGameParam, Q_strlen( pchGameParam ) );
