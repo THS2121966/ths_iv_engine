@@ -1,0 +1,5 @@
+Unsharp_Blur
+{
+$FBTEXTURE "_rt_FullFrameFB"
+$BLURSIZE 0.5
+}

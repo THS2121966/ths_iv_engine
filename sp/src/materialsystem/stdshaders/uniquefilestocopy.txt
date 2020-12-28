@@ -1,6 +1,6 @@
 ..\..\devtools\bin\d3dx9_33.dll 
 ..\..\dx10sdk\utilities\dx9_30\dx_proxy.dll 
-D:\Games\Steam\steamapps\common\ths_silent_operation01\bin\shadercompile.exe 
-D:\Games\Steam\steamapps\common\ths_silent_operation01\bin\shadercompile_dll.dll 
-D:\Games\Steam\steamapps\common\ths_silent_operation01\bin\tier0.dll 
-D:\Games\Steam\steamapps\common\ths_silent_operation01\bin\vstdlib.dll 
+G:\Games\Steam\steamapps\common\ths_silent_operation01\bin\shadercompile.exe 
+G:\Games\Steam\steamapps\common\ths_silent_operation01\bin\shadercompile_dll.dll 
+G:\Games\Steam\steamapps\common\ths_silent_operation01\bin\tier0.dll 
+G:\Games\Steam\steamapps\common\ths_silent_operation01\bin\vstdlib.dll 

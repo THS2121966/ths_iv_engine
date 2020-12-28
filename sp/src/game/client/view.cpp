@@ -349,6 +349,7 @@ void CViewRender::LevelInit( void )
 	g_pScreenSpaceEffects->InitScreenSpaceEffects( );
 	//thsdev_init_this_postprocess
 	g_pScreenSpaceEffects->EnableScreenSpaceEffect( "c17_waterfx" );
+	g_pScreenSpaceEffects->EnableScreenSpaceEffect( "c17_unsharp" );
 }
 
 //-----------------------------------------------------------------------------
@@ -372,6 +373,7 @@ void CViewRender::Shutdown( void )
 	tempents->Shutdown();
 	//thsdev_end_this_postprocess
 	g_pScreenSpaceEffects->DisableScreenSpaceEffect( "c17_waterfx" );
+	g_pScreenSpaceEffects->DisableScreenSpaceEffect( "c17_unsharp" );
 }
 
 

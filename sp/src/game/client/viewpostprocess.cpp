@@ -60,6 +60,7 @@ bool ths_nightvision_init = false;
 int ths_filmgrain = 50;
 int ths_exp = 50;
 int ths_flare = 25;
+extern bool iv_water_down;
 
 static ConVar thsdev_fx_main_enabled( "thsdev_fx_main_enabled", "1" );
 
@@ -2902,7 +2903,7 @@ if ( ths_flare == 0 )
 {
 	return;
 }
-else if ( ths_flare == 25 && thsdev_fx_main_enabled.GetBool() )
+else if ( ths_flare == 25 && thsdev_fx_main_enabled.GetBool() && iv_water_down )
 {
 static IMaterial *ths_fl_an01 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_flare_an01_25", TEXTURE_GROUP_OTHER );
 	if ( ths_fl_an01 )
@@ -2913,7 +2914,7 @@ static IMaterial *ths_fl_an01 = materials->FindMaterial( "ths_shaderedit_effects
 							w, h );
 	}
 }
-else if ( ths_flare == 50 && thsdev_fx_main_enabled.GetBool() )
+else if ( ths_flare == 50 && thsdev_fx_main_enabled.GetBool() && iv_water_down )
 {
 static IMaterial *ths_fl_an02 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_flare_an01_50", TEXTURE_GROUP_OTHER );
 	if ( ths_fl_an02 )
@@ -2924,7 +2925,7 @@ static IMaterial *ths_fl_an02 = materials->FindMaterial( "ths_shaderedit_effects
 							w, h );
 	}
 }
-else if ( ths_flare == 75 && thsdev_fx_main_enabled.GetBool() )
+else if ( ths_flare == 75 && thsdev_fx_main_enabled.GetBool() && iv_water_down )
 {
 static IMaterial *ths_fl_an03 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_flare_an01_75", TEXTURE_GROUP_OTHER );
 	if ( ths_fl_an03 )
@@ -2935,7 +2936,7 @@ static IMaterial *ths_fl_an03 = materials->FindMaterial( "ths_shaderedit_effects
 							w, h );
 	}
 }
-else if ( ths_flare == 100 && thsdev_fx_main_enabled.GetBool() )
+else if ( ths_flare == 100 && thsdev_fx_main_enabled.GetBool() && iv_water_down )
 {
 static IMaterial *ths_fl_an04 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_flare_an01_100", TEXTURE_GROUP_OTHER );
 	if ( ths_fl_an04 )
@@ -2948,7 +2949,7 @@ static IMaterial *ths_fl_an04 = materials->FindMaterial( "ths_shaderedit_effects
 }
 
 //ths_ssao_and_branch_exp_effect
-if ( ths_ssao.GetBool() || ths_ssao_init )
+if ( ths_ssao.GetBool() || ths_ssao_init && iv_water_down )
 {
 static IMaterial *ths_ssao_effect = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_ssao_main", TEXTURE_GROUP_OTHER );
 	if ( ths_ssao_effect )
@@ -2959,11 +2960,11 @@ static IMaterial *ths_ssao_effect = materials->FindMaterial( "ths_shaderedit_eff
 							w, h );
 	}
 }
-else if ( ths_flare == 0 )
+else if ( ths_exp == 0 )
 {
 	return;
 }
-else if ( ths_exp == 25 && thsdev_fx_main_enabled.GetBool() )
+else if ( ths_exp == 25 && thsdev_fx_main_enabled.GetBool() && iv_water_down )
 {
 static IMaterial *exp_effect01 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_branch_exp01_25", TEXTURE_GROUP_OTHER );
 	if ( exp_effect01 )
@@ -2974,7 +2975,7 @@ static IMaterial *exp_effect01 = materials->FindMaterial( "ths_shaderedit_effect
 							w, h );
 	}
 }
-else if ( ths_exp == 50 && thsdev_fx_main_enabled.GetBool() )
+else if ( ths_exp == 50 && thsdev_fx_main_enabled.GetBool() && iv_water_down )
 {
 static IMaterial *exp_effect02 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_branch_exp01_50", TEXTURE_GROUP_OTHER );
 	if ( exp_effect02 )
@@ -2985,7 +2986,7 @@ static IMaterial *exp_effect02 = materials->FindMaterial( "ths_shaderedit_effect
 							w, h );
 	}
 }
-else if ( ths_exp == 75 && thsdev_fx_main_enabled.GetBool() )
+else if ( ths_exp == 75 && thsdev_fx_main_enabled.GetBool() && iv_water_down )
 {
 static IMaterial *exp_effect03 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_branch_exp01_75", TEXTURE_GROUP_OTHER );
 	if ( exp_effect03 )
@@ -2996,7 +2997,7 @@ static IMaterial *exp_effect03 = materials->FindMaterial( "ths_shaderedit_effect
 							w, h );
 	}
 }
-else if ( ths_exp == 100 && thsdev_fx_main_enabled.GetBool() )
+else if ( ths_exp == 100 && thsdev_fx_main_enabled.GetBool() && iv_water_down )
 {
 static IMaterial *exp_effect04 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_branch_exp01_100", TEXTURE_GROUP_OTHER );
 	if ( exp_effect04 )

@@ -20,5 +20,7 @@ $Project "Shaders (IV)"
 	$File	"chromatic.cpp"
 	$File	"gaussianx.cpp"
 	$File	"gaussiany.cpp"
+	$File	"unsharp.cpp"
+	$File	"unsharp_blur.cpp"
 	}
 }
