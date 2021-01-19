@@ -51,6 +51,7 @@ static TypeMap_t TypeMap[] =
 	{ ivVecLine,			"vecline",				STRING },
 	{ ivPointEntityClass,	"pointentityclass",		STRING },
 	{ ivNodeDest,			"node_dest",			INTEGER },
+	{ ivParticleSystem,		"particlesystem",		STRING },
 	{ ivInstanceFile,		"instance_file",		STRING },
 	{ ivAngleNegativePitch,	"angle_negative_pitch",	STRING },
 	{ ivInstanceVariable,	"instance_variable",	STRING },
