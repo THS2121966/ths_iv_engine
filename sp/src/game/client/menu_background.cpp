@@ -33,6 +33,9 @@ CLIENTEFFECT_REGISTER_BEGIN( PrecacheMainMenu )
 CLIENTEFFECT_MATERIAL( "console/mainmenu" )
 CLIENTEFFECT_REGISTER_END()
 
+ConVar iv_change_ui_video( "iv_change_ui_video", "media/mainmenu.bik", FCVAR_ARCHIVE );
+
+string_t iv_released_video = iv_change_ui_video.GetString();
 
 enum
 {
@@ -117,13 +120,13 @@ void CMainMenu::OnThink()
 					m_bLoaded = true;
 				else
 				{
-					if (BeginPlayback( "media/mainmenu.bik" ))
+					if (BeginPlayback( iv_released_video ))
 						m_bLoaded = true;
 				}
 			}
 			else
 			{
-				if (BeginPlayback( "media/mainmenu.bik" ))
+				if (BeginPlayback( iv_released_video ))
 					m_bLoaded = true;
 			}
 		}

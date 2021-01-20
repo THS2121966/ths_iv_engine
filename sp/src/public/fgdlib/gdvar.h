@@ -25,6 +25,7 @@ enum GDIV_TYPE
 	ivTargetSrc,
 	ivInteger,
 	ivString,
+	ivStringInstanced,
 	ivChoices,
 	ivFlags,
 	ivDecal,
@@ -52,6 +53,7 @@ enum GDIV_TYPE
 	ivInstanceVariable,		// used for instance variables for easy hammer editing
 	ivInstanceParm,			// used for instance parameter declaration
 	ivBoolean,
+	ivNodeID,				// used for instance node id remapping
 
 	ivMax					// count of types
 };
