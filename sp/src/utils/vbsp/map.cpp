@@ -2816,51 +2816,6 @@ bool LoadMapFile( const char *pszFileName )
 		}
 	}
 
-#ifdef PARALLAX_CORRECTED_CUBEMAPS
-		// Fill out parallax obb matrix array
-		// "i" is static so this code could account for
-		// multiple LoadMapFile() calls from instances, etc.
-		for (static int i = 0; i < g_nCubemapSamples; i++) 
-		{
-			if (g_pParallaxObbStrs[i][0] != '\0')
-			{
-				Warning( "Testing OBB string %s\n", g_pParallaxObbStrs[i] );
-
-				for (int i2 = 0; i2 < g_LoadingMap->num_entities; i2++)
-				{
-					entity_t* obbEnt = &g_LoadingMap->entities[i2];
-					if (stricmp( ValueForKey( obbEnt, "targetname" ), g_pParallaxObbStrs[i] ) != 0)
-						continue;
-
-					if (obbEnt)
-					{
-						g_pParallaxObbStrs[i] = ValueForKey(obbEnt, "transformationmatrix");
-						Warning( "Using OBB transformation matrix \"%s\"\n", g_pParallaxObbStrs[i] );
-					}
-					else
-					{
-						Warning( "Cannot find parallax obb \"%s\"\n", g_pParallaxObbStrs[i] );
-						g_pParallaxObbStrs[i][0] = '\0';
-					}
-
-					break;
-				}
-			}
-		}
-
-		// Remove parallax_obb entities (in a nice slow linear search)
-		for (int i = 0; i < g_LoadingMap->num_entities; i++)
-		{
-			entity_t* mapent = &g_LoadingMap->entities[i];
-			const char *pClassName = ValueForKey( mapent, "classname" );
-			if ( !strcmp( "parallax_obb", pClassName ) )
-			{
-				mapent->numbrushes = 0;
-				mapent->epairs = NULL;
-			}
-		}
-#endif
-
 	if ((eResult == ChunkFile_Ok) || (eResult == ChunkFile_EOF))
 	{
 #ifdef MAPBASE_VSCRIPT
