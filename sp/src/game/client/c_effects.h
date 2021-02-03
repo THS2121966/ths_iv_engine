@@ -63,6 +63,19 @@ private:
 // Precipitation base entity
 //-----------------------------------------------------------------------------
 
+//-----------------------------------------------------------------------------
+// Precipitation blocker entity
+//-----------------------------------------------------------------------------
+class C_PrecipitationBlocker : public C_BaseEntity
+{
+public:
+	DECLARE_CLASS( C_PrecipitationBlocker, C_BaseEntity );
+	DECLARE_CLIENTCLASS();
+
+	C_PrecipitationBlocker();
+	virtual ~C_PrecipitationBlocker();
+};
+
 class CClient_Precipitation : public C_BaseEntity
 {
 class CPrecipitationEffect;

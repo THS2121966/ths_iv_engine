@@ -3,6 +3,10 @@
 #include "raytrace.h"
 #include <mathlib/halton.h>
 
+// NOTE: This has to be the last file included!
+#include "tier0/memdbgon.h"
+
+
 static uint32 MapDistanceToPixel(float t)
 {
 	if (t<0) return 0xffff0000;
@@ -303,7 +307,7 @@ static unsigned int GetSignMask(Vector const &v)
 }
 
 
-inline void RayTracingEnvironment::FlushStreamEntry(RayStream &s,int msk)
+inline void RayTracingEnvironment::FlushStreamEntry(RayStream &s,int msk, RTECullMode_t cullMode )
 {
 	assert(msk>=0);
 	assert(msk<8);
@@ -311,7 +315,7 @@ inline void RayTracingEnvironment::FlushStreamEntry(RayStream &s,int msk)
 	fltx4 scl=ReciprocalSaturateSIMD(tmax);
 	s.PendingRays[msk].direction*=scl;					// normalize
 	RayTracingResult tmpresult;
-	Trace4Rays(s.PendingRays[msk],Four_Zeros,tmax,msk,&tmpresult);
+	Trace4Rays(s.PendingRays[msk],Four_Zeros,tmax,msk,&tmpresult,-1,NULL,cullMode);
 	// now, write out results
 	for(int r=0;r<4;r++)
 	{
@@ -328,7 +332,8 @@ inline void RayTracingEnvironment::FlushStreamEntry(RayStream &s,int msk)
 
 void RayTracingEnvironment::AddToRayStream(RayStream &s,
 										   Vector const &start,Vector const &end,
-										   RayTracingSingleResult *rslt_out)
+										   RayTracingSingleResult *rslt_out, 
+										   RTECullMode_t cullMode )
 {
 	Vector delta=end;
 	delta-=start;
@@ -346,13 +351,13 @@ void RayTracingEnvironment::AddToRayStream(RayStream &s,
 	s.PendingStreamOutputs[msk][pos]=rslt_out;
 	if (pos==3)
 	{
-		FlushStreamEntry(s,msk);
+		FlushStreamEntry(s,msk,cullMode);
 	}
 	else
 		s.n_in_stream[msk]++;
 }
 
-void RayTracingEnvironment::FinishRayStream(RayStream &s)
+void RayTracingEnvironment::FinishRayStream(RayStream &s, RTECullMode_t cullMode )
 {
 	for(int msk=0;msk<8;msk++)
 	{
@@ -370,7 +375,7 @@ void RayTracingEnvironment::FinishRayStream(RayStream &s)
 				s.PendingRays[msk].direction.Z(c) = s.PendingRays[msk].direction.Z(0);
 				s.PendingStreamOutputs[msk][c]=s.PendingStreamOutputs[msk][0];
 			}
-			FlushStreamEntry(s,msk);
+			FlushStreamEntry(s,msk,cullMode);
 		}
 	}
 }
