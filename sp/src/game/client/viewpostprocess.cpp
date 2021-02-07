@@ -66,7 +66,7 @@ static ConVar thsdev_fx_main_enabled( "thsdev_fx_main_enabled", "1" );
 
 // hdr parameters
 ConVar mat_bloomscale( "mat_bloomscale", "1" );
-ConVar mat_hdr_level( "mat_hdr_level", "2", FCVAR_ARCHIVE );
+ConVar mat_hdr_level( "mat_hdr_level", "2" );
 
 ConVar mat_bloomamount_rate( "mat_bloomamount_rate", "0.05f", FCVAR_CHEAT );
 static ConVar debug_postproc( "mat_debug_postprocessing_effects", "0", FCVAR_NONE, "0 = off, 1 = show post-processing passes in quadrants of the screen, 2 = only apply post-processing to the centre of the screen" );
@@ -124,6 +124,7 @@ ConVar mat_tonemap_percent_target( "mat_tonemap_percent_target", "60.0", FCVAR_C
 ConVar mat_tonemap_percent_bright_pixels( "mat_tonemap_percent_bright_pixels", "2.0", FCVAR_CHEAT );
 ConVar mat_tonemap_min_avglum( "mat_tonemap_min_avglum", "3.0", FCVAR_CHEAT );
 ConVar mat_fullbright( "mat_fullbright", "0", FCVAR_CHEAT );
+ConVar thsdev_fix_mat_fullbright( "thsdev_fix_mat_fullbright", "0", FCVAR_ARCHIVE, "Hack for disabling non-hdr light." );
 
 extern ConVar localplayer_visionflags;
 
@@ -1235,6 +1236,13 @@ static void SetToneMapScale(IMatRenderContext *pRenderContext, float newvalue, f
 		flForcedTonemapScale = 1.0f;
 	}
 
+	if ( mat_hdr_level.GetInt() > 1 && thsdev_fix_mat_fullbright.GetInt() == 1 && mat_fullbright.GetInt() == 1 )
+	{
+		Warning( "Turn off mat_fullbright\n" );
+		mat_fullbright.SetValue( 0 );
+		thsdev_fix_mat_fullbright.SetValue( 0 );
+	}
+
 	if( flForcedTonemapScale > 0.0f )
 	{
 		mat_hdr_tonemapscale.SetValue( flForcedTonemapScale );
@@ -1623,7 +1631,14 @@ static float GetBloomAmount( void )
 	HDRType_t hdrType = g_pMaterialSystemHardwareConfig->GetHDRType();
 
 	bool bBloomEnabled = (mat_hdr_level.GetInt() >= 1);
-	
+
+	if ( mat_hdr_level.GetInt() < 2 )
+	{
+		Warning( "In IV Engine HDR always Enabled!!! Enabling HDR and reloading materials\n" );
+		mat_hdr_level.SetValue( 2 );
+		thsdev_fix_mat_fullbright.SetValue( 1 );
+	}
+
 	if ( !engine->MapHasHDRLighting() )
 		bBloomEnabled = false;
 	if ( mat_force_bloom.GetInt() )
@@ -2853,7 +2868,7 @@ if ( ths_filmgrain == 0 )
 {
 	return;
 }
-else if ( ths_filmgrain == 25 && thsdev_fx_main_enabled.GetBool() )
+else if ( ths_filmgrain == 25 && thsdev_fx_main_enabled.GetBool() && mat_fullbright.GetInt() == 0 )
 {
 static IMaterial *ths_fg01 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_filmgrain01_25", TEXTURE_GROUP_OTHER );
 	if ( ths_fg01 )
@@ -2864,7 +2879,7 @@ static IMaterial *ths_fg01 = materials->FindMaterial( "ths_shaderedit_effects/po
 							w, h );
 	}
 }
-else if ( ths_filmgrain == 50 && thsdev_fx_main_enabled.GetBool() )
+else if ( ths_filmgrain == 50 && thsdev_fx_main_enabled.GetBool() && mat_fullbright.GetInt() == 0 )
 {
 static IMaterial *ths_fg02 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_filmgrain01_50", TEXTURE_GROUP_OTHER );
 	if ( ths_fg02 )
@@ -2875,7 +2890,7 @@ static IMaterial *ths_fg02 = materials->FindMaterial( "ths_shaderedit_effects/po
 							w, h );
 	}
 }
-else if ( ths_filmgrain == 75 && thsdev_fx_main_enabled.GetBool() )
+else if ( ths_filmgrain == 75 && thsdev_fx_main_enabled.GetBool() && mat_fullbright.GetInt() == 0 )
 {
 static IMaterial *ths_fg03 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_filmgrain01_75", TEXTURE_GROUP_OTHER );
 	if ( ths_fg03 )
@@ -2886,7 +2901,7 @@ static IMaterial *ths_fg03 = materials->FindMaterial( "ths_shaderedit_effects/po
 							w, h );
 	}
 }
-else if ( ths_filmgrain == 100 && thsdev_fx_main_enabled.GetBool() )
+else if ( ths_filmgrain == 100 && thsdev_fx_main_enabled.GetBool() && mat_fullbright.GetInt() == 0 )
 {
 static IMaterial *ths_fg04 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_filmgrain01_100", TEXTURE_GROUP_OTHER );
 	if ( ths_fg04 )
@@ -2903,7 +2918,7 @@ if ( ths_flare == 0 )
 {
 	return;
 }
-else if ( ths_flare == 25 && thsdev_fx_main_enabled.GetBool() && iv_water_down )
+else if ( ths_flare == 25 && thsdev_fx_main_enabled.GetBool() && iv_water_down && mat_fullbright.GetInt() == 0 )
 {
 static IMaterial *ths_fl_an01 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_flare_an01_25", TEXTURE_GROUP_OTHER );
 	if ( ths_fl_an01 )
@@ -2914,7 +2929,7 @@ static IMaterial *ths_fl_an01 = materials->FindMaterial( "ths_shaderedit_effects
 							w, h );
 	}
 }
-else if ( ths_flare == 50 && thsdev_fx_main_enabled.GetBool() && iv_water_down )
+else if ( ths_flare == 50 && thsdev_fx_main_enabled.GetBool() && iv_water_down && mat_fullbright.GetInt() == 0 )
 {
 static IMaterial *ths_fl_an02 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_flare_an01_50", TEXTURE_GROUP_OTHER );
 	if ( ths_fl_an02 )
@@ -2925,7 +2940,7 @@ static IMaterial *ths_fl_an02 = materials->FindMaterial( "ths_shaderedit_effects
 							w, h );
 	}
 }
-else if ( ths_flare == 75 && thsdev_fx_main_enabled.GetBool() && iv_water_down )
+else if ( ths_flare == 75 && thsdev_fx_main_enabled.GetBool() && iv_water_down && mat_fullbright.GetInt() == 0 )
 {
 static IMaterial *ths_fl_an03 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_flare_an01_75", TEXTURE_GROUP_OTHER );
 	if ( ths_fl_an03 )
@@ -2936,7 +2951,7 @@ static IMaterial *ths_fl_an03 = materials->FindMaterial( "ths_shaderedit_effects
 							w, h );
 	}
 }
-else if ( ths_flare == 100 && thsdev_fx_main_enabled.GetBool() && iv_water_down )
+else if ( ths_flare == 100 && thsdev_fx_main_enabled.GetBool() && iv_water_down && mat_fullbright.GetInt() == 0 )
 {
 static IMaterial *ths_fl_an04 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_flare_an01_100", TEXTURE_GROUP_OTHER );
 	if ( ths_fl_an04 )
@@ -2964,7 +2979,7 @@ else if ( ths_exp == 0 )
 {
 	return;
 }
-else if ( ths_exp == 25 && thsdev_fx_main_enabled.GetBool() && iv_water_down )
+else if ( ths_exp == 25 && thsdev_fx_main_enabled.GetBool() && iv_water_down && mat_fullbright.GetInt() == 0 )
 {
 static IMaterial *exp_effect01 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_branch_exp01_25", TEXTURE_GROUP_OTHER );
 	if ( exp_effect01 )
@@ -2975,7 +2990,7 @@ static IMaterial *exp_effect01 = materials->FindMaterial( "ths_shaderedit_effect
 							w, h );
 	}
 }
-else if ( ths_exp == 50 && thsdev_fx_main_enabled.GetBool() && iv_water_down )
+else if ( ths_exp == 50 && thsdev_fx_main_enabled.GetBool() && iv_water_down && mat_fullbright.GetInt() == 0 )
 {
 static IMaterial *exp_effect02 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_branch_exp01_50", TEXTURE_GROUP_OTHER );
 	if ( exp_effect02 )
@@ -2986,7 +3001,7 @@ static IMaterial *exp_effect02 = materials->FindMaterial( "ths_shaderedit_effect
 							w, h );
 	}
 }
-else if ( ths_exp == 75 && thsdev_fx_main_enabled.GetBool() && iv_water_down )
+else if ( ths_exp == 75 && thsdev_fx_main_enabled.GetBool() && iv_water_down && mat_fullbright.GetInt() == 0 )
 {
 static IMaterial *exp_effect03 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_branch_exp01_75", TEXTURE_GROUP_OTHER );
 	if ( exp_effect03 )
@@ -2997,7 +3012,7 @@ static IMaterial *exp_effect03 = materials->FindMaterial( "ths_shaderedit_effect
 							w, h );
 	}
 }
-else if ( ths_exp == 100 && thsdev_fx_main_enabled.GetBool() && iv_water_down )
+else if ( ths_exp == 100 && thsdev_fx_main_enabled.GetBool() && iv_water_down && mat_fullbright.GetInt() == 0 )
 {
 static IMaterial *exp_effect04 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_branch_exp01_100", TEXTURE_GROUP_OTHER );
 	if ( exp_effect04 )
