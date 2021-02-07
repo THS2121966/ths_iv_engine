@@ -220,7 +220,7 @@ bool CWorldLights::GetBrightestLightSource(const Vector &vecPosition, Vector &ve
 		dworldlight_t *light = &m_pWorldLights[i];
 
 		// Skip skyambient
-		if(light->type == emit_skyambient)
+		if(light->type == emit_skyambient || light->cast_ent_shadow == 0 )
 		{
 			//engine->Con_NPrintf(i, "%d: skyambient", i);
 			continue;
