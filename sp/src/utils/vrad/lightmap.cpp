@@ -1245,9 +1245,14 @@ static void ParseLightGeneric( entity_t *e, directlight_t *dl )
 	dl->light.style = (int)FloatForKey (e, "style");
 	dl->m_bSkyLightIsDirectionalLight = false;
 	
-	int castentshadow = 1;
-	castentshadow = (int)FloatForKey (e, "_castentityshadow" );
-	dl->light.cast_ent_shadow = castentshadow;
+	if( (int)FloatForKeyWithDefault(e, "_castentityshadow", 1.0f ) != 0 )
+	{
+		dl->light.flags |= DWL_FLAGS_CASTENTITYSHADOWS;
+	}
+	else
+	{
+		dl->light.flags &= ~DWL_FLAGS_CASTENTITYSHADOWS;
+	}
 	
 	// get intenfsity
 	if( g_bHDR && LightForKey( e, "_lightHDR", dl->light.intensity ) ) 

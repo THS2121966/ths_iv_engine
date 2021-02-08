@@ -984,7 +984,6 @@ struct dworldlight_t
 	Vector		normal;			// for surfaces and spotlights
 	int			cluster;
 	emittype_t	type;
-	int		cast_ent_shadow;
     int			style;
 	float		stopdot;		// start of penumbra for emit_spotlight
 	float		stopdot2;		// end of penumbra for emit_spotlight
