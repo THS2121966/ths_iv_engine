@@ -2205,6 +2205,7 @@ void CMapFile::MergeInstance( entity_t *pInstanceEntity, CMapFile *Instance )
 	MergeBrushSides( pInstanceEntity, Instance, OriginOffset, angles, mat );
 	MergeEntities( pInstanceEntity, Instance, OriginOffset, angles, mat );
 	MergeOverlays( pInstanceEntity, Instance, OriginOffset, angles, mat );
+	MergeIOProxy( pInstanceEntity, Instance, OriginOffset, angles, mat );
 }
 
 
@@ -2672,6 +2673,24 @@ void CMapFile::MergeEntities( entity_t *pInstanceEntity, CMapFile *Instance, Vec
 
 	num_entities += Instance->num_entities;
 
+	CConnectionPairs	*pLast = m_ConnectionPairs;
+	while( pLast != NULL && pLast->m_Next != NULL )
+			  
+																
+									   
+	{
+		pLast = pLast->m_Next;
+	}
+
+	if ( pLast == NULL )
+	{
+		m_ConnectionPairs = Instance->m_ConnectionPairs;
+	}
+	else
+	{
+		pLast->m_Next = Instance->m_ConnectionPairs;
+	}
+
 	MoveBrushesToWorldGeneral( WorldspawnEnt );
 	WorldspawnEnt->numbrushes = 0;
 #ifdef MAPBASE
@@ -2726,6 +2745,211 @@ void CMapFile::MergeOverlays( entity_t *pInstanceEntity, CMapFile *Instance, Vec
 	}
 }
 
+#define PROXY_ID "instance:"
+#define PROXY_RELAY "OnProxyRelay"
+
+void CMapFile::MergeIOProxy( entity_t *pInstanceEntity, CMapFile *Instance, Vector &InstanceOrigin, QAngle &InstanceAngle, matrix3x4_t &InstanceMatrix )
+{
+	char *pTargetName = ValueForKey( pInstanceEntity, "targetname" );
+
+	if ( pTargetName[ 0 ] == 0 )
+	{	// we can only do this for explicity named instances
+		return;
+	}
+
+	entity_t *io_proxy_entity = NULL;
+
+	// find the proxy entity
+	for( int i = 0; i < Instance->num_entities; i++ )
+	{
+		entity_t *entity = &entities[ num_entities - Instance->num_entities + i ];
+
+		char *pEntity = ValueForKey( entity, "classname" );
+		if ( strcmpi( pEntity, "func_instance_io_proxy" ) == 0 )
+		{
+			io_proxy_entity = entity;
+			break;
+		}
+	}
+
+	if ( io_proxy_entity == NULL )
+	{	// if we don't have a proxy, bail
+		return;
+	}
+
+	char *pProxyName = ValueForKey( io_proxy_entity, "targetname" );
+	GameData::TNameFixup FixupStyle = ( GameData::TNameFixup )( IntForKey( pInstanceEntity, "fixup_style" ) );
+	int nNumRelay = 0;
+
+	// rename existing proxy events to be uniquely numbered
+	for ( epair_t *ep = io_proxy_entity->epairs; ep != NULL; ep = ep->next )
+	{
+		if ( strcmpi( ep->key, PROXY_RELAY ) == 0 )
+		{
+			nNumRelay++;
+
+			char *pszOldKey = ep->key;
+			char temp[ MAX_KEYVALUE_LEN ];
+			sprintf( temp, "%s%d", pszOldKey, nNumRelay );
+
+			ep->key = new char[ strlen( temp ) + 1 ];
+			strcpy( ep->key, temp );
+			delete pszOldKey;
+		}
+	}
+
+	// examine all entity connections external to the instance, this is for IO going in to the instance
+	CConnectionPairs	*pConnection = m_ConnectionPairs;
+	while( pConnection != Instance->m_ConnectionPairs )
+	{
+		char	origValue[ MAX_KEYVALUE_LEN ];
+
+		strcpy( origValue, pConnection->m_Pair->value );
+		char *pos = strchr( origValue, VMF_IOPARAM_STRING_DELIMITER );
+		if ( pos != NULL )
+		{	// this is a proxy relay io
+			*pos = 0;
+
+			if ( strcmpi( origValue, pTargetName ) == 0 )
+			{	// which goes to the proxy relay inside the instance
+				char *pszProxy = pos + 1;
+
+				pos = strchr( pszProxy, VMF_IOPARAM_STRING_DELIMITER );
+				if ( pos != NULL )
+				{	// it is properly formatted
+					if ( strnicmp( pszProxy, PROXY_ID, strlen( PROXY_ID ) ) == 0 )
+					{	// the entity linkup is properly formatted   instance:xxxxxxx
+						pszProxy += strlen( PROXY_ID );
+
+						char test[ MAX_KEYVALUE_LEN ], search[ MAX_KEYVALUE_LEN ];
+						strcpy( test, pszProxy );
+						
+						char *Seperator = strchr( test, ';' );
+						*Seperator = NULL;
+
+						GD.RemapNameField( test, search, FixupStyle );
+
+						*Seperator = VMF_IOPARAM_STRING_DELIMITER;
+						char *NextSeperator = strchr( Seperator + 1, VMF_IOPARAM_STRING_DELIMITER );
+						*NextSeperator = 0;
+						strcat( search, Seperator );
+
+						// try and find the matchup entry in the proxy
+						for ( epair_t *ep = io_proxy_entity->epairs; ep != NULL; ep = ep->next )
+						{
+							if ( strnicmp( ep->key, PROXY_RELAY, strlen( PROXY_RELAY ) ) == 0 &&
+								 strnicmp( ep->value, search, strlen( search ) ) == 0 )
+							{	// the key is a relay and the value is identical
+								int len = sprintf( search, "%s%c%s%c%s", pProxyName, VMF_IOPARAM_STRING_DELIMITER, ep->key, VMF_IOPARAM_STRING_DELIMITER, NextSeperator + 1 );
+
+								char *pszOldKey = pConnection->m_Pair->value;
+
+								pConnection->m_Pair->value = new char[ len + 1 ];
+								strcpy( pConnection->m_Pair->value, search );
+								delete pszOldKey;
+
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		pConnection = pConnection->m_Next;
+	}
+
+	CUtlVector< epair_t * > RenameList, RemoveList;
+
+	// examine all entity connections external to the instance, this is for IO going out of the instance
+	pConnection = m_ConnectionPairs;
+	while( pConnection != Instance->m_ConnectionPairs )
+	{
+		// ugly way to find connections for the func_instance
+		for ( epair_t *ep = pInstanceEntity->epairs; ep != NULL; ep = ep->next )
+		{
+			if ( ep == pConnection->m_Pair )
+			{	// this connection is a member of our func_instance
+				char *pszProxy = ep->key;
+
+				if ( strnicmp( pszProxy, PROXY_ID, strlen( PROXY_ID ) ) == 0 )
+				{	// it is a proxy relay
+					pszProxy += strlen( PROXY_ID );
+
+					char test[ MAX_KEYVALUE_LEN ], search[ MAX_KEYVALUE_LEN ];
+					strcpy( test, pszProxy );
+
+					char *Seperator = strchr( test, ';' );
+					*Seperator = NULL;
+
+					GD.RemapNameField( test, search, FixupStyle );
+
+					char temp[ MAX_KEYVALUE_LEN ];
+
+					nNumRelay++;
+					sprintf( temp, "%s%d", PROXY_RELAY, nNumRelay );
+					// attach the new io to the proxy
+					SetKeyValue( io_proxy_entity, temp, ep->value ); 
+
+					// attempt to find the entity inside of the instance to hook this up to
+					for( int i = 0; i < Instance->num_entities; i++ )
+					{
+						entity_t *entity = &entities[ num_entities - Instance->num_entities + i ];
+
+						char *pszName = ValueForKey( entity, "targetname" );
+						if ( strcmpi( pszName, search ) == 0 )
+						{	// the target name matches, so this is the entity to hook up
+							for ( epair_t *epTarget = entity->epairs; epTarget != NULL; epTarget = epTarget->next )
+							{
+								if ( strcmpi( epTarget->key, Seperator + 1 ) != 0 )
+								{
+									continue;
+								}
+
+								char temp2[ MAX_KEYVALUE_LEN ];
+								strcpy( temp2, epTarget->value );
+
+								char *Pos1 = strchr( temp2, VMF_IOPARAM_STRING_DELIMITER );
+								if ( Pos1 != NULL )
+								{	// we found the key and it is formatted properly
+									*Pos1 = NULL;
+									Pos1 = strchr( Pos1 + 1, VMF_IOPARAM_STRING_DELIMITER );
+									if ( Pos1 != NULL )
+									{	// also continues to be formatted properly
+										char NewKey[ MAX_KEYVALUE_LEN ], NewValue[ MAX_KEYVALUE_LEN ];
+
+										sprintf( NewKey, "%s_NEW", Seperator + 1 );
+										sprintf( NewValue, "%s%c%s%s", temp2, VMF_IOPARAM_STRING_DELIMITER, temp, Pos1 );
+										// attach it to the new proxy
+										epair_t *pNewEP;
+										SetKeyValue( entity, NewKey, NewValue );
+										RenameList.AddToHead( pNewEP );
+										RemoveList.AddToHead( epTarget );
+									}
+								}
+							}
+
+							break;
+						}
+					}
+				}
+			}
+		}
+
+		pConnection = pConnection->m_Next;
+	}
+
+	for( int i = 0; i < RenameList.Count(); i++ )
+	{
+		RenameList[ i ]->key[ strlen( RenameList[ i ]->key ) - strlen( "_NEW" ) ] = 0;
+	}
+
+	for( int i = 0; i < RemoveList.Count(); i++ )
+	{
+		RemoveList[ i ]->key[ 0 ] = 0;
+		RemoveList[ i ]->value[ 0 ] = 0;
+	}
+}
 
 //-----------------------------------------------------------------------------
 // Purpose: Loads a VMF or MAP file. If the file has a .MAP extension, the MAP
