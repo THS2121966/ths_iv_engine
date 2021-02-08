@@ -217,10 +217,10 @@ bool CWorldLights::GetBrightestLightSource(const Vector &vecPosition, Vector &ve
 	// Iterate through all the worldlights
 	for(int i = 0; i < m_nWorldLights; ++i)
 	{
-		if ( DWL_FLAGS_CASTENTITYSHADOWS  )
-		{
 		dworldlight_t *light = &m_pWorldLights[i];
 
+		if ( light->flags & DWL_FLAGS_CASTENTITYSHADOWS  )
+		{
 		// Skip skyambient
 		if(light->type == emit_skyambient)
 		{
