@@ -2669,6 +2669,40 @@ void CMapFile::MergeEntities( entity_t *pInstanceEntity, CMapFile *Instance, Vec
 			Connection->m_Pair->value = newValue;
 			delete oldValue;
 		}
+		// we need to look for operations that have target names as parameters
+		// ugly below:
+		oldValue = Connection->m_Pair->value;
+		strcpy( origValue, oldValue );
+		pos = strchr( origValue, VMF_IOPARAM_STRING_DELIMITER );
+		if ( pos )
+		{
+			pos++;
+			char *pos2 = strchr( pos, VMF_IOPARAM_STRING_DELIMITER );
+			if ( pos2 && strnicmp( pos, "setparent", pos2 - pos ) == 0 )
+			{
+				pos2++;
+				char *pos3 = strchr( pos2, VMF_IOPARAM_STRING_DELIMITER );
+
+				if ( pos3 )
+				{
+					char	szFixupValue[ 4096 ];
+
+					strncpy( szFixupValue, pos2, pos3 - pos2 );
+					szFixupValue[ pos3 - pos2 ] = 0;
+					if ( GD.RemapNameField( szFixupValue, temp, FixupStyle ) )
+					{
+						strcpy( szFixupValue, origValue );
+						strcpy( &szFixupValue[ pos2 - origValue ], temp );
+						strcat( szFixupValue, pos3 );
+
+						newValue = new char[ strlen( szFixupValue ) + 1 ];
+						strcpy( newValue, szFixupValue );
+						Connection->m_Pair->value = newValue;
+						delete oldValue;
+					}
+				}
+			}
+		}
 	}
 
 	num_entities += Instance->num_entities;
@@ -2921,8 +2955,7 @@ void CMapFile::MergeIOProxy( entity_t *pInstanceEntity, CMapFile *Instance, Vect
 										sprintf( NewKey, "%s_NEW", Seperator + 1 );
 										sprintf( NewValue, "%s%c%s%s", temp2, VMF_IOPARAM_STRING_DELIMITER, temp, Pos1 );
 										// attach it to the new proxy
-										epair_t *pNewEP;
-										SetKeyValue( entity, NewKey, NewValue );
+										epair_t *pNewEP = SetKeyValue( entity, NewKey, NewValue, true );
 										RenameList.AddToHead( pNewEP );
 										RemoveList.AddToHead( epTarget );
 									}
