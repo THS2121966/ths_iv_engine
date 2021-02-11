@@ -74,6 +74,41 @@ void CreateWorldVertexTransitionPatchedMaterial( const char *pOriginalMaterialNa
 	if( kv )
 	{
 		// change shader to Lightmappedgeneric (from worldvertextransition*)
+		kv->SetName( "SDK_LightmappedGeneric" );
+		// don't need no stinking $basetexture2 or any other second texture vars
+		RemoveKey( kv, "$basetexture2" );
+		RemoveKey( kv, "$bumpmap2" );
+		RemoveKey( kv, "$bumpframe2" );
+		RemoveKey( kv, "$basetexture2noenvmap" );
+		RemoveKey( kv, "$blendmodulatetexture" );
+		RemoveKey( kv, "$maskedblending" );
+		RemoveKey( kv, "$surfaceprop2" );
+		// If we didn't want a basetexture on the first texture in the blend, we don't want an envmap at all.
+		KeyValues *basetexturenoenvmap = kv->FindKey( "$BASETEXTURENOENVMAP" );
+		if( basetexturenoenvmap->GetInt() )
+		{
+			RemoveKey( kv, "$envmap" );
+		}
+		
+		KeyValues* subkey = kv->FindKey( "sdk_lightmappedgeneric" );
+		if ( subkey )
+		{
+			kv->RemoveSubKey( subkey );
+			subkey->CopySubkeys( kv );
+			subkey->deleteThis();
+		}		
+
+		Warning( "Patching NEW SDK_ WVT material: %s\n", pPatchedMaterialName );
+		WriteMaterialKeyValuesToPak( pPatchedMaterialName, kv );
+	}
+}
+
+void CreateOLDWorldVertexTransitionPatchedMaterial( const char *pOriginalMaterialName, const char *pPatchedMaterialName )
+{
+	KeyValues *kv = LoadMaterialKeyValues( pOriginalMaterialName, 0 );
+	if( kv )
+	{
+		// change shader to Lightmappedgeneric (from worldvertextransition*)
 		kv->SetName( "LightmappedGeneric" );
 		// don't need no stinking $basetexture2 or any other second texture vars
 		RemoveKey( kv, "$basetexture2" );
@@ -159,6 +194,62 @@ int CreateBrushVersionOfWorldVertexTransitionMaterial( int originalTexInfo )
 	return nTexInfoID;
 }
 
+int CreateOLDBrushVersionOfWorldVertexTransitionMaterial( int originalTexInfo )
+{
+	// Don't make cubemap tex infos for nodes
+	if ( originalTexInfo == TEXINFO_NODE )
+		return originalTexInfo;
+
+	texinfo_t *pTexInfo = &texinfo[originalTexInfo];
+	dtexdata_t *pTexData = GetTexData( pTexInfo->texdata );
+	const char *pOriginalMaterialName = TexDataStringTable_GetString( pTexData->nameStringTableID );
+
+	// Get out of here if the originalTexInfo is already a patched wvt material
+	if ( Q_stristr( pOriginalMaterialName, "_wvt_patch" ) )
+		return originalTexInfo;
+
+	char patchedMaterialName[1024];
+	GeneratePatchedMaterialName( pOriginalMaterialName, patchedMaterialName, 1024 );
+//	Warning( "GeneratePatchedMaterialName: %s %s\n", pMaterialName, patchedMaterialName );
+	
+	// Make sure the texdata doesn't already exist.
+	int nTexDataID = FindTexData( patchedMaterialName );
+	bool bHasTexData = (nTexDataID != -1);
+	if( !bHasTexData )
+	{
+		// Create the new vmt material file
+		CreateOLDWorldVertexTransitionPatchedMaterial( pOriginalMaterialName, patchedMaterialName );
+
+		// Make a new texdata
+		nTexDataID = AddCloneTexData( pTexData, patchedMaterialName );
+	}
+
+	Assert( nTexDataID != -1 );
+
+	texinfo_t newTexInfo;
+	newTexInfo = *pTexInfo;
+	newTexInfo.texdata = nTexDataID;
+
+	int nTexInfoID = -1;
+
+	// See if we need to make a new texinfo
+	bool bHasTexInfo = false;
+	if( bHasTexData )
+	{
+		nTexInfoID = FindTexInfo( newTexInfo );
+		bHasTexInfo = (nTexInfoID != -1);
+	}
+
+	// Make a new texinfo if we need to.
+	if( !bHasTexInfo )
+	{
+		nTexInfoID = texinfo.AddToTail( newTexInfo );
+	}
+
+	Assert( nTexInfoID != -1 );
+	return nTexInfoID;
+}
+
 const char *GetShaderNameForTexInfo( int iTexInfo )
 {
 	texinfo_t *pTexInfo = &texinfo[iTexInfo];
@@ -204,7 +295,7 @@ void WorldVertexTransitionFixup( void )
 			continue;
 
 		const char *pShaderName = GetShaderNameForTexInfo( pSide->texinfo );
-		if ( !pShaderName || !Q_stristr( pShaderName, "worldvertextransition" ) )
+		if ( !pShaderName || !Q_stristr( pShaderName, "worldvertextransition" ) || !Q_stristr( pShaderName, "sdk_worldvertextransition" ) )
 		{
 			continue;
 		}
@@ -214,7 +305,14 @@ void WorldVertexTransitionFixup( void )
 		{
 			currentEntity++;
 		}
-
-		pSide->texinfo = CreateBrushVersionOfWorldVertexTransitionMaterial( pSide->texinfo );
+		
+		if ( pShaderName || Q_stristr( pShaderName, "sdk_worldvertextransition") )
+		{
+			pSide->texinfo = CreateBrushVersionOfWorldVertexTransitionMaterial( pSide->texinfo );
+		}
+		else
+		{
+			pSide->texinfo = CreateOLDBrushVersionOfWorldVertexTransitionMaterial( pSide->texinfo );
+		}
 	}
 }
