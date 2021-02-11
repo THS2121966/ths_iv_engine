@@ -1,7 +1,0 @@
-Unsharp
-{
-$FBTEXTURE "_rt_FullFrameFB"
-$FBBLURTEXTURE "_rt_UnsharpBlur"
-$UNSHARPSTRENGTH 1.0
-$BLURSIZE 0.5
-}

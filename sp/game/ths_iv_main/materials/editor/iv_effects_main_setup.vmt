@@ -1,7 +1,0 @@
-"SDK_Sprite"
-{
-	"$spriteorientation" "vp_parallel"
-	"$spriteorigin" "[ 0.50 0.50 ]"
-	"$basetexture" "editor/iv_effects_main_setup"
-	"$no_fullbright" 1
-}

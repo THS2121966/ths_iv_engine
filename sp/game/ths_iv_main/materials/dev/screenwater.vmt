@@ -1,5 +1,0 @@
-ScreenWater
-{
- $fbtexture _rt_FullFrameFB
- $normaltexture dev\water_droplets
-}
