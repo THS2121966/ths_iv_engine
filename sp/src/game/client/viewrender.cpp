@@ -140,7 +140,17 @@ ConVar r_worldlistcache( "r_worldlistcache", "1" );
 //-----------------------------------------------------------------------------
 // Convars related to fog color
 //-----------------------------------------------------------------------------
-static ConVar fog_override( "fog_override", "0", FCVAR_CHEAT );
+static void GetFogColor( fogparams_t *pFogParams, float *pColor, bool ignoreOverride = false, bool ignoreHDRColorScale = false );
+static float GetFogMaxDensity( fogparams_t *pFogParams, bool ignoreOverride = false );
+static bool GetFogEnable( fogparams_t *pFogParams, bool ignoreOverride = false );
+static float GetFogStart( fogparams_t *pFogParams, bool ignoreOverride = false );
+static float GetFogEnd( fogparams_t *pFogParams, bool ignoreOverride = false );
+static float GetSkyboxFogStart( bool ignoreOverride = false );
+static float GetSkyboxFogEnd( bool ignoreOverride = false );
+static float GetSkyboxFogMaxDensity( bool ignoreOverride = false );
+static void GetSkyboxFogColor( float *pColor, bool ignoreOverride = false, bool ignoreHDRColorScale = false );
+static void FogOverrideCallback( IConVar *pConVar, char const *pOldString, float flOldValue );
+static ConVar fog_override( "fog_override", "0", FCVAR_CHEAT, "Overrides the map's fog settings (-1 populates fog_ vars with map's values)", FogOverrideCallback );
 // set any of these to use the maps fog
 static ConVar fog_start( "fog_start", "-1", FCVAR_CHEAT );
 static ConVar fog_end( "fog_end", "-1", FCVAR_CHEAT );
@@ -152,6 +162,36 @@ static ConVar fog_maxdensityskybox( "fog_maxdensityskybox", "-1", FCVAR_CHEAT );
 static ConVar fog_colorskybox( "fog_colorskybox", "-1 -1 -1", FCVAR_CHEAT );
 static ConVar fog_enableskybox( "fog_enableskybox", "1", FCVAR_CHEAT );
 static ConVar fog_maxdensity( "fog_maxdensity", "-1", FCVAR_CHEAT );
+static ConVar fog_hdrcolorscale( "fog_hdrcolorscale", "-1", FCVAR_CHEAT );
+static ConVar fog_hdrcolorscaleskybox( "fog_hdrcolorscaleskybox", "-1", FCVAR_CHEAT );
+static void FogOverrideCallback( IConVar *pConVar, char const *pOldString, float flOldValue )
+{
+	C_BasePlayer *localPlayer = C_BasePlayer::GetLocalPlayer();
+	if ( !localPlayer )
+		return;
+
+	ConVarRef var( pConVar );
+	if ( var.GetInt() == -1 )
+	{
+		fogparams_t *pFogParams = localPlayer->GetFogParams();
+
+		float fogColor[3];
+		fog_start.SetValue( GetFogStart( pFogParams, true ) );
+		fog_end.SetValue( GetFogEnd( pFogParams, true ) );
+		GetFogColor( pFogParams, fogColor, true, true );
+		fog_color.SetValue( VarArgs( "%.1f %.1f %.1f", fogColor[0] * 255, fogColor[1] * 255, fogColor[2] * 255 ) );
+		fog_enable.SetValue( GetFogEnable( pFogParams, true ) );
+		fog_startskybox.SetValue( GetSkyboxFogStart( true ) );
+		fog_endskybox.SetValue( GetSkyboxFogEnd( true ) );
+		fog_maxdensityskybox.SetValue( GetSkyboxFogMaxDensity( true ) );
+		GetSkyboxFogColor( fogColor, true, true );
+		fog_colorskybox.SetValue( VarArgs( "%.1f %.1f %.1f", fogColor[0] * 255, fogColor[1] * 255, fogColor[2] * 255 ) );
+		fog_enableskybox.SetValue( localPlayer->m_Local.m_skybox3d.fog.enable.Get() );
+		fog_maxdensity.SetValue( GetFogMaxDensity( pFogParams, true ) );
+		fog_hdrcolorscale.SetValue( pFogParams->HDRColorScale );
+		fog_hdrcolorscaleskybox.SetValue( localPlayer->m_Local.m_skybox3d.fog.HDRColorScale.Get() );
+	}
+}
 
 
 //-----------------------------------------------------------------------------
@@ -1516,18 +1556,31 @@ static void GetFogColorTransition( fogparams_t *pFogParams, float *pColorPrimary
 //-----------------------------------------------------------------------------
 // Purpose: Returns the fog color to use in rendering the current frame.
 //-----------------------------------------------------------------------------
-static void GetFogColor( fogparams_t *pFogParams, float *pColor )
+static void GetFogColor( fogparams_t *pFogParams, float *pColor, bool ignoreOverride, bool ignoreHDRColorScale )
 {
 	C_BasePlayer *pbp = C_BasePlayer::GetLocalPlayer();
 	if ( !pbp || !pFogParams )
 		return;
 
-	const char *fogColorString = fog_color.GetString();
-	if( fog_override.GetInt() && fogColorString )
+	bool bFogOverride = fog_override.GetBool() && !ignoreOverride;
+	float HDRColorScale;
+	if ( bFogOverride && ( fog_hdrcolorscale.GetFloat() != -1.0f ) )
 	{
-		sscanf( fogColorString, "%f%f%f", pColor, pColor+1, pColor+2 );
+		HDRColorScale = fog_hdrcolorscale.GetFloat();
 	}
 	else
+	{
+		HDRColorScale = pFogParams->HDRColorScale;
+	}
+
+	pColor[0] = pColor[1] = pColor[2] = -1.0f;
+	const char *fogColorString = fog_color.GetString();
+	if ( bFogOverride && fogColorString )
+	{
+		sscanf( fogColorString, "%f %f %f", pColor, pColor + 1, pColor + 2 );
+	}
+
+	if ( ( pColor[0] == -1.0f ) && ( pColor[1] == -1.0f ) && ( pColor[2] == -1.0f ) ) //if not overriding fog, or if we get non-overridden fog color values
 	{
 		float flPrimaryColor[3] = { pFogParams->colorPrimary.GetR(), pFogParams->colorPrimary.GetG(), pFogParams->colorPrimary.GetB() };
 		float flSecondaryColor[3] = { pFogParams->colorSecondary.GetR(), pFogParams->colorSecondary.GetG(), pFogParams->colorSecondary.GetB() };
@@ -1562,16 +1615,21 @@ static void GetFogColor( fogparams_t *pFogParams, float *pColor )
 		}
 	}
 
+	if ( !ignoreHDRColorScale && g_pMaterialSystemHardwareConfig->GetHDRType() != HDR_TYPE_NONE )
+	{
+		VectorScale( pColor, HDRColorScale, pColor );
+	}
+
 	VectorScale( pColor, 1.0f / 255.0f, pColor );
 }
 
 
-static float GetFogStart( fogparams_t *pFogParams )
+static float GetFogStart( fogparams_t *pFogParams, bool ignoreOverride )
 {
 	if( !pFogParams )
 		return 0.0f;
 
-	if( fog_override.GetInt() )
+	if ( fog_override.GetInt() && !ignoreOverride )
 	{
 		if( fog_start.GetFloat() == -1.0f )
 		{
@@ -1608,12 +1666,12 @@ static float GetFogStart( fogparams_t *pFogParams )
 	}
 }
 
-static float GetFogEnd( fogparams_t *pFogParams )
+static float GetFogEnd( fogparams_t *pFogParams, bool ignoreOverride )
 {
 	if( !pFogParams )
 		return 0.0f;
 
-	if( fog_override.GetInt() )
+	if ( fog_override.GetInt() && !ignoreOverride )
 	{
 		if( fog_end.GetFloat() == -1.0f )
 		{
@@ -1650,7 +1708,7 @@ static float GetFogEnd( fogparams_t *pFogParams )
 	}
 }
 
-static bool GetFogEnable( fogparams_t *pFogParams )
+static bool GetFogEnable( fogparams_t *pFogParams, bool ignoreOverride )
 {
 	if ( cl_leveloverview.GetFloat() > 0 )
 		return false;
@@ -1659,7 +1717,7 @@ static bool GetFogEnable( fogparams_t *pFogParams )
 	if ( g_pClientMode->ShouldDrawFog() == false )
 		return false;
 
-	if( fog_override.GetInt() )
+	if ( fog_override.GetInt() && !ignoreOverride )
 	{
 		if( fog_enable.GetInt() )
 		{
@@ -1680,7 +1738,7 @@ static bool GetFogEnable( fogparams_t *pFogParams )
 }
 
 
-static float GetFogMaxDensity( fogparams_t *pFogParams )
+static float GetFogMaxDensity( fogparams_t *pFogParams, bool ignoreOverride )
 {
 	if( !pFogParams )
 		return 1.0f;
@@ -1692,7 +1750,7 @@ static float GetFogMaxDensity( fogparams_t *pFogParams )
 	if ( !g_pClientMode->ShouldDrawFog() )
 		return 1.0f;
 
-	if ( fog_override.GetInt() )
+	if ( fog_override.GetInt() && !ignoreOverride )
 	{
 		if ( fog_maxdensity.GetFloat() == -1.0f )
 			return pFogParams->maxdensity;
@@ -1700,15 +1758,37 @@ static float GetFogMaxDensity( fogparams_t *pFogParams )
 			return fog_maxdensity.GetFloat();
 	}
 	else
+	{
+		if ( pFogParams->lerptime > gpGlobals->curtime )
+		{
+			if ( pFogParams->maxdensity != pFogParams->maxdensityLerpTo )
+			{
+				if ( pFogParams->lerptime > gpGlobals->curtime )
+				{
+					float flPercent = 1.0f - ( ( pFogParams->lerptime - gpGlobals->curtime ) / pFogParams->duration );
+
+					return FLerp( pFogParams->maxdensity, pFogParams->maxdensityLerpTo, flPercent );
+				}
+				else
+				{
+					if ( pFogParams->maxdensity != pFogParams->maxdensityLerpTo )
+					{
+						pFogParams->maxdensity = pFogParams->maxdensityLerpTo;
+					}
+				}
+			}
+		}
+
 		return pFogParams->maxdensity;
+	}
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: Returns the skybox fog color to use in rendering the current frame.
 //-----------------------------------------------------------------------------
-static void GetSkyboxFogColor( float *pColor )
-{			   
+static void GetSkyboxFogColor( float *pColor, bool ignoreOverride, bool ignoreHDRColorScale )
+{
 	C_BasePlayer *pbp = C_BasePlayer::GetLocalPlayer();
 	if( !pbp )
 	{
@@ -1716,14 +1796,28 @@ static void GetSkyboxFogColor( float *pColor )
 	}
 	CPlayerLocalData	*local		= &pbp->m_Local;
 
-	const char *fogColorString = fog_colorskybox.GetString();
-	if( fog_override.GetInt() && fogColorString )
+	bool bFogOverride = fog_override.GetBool() && !ignoreOverride;
+	float HDRColorScale;
+	if ( bFogOverride && ( fog_hdrcolorscaleskybox.GetFloat() != -1.0f ) )
 	{
-		sscanf( fogColorString, "%f%f%f", pColor, pColor+1, pColor+2 );
+		HDRColorScale = fog_hdrcolorscaleskybox.GetFloat();
 	}
 	else
 	{
-		if( local->m_skybox3d.fog.blend )
+		HDRColorScale = local->m_skybox3d.fog.HDRColorScale;
+	}
+
+	pColor[0] = pColor[1] = pColor[2] = -1.0f;
+	const char *fogColorString = fog_colorskybox.GetString();
+	if ( bFogOverride && fogColorString )
+	{
+		sscanf( fogColorString, "%f %f %f", pColor, pColor + 1, pColor + 2 );
+	}
+
+
+	if ( ( pColor[0] == -1.0f ) && ( pColor[1] == -1.0f ) && ( pColor[2] == -1.0f ) ) //if not overriding fog, or if we get non-overridden fog color values
+	{
+		if ( local->m_skybox3d.fog.blend )
 		{
 			//
 			// Blend between two fog colors based on viewing angle.
@@ -1751,11 +1845,15 @@ static void GetSkyboxFogColor( float *pColor )
 		}
 	}
 
+	if ( !ignoreHDRColorScale && g_pMaterialSystemHardwareConfig->GetHDRType() != HDR_TYPE_NONE )
+	{
+		VectorScale( pColor, HDRColorScale, pColor );
+	}
 	VectorScale( pColor, 1.0f / 255.0f, pColor );
 }
 
 
-static float GetSkyboxFogStart( void )
+static float GetSkyboxFogStart( bool ignoreOverride )
 {
 	C_BasePlayer *pbp = C_BasePlayer::GetLocalPlayer();
 	if( !pbp )
@@ -1764,7 +1862,7 @@ static float GetSkyboxFogStart( void )
 	}
 	CPlayerLocalData	*local		= &pbp->m_Local;
 
-	if( fog_override.GetInt() )
+	if ( fog_override.GetInt() && !ignoreOverride )
 	{
 		if( fog_startskybox.GetFloat() == -1.0f )
 		{
@@ -1781,7 +1879,7 @@ static float GetSkyboxFogStart( void )
 	}
 }
 
-static float GetSkyboxFogEnd( void )
+static float GetSkyboxFogEnd( bool ignoreOverride )
 {
 	C_BasePlayer *pbp = C_BasePlayer::GetLocalPlayer();
 	if( !pbp )
@@ -1790,7 +1888,7 @@ static float GetSkyboxFogEnd( void )
 	}
 	CPlayerLocalData	*local		= &pbp->m_Local;
 
-	if( fog_override.GetInt() )
+	if ( fog_override.GetInt() && !ignoreOverride )
 	{
 		if( fog_endskybox.GetFloat() == -1.0f )
 		{
@@ -1808,7 +1906,7 @@ static float GetSkyboxFogEnd( void )
 }
 
 
-static float GetSkyboxFogMaxDensity()
+static float GetSkyboxFogMaxDensity( bool ignoreOverride )
 {
 	C_BasePlayer *pbp = C_BasePlayer::GetLocalPlayer();
 	if ( !pbp )
@@ -1823,7 +1921,7 @@ static float GetSkyboxFogMaxDensity()
 	if ( !g_pClientMode->ShouldDrawFog() )
 		return 1.0f;
 
-	if ( fog_override.GetInt() )
+	if ( fog_override.GetInt() && !ignoreOverride )
 	{
 		if ( fog_maxdensityskybox.GetFloat() == -1.0f )
 			return local->m_skybox3d.fog.maxdensity;

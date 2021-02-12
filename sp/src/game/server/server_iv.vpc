@@ -49,6 +49,8 @@ $Project "Server (IV)"
 		$File	"$SRCDIR\game\shared\weapon_parse_default.cpp"
 		$File	"logic_playmovie.cpp"
 		$File	"func_instance_io_proxy.cpp"
+		$File	"fogvolume.cpp"
+		$File	"fogvolume.h"
 
 		$Folder "ths_entities"
 		{

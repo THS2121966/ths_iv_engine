@@ -656,6 +656,8 @@ public:
 	void					PlayWearableAnimsForPlaybackEvent( wearableanimplayback_t iPlayback );
 #endif
 
+	void					UpdateFXVolume( void );
+
 #ifdef MAPBASE
 	bool					ShouldUseVisibilityCache( CBaseEntity *pEntity );
 #endif
