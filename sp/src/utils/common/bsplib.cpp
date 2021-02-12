@@ -271,7 +271,7 @@ BEGIN_BYTESWAP_DATADESC( dworldlight_t )
 	DEFINE_FIELD( cluster, FIELD_INTEGER ),
 	DEFINE_FIELD( type, FIELD_INTEGER ),	// enumeration
 	DEFINE_FIELD( style, FIELD_INTEGER ),
-	DEFINE_FIELD( shadow_cast_offset, FIELD_VECTOR ),
+//	DEFINE_FIELD( shadow_cast_offset, FIELD_VECTOR ),
 	DEFINE_FIELD( stopdot, FIELD_FLOAT ),
 	DEFINE_FIELD( stopdot2, FIELD_FLOAT ),
 	DEFINE_FIELD( exponent, FIELD_FLOAT ),
