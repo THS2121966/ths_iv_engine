@@ -2229,6 +2229,8 @@
 	foglerptime(float) : "Interpolate time" : "0"
 	
 	farz(string) : "Far Z Clip Plane" : "-1"
+
+	HDRColorScale(float) : "HDR color scale." : "1.0" : "float value to multiply fog color by when running in HDR mode."
 	
 	spawnflags(flags) =
 	[
@@ -9941,4 +9943,11 @@
     input SetFarBlurRadius(float) : "Set the blur radius (in pixels) to use at the far blur distance. Set to 0 to disable far blur."
     input SetFocusTarget(string) : "Set the focal target for the effect."
     input SetFocusTargetRange(float) : "Set the distance behind the focal point that will remain in focus."
+]
+
+@SolidClass base( Targetname, EnableDisable ) = fog_volume : "An entity to control the fog in the map."
+[
+	FogName(target_destination) : "Fog Name" : : "The name of the fog entity associated with this volume."
+	PostProcessName(target_destination) : "Postprocess Name" : : "The name of the postprocess entity associated with this volume."
+	ColorCorrectionName(target_destination) : "ColorCorrection Name" : : "The name of the color_correction entity associated with this volume."
 ]

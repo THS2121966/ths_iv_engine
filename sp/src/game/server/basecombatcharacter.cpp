@@ -4662,7 +4662,7 @@ float CBaseCombatCharacter::GetFogObscuredRatio( CBaseEntity *target ) const
 //-----------------------------------------------------------------------------
 float CBaseCombatCharacter::GetFogObscuredRatio( float range ) const
 {
-/* TODO: Get global fog from map somehow since nav mesh fog is gone
+//* TODO: Get global fog from map somehow since nav mesh fog is gone
 	fogparams_t fog;
 	GetFogParams( &fog );
 
@@ -4678,7 +4678,7 @@ float CBaseCombatCharacter::GetFogObscuredRatio( float range ) const
 	float ratio = (range - fog.start) / (fog.end - fog.start);
 	ratio = MIN( ratio, fog.maxdensity );
 	return ratio;
-*/
+//*/
 //	return 0.0f;
 }
 
