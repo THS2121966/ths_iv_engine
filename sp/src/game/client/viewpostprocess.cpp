@@ -2864,11 +2864,7 @@ void DoEnginePostProcessing( int x, int y, int w, int h, bool bFlashlightIsOn, b
 #endif
 
 //ths_filmgrain
-if ( ths_filmgrain == 0 )
-{
-	return;
-}
-else if ( ths_filmgrain == 25 && thsdev_fx_main_enabled.GetBool() && mat_fullbright.GetInt() == 0 )
+if ( ths_filmgrain == 25 && thsdev_fx_main_enabled.GetBool() && mat_fullbright.GetInt() == 0 )
 {
 static IMaterial *ths_fg01 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_filmgrain01_25", TEXTURE_GROUP_OTHER );
 	if ( ths_fg01 )
@@ -2914,11 +2910,7 @@ static IMaterial *ths_fg04 = materials->FindMaterial( "ths_shaderedit_effects/po
 }
 
 //ths_flare_an_effect
-if ( ths_flare == 0 )
-{
-	return;
-}
-else if ( ths_flare == 25 && thsdev_fx_main_enabled.GetBool() && iv_water_down && mat_fullbright.GetInt() == 0 )
+if ( ths_flare == 25 && thsdev_fx_main_enabled.GetBool() && iv_water_down && mat_fullbright.GetInt() == 0 )
 {
 static IMaterial *ths_fl_an01 = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_flare_an01_25", TEXTURE_GROUP_OTHER );
 	if ( ths_fl_an01 )
@@ -2974,10 +2966,6 @@ static IMaterial *ths_ssao_effect = materials->FindMaterial( "ths_shaderedit_eff
 							0, 0, w - 1, h - 1,
 							w, h );
 	}
-}
-else if ( ths_exp == 0 )
-{
-	return;
 }
 else if ( ths_exp == 25 && thsdev_fx_main_enabled.GetBool() && iv_water_down && mat_fullbright.GetInt() == 0 )
 {
@@ -3036,44 +3024,6 @@ static IMaterial *ths_nightvision_effect = materials->FindMaterial( "ths_shadere
 							w, h );
 	}
 }
-else
-{
-	return;
-}
-
-//ths_water_fx
-/*if ( ths_water_fx.GetBool() || ths_water_fx_init )
-{
-static IMaterial *ths_water_fx_effect = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_water_fx01", TEXTURE_GROUP_OTHER );
-	if ( ths_water_fx_effect )
-	{
-		UpdateScreenEffectTexture();
-		pRenderContext->DrawScreenSpaceRectangle( ths_water_fx_effect, 0, 0, w, h,
-							0, 0, w - 1, h - 1,
-							w, h );
-	}
-}
-else
-{
-	return;
-}
-
-//ths_blood_fx
-if ( ths_blood_fx.GetBool() || ths_blood_fx_init )
-{
-static IMaterial *ths_blood_fx_effect = materials->FindMaterial( "ths_shaderedit_effects/post_screen/ths_blood_fx01", TEXTURE_GROUP_OTHER );
-	if ( ths_blood_fx_effect )
-	{
-		UpdateScreenEffectTexture();
-		pRenderContext->DrawScreenSpaceRectangle( ths_blood_fx_effect, 0, 0, w, h,
-							0, 0, w - 1, h - 1,
-							w, h );
-	}
-}
-else
-{
-	return;
-}*/
 
 }
 
