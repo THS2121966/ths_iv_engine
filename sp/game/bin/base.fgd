@@ -2738,6 +2738,8 @@
 	
 	farz(float) : "Far Z Clip Plane" : "0" : "Clips the sky."
 	
+	HDRColorScale(float) : "HDR color scale." : "1.0" : "float value to multiply fog color by when running in HDR mode."
+	
 	// Inputs
 	input ForceUpdate(void) : "Forces the 3D skybox to update with this sky_camera's position."
 	input StartUpdating(void) : "Begins per-tick skybox updating, which is needed if you want this sky_camera to move."
