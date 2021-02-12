@@ -127,6 +127,9 @@ BEGIN_DATADESC( CBaseCombatCharacter )
 	DEFINE_INPUTFUNC( FIELD_VOID, "KilledNPC", InputKilledNPC ),
 #endif
 
+	DEFINE_UTLVECTOR( m_hTriggerFogList, FIELD_EHANDLE ),
+	DEFINE_FIELD( m_hLastFogTrigger, FIELD_EHANDLE ),
+
 #ifdef MAPBASE
 	DEFINE_INPUTFUNC( FIELD_INTEGER, "SetBloodColor", InputSetBloodColor ),
 
@@ -4386,6 +4389,52 @@ void CBaseCombatCharacter::DoMuzzleFlash()
 	}
 }
 
+//-----------------------------------------------------------------------------
+// Purpose: track the last trigger_fog touched by this character
+//-----------------------------------------------------------------------------
+void CBaseCombatCharacter::OnFogTriggerStartTouch( CBaseEntity *fogTrigger )
+{
+	m_hTriggerFogList.AddToHead( fogTrigger );
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: track the last trigger_fog touched by this character
+//-----------------------------------------------------------------------------
+void CBaseCombatCharacter::OnFogTriggerEndTouch( CBaseEntity *fogTrigger )
+{
+	m_hTriggerFogList.FindAndRemove( fogTrigger );
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: track the last trigger_fog touched by this character
+//-----------------------------------------------------------------------------
+CBaseEntity *CBaseCombatCharacter::GetFogTrigger( void )
+{
+	float bestDist = 999999.0f;
+	CBaseEntity *bestTrigger = NULL;
+
+	for ( int i = 0; i<m_hTriggerFogList.Count(); ++i )
+	{
+		CBaseEntity *fogTrigger = m_hTriggerFogList[i];
+		if ( fogTrigger != NULL )
+		{
+			float dist = WorldSpaceCenter().DistTo( fogTrigger->WorldSpaceCenter() );
+			if ( dist < bestDist )
+			{
+				bestDist = dist;
+				bestTrigger = fogTrigger;
+			}
+		}
+	}
+
+	if ( bestTrigger )
+	{
+		m_hLastFogTrigger = bestTrigger;
+	}
+
+	return m_hLastFogTrigger;
+}
+
 #ifdef MAPBASE_VSCRIPT
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
@@ -4630,9 +4679,18 @@ float CBaseCombatCharacter::GetFogObscuredRatio( float range ) const
 	ratio = MIN( ratio, fog.maxdensity );
 	return ratio;
 */
-	return 0.0f;
+//	return 0.0f;
 }
 
+extern bool GetWorldFogParams( CBaseCombatCharacter *character, fogparams_t &fog );
+
+bool CBaseCombatCharacter::GetFogParams( fogparams_t *fog ) const
+{
+	if ( !fog )
+		return false;
+
+	return GetWorldFogParams( const_cast< CBaseCombatCharacter * >( this ), *fog );
+}
 
 //-----------------------------------------------------------------------------
 // Purpose: Invoke this to update our last known nav area 
