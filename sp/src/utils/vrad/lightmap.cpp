@@ -1253,11 +1253,7 @@ static void ParseLightGeneric( entity_t *e, directlight_t *dl )
 	{
 		dl->light.flags &= ~DWL_FLAGS_CASTENTITYSHADOWS;
 	}
-
-	Vector shadowOffset( 0.0f, 0.0f, 0.0f );
-	GetVectorForKey (e, "_shadoworiginoffset", shadowOffset );
-	dl->light.shadow_cast_offset = shadowOffset;
-
+	
 	// get intenfsity
 	if( g_bHDR && LightForKey( e, "_lightHDR", dl->light.intensity ) ) 
 	{
@@ -1822,7 +1818,6 @@ void ExportDirectLightsToWorldLights()
 		// FIXME: why does vrad want 0 to 255 and not 0 to 1??
 		VectorScale( dl->light.intensity, (1.0 / 255.0), wl->intensity );
 		VectorCopy( dl->light.normal, wl->normal );
-		VectorCopy( dl->light.shadow_cast_offset, wl->shadow_cast_offset );
 		wl->stopdot	= dl->light.stopdot;
 		wl->stopdot2 = dl->light.stopdot2;
 		wl->exponent = dl->light.exponent;

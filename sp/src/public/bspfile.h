@@ -985,7 +985,6 @@ struct dworldlight_t
 	int			cluster;
 	emittype_t	type;
     int			style;
-	Vector		shadow_cast_offset;	// gets added to the light origin when this light is used as a shadow caster (only if DWL_FLAGS_CASTENTITYSHADOWS flag is set)
 	float		stopdot;		// start of penumbra for emit_spotlight
 	float		stopdot2;		// end of penumbra for emit_spotlight
 	float		exponent;		// 

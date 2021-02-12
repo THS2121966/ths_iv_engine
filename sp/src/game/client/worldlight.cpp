@@ -303,7 +303,7 @@ bool CWorldLights::GetBrightestLightSource(const Vector &vecPosition, Vector &ve
 			continue;
 		}
 
-		vecLightPos = light->origin + light->shadow_cast_offset;
+		vecLightPos = light->origin;
 		vecLightBrightness = vecIntensity;
 
 		//engine->Con_NPrintf(i, "%d: set (%.2f)", i, vecIntensity.Length());
