@@ -915,6 +915,7 @@
 	_constant_attn(string)	: "Constant" : "0"
 	_linear_attn(string)	: "Linear" : "0"
 	_quadratic_attn(string)	: "Quadratic" : "1"
+	_shadoworiginoffset(vector) : "Shadow cast offset" : "0 0 0" : "A world-space offset that gets applied to the light origin when casting entity shadows. Useful for dealing with funny-looking shadows from very low lights: Just offset up the z axis."
 	_fifty_percent_distance(string) : "50 percent falloff distance" : "0": "Distance at which brightness should fall off to 50%. If set, overrides linear constant and quadratic paramaters."
 	_zero_percent_distance(string) : "0 percent falloff distance" : "0": "Distance at which brightness should fall off to negligible (1/256)%. Must set _fifty_percent_distance to use."
 	_hardfalloff(integer) : "Hard falloff" : 0 : "If set, causes lights to fall to exactly zero beyond the zero percent distance. May cause unrealistic lightijng if not used carefully."
