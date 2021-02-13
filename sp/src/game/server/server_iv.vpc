@@ -9,6 +9,7 @@ $Macro GAMENAME 	"iv" [!$SOURCESDK]
 $Macro GAMENAME 	"ths_iv_main" [$SOURCESDK]
 
 $Include "$SRCDIR\game\server\server_base.vpc"
+$Include "$SRCDIR\game\server\nav_mesh.vpc" [$SOURCESDK]
 
 $Configuration
 {
