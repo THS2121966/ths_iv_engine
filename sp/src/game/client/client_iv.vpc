@@ -33,6 +33,12 @@ $Project "Client (IV)"
 		$File	"fmod_manager.cpp"
 		$File	"fmod_manager.h"
 
+			$Folder	"NextBot"
+			{
+				$File	"NextBot\C_NextBot.cpp"
+				$File	"NextBot\C_NextBot.h"
+			}
+
 		$Folder "ths_entities"
 		{
 			$Folder	"Header Files"
