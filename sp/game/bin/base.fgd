@@ -9953,3 +9953,8 @@
 	PostProcessName(target_destination) : "Postprocess Name" : : "The name of the postprocess entity associated with this volume."
 	ColorCorrectionName(target_destination) : "ColorCorrection Name" : : "The name of the color_correction entity associated with this volume."
 ]
+
+@PointClass base(Targetname) studio() = simple_bot : "This entity for NAV Mesh Test"
+[
+	model(string) readonly : "Model" : "models/humans/group01/female_01.mdl"
+]
