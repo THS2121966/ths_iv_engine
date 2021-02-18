@@ -1973,6 +1973,7 @@ void CMapFile::ForceFuncAreaPortalWindowContents()
 // #define MERGE_INSTANCE_DEBUG_INFO	1
 
 #define INSTANCE_VARIABLE_KEY			"replace"
+#define INSTANCE_PARM_KEY				"parm"
 
 static GameData	GD;
 
@@ -2127,11 +2128,13 @@ void CMapFile::CheckForInstances( const char *pszFileName )
 	char	FDGPath[ MAX_PATH ];
 	if ( !g_pFullFileSystem->RelativePathToFullPath( GameDataFile, "EXECUTABLE_PATH", FDGPath, sizeof( FDGPath ) ) )
 	{
-		if ( !g_pFullFileSystem->RelativePathToFullPath( GameDataFile, NULL, FDGPath, sizeof( FDGPath ) ) )
+		if ( !g_pFullFileSystem->RelativePathToFullPath( GameDataFile, "", FDGPath, sizeof( FDGPath ) ) )
 		{
 			Msg( "Could not locate GameData file %s\n", GameDataFile );
 		}
 	}
+
+	bool	bFoundInstances = false;
 
 	GD.Load( FDGPath );
 
@@ -2159,6 +2162,7 @@ void CMapFile::CheckForInstances( const char *pszFileName )
 						MergeInstance( &entities[ i ], g_LoadingMap );
 						delete g_LoadingMap;
 						bLoaded = true;
+						bFoundInstances = true;
 					}
 				}
 
@@ -2170,6 +2174,16 @@ void CMapFile::CheckForInstances( const char *pszFileName )
 				}
 			}
 
+			entities[ i ].numbrushes = 0;
+			entities[ i ].epairs = NULL;
+		}
+	}
+
+	for ( int i = 0; i < num_entities; i++ )
+	{
+		char *pEntity = ValueForKey( &entities[ i ], "classname" );
+		if ( Q_stricmp( pEntity, "func_instance_parms" ) == 0 )
+		{	// Clear out this entity.
 			entities[ i ].numbrushes = 0;
 			entities[ i ].epairs = NULL;
 		}
@@ -2208,6 +2222,34 @@ void CMapFile::MergeInstance( entity_t *pInstanceEntity, CMapFile *Instance )
 	MergeIOProxy( pInstanceEntity, Instance, OriginOffset, angles, mat );
 }
 
+
+//-----------------------------------------------------------------------------
+// Purpose: this function will do some overall work after all instances have been
+//			transformed and fixed up
+// Input  : none
+// Output : none
+//-----------------------------------------------------------------------------
+void CMapFile::PostLoadInstances( )
+{
+	for( int i = 0; i < num_entities; i++ )
+	{
+		entity_t	*pEntity = &entities[ i ];
+		char		*pClassName = ValueForKey( pEntity, "classname" );
+
+		if( !strcmp( "env_cubemap", pClassName ) )
+		{
+			const char *pSideListStr = ValueForKey( pEntity, "sides" );
+			int size;
+				char *pParallaxObbStr = ValueForKey( pEntity, "parallaxobb" );
+			size = IntForKey( pEntity, "cubemapsize" );
+			Cubemap_InsertSample( pEntity->origin, size, pParallaxObbStr );
+			Cubemap_SaveBrushSides( pSideListStr );
+
+			// clear out this entity
+			pEntity->epairs = NULL;
+		}
+	}
+}
 
 //-----------------------------------------------------------------------------
 // Purpose: this function will merge in the map planes from the instance into
@@ -2405,7 +2447,7 @@ void CMapFile::MergeBrushSides( entity_t *pInstanceEntity, CMapFile *Instance, V
 //			pInstanceEntity - the func_instance that may ahve replace keywords
 // Output : pPair - the value field may be updated
 //-----------------------------------------------------------------------------
-void CMapFile::ReplaceInstancePair( epair_t *pPair, entity_t *pInstanceEntity )
+void CMapFile::ReplaceInstancePair( epair_t *pPair, entity_t *pInstanceEntity, entity_t *pParmsEntity )
 {
 	char	Value[ MAX_KEYVALUE_LEN ], NewValue[ MAX_KEYVALUE_LEN ];
 	bool	Overwritten = false;
@@ -2459,7 +2501,8 @@ void CMapFile::MergeEntities( entity_t *pInstanceEntity, CMapFile *Instance, Vec
 	int						max_entity_id = 0;
 	char					temp[ 2048 ];
 	char					NameFixup[ 128 ];
-	entity_t				*WorldspawnEnt = NULL;
+	entity_t				*pWorldspawnEnt = NULL;
+	entity_t				*pParmsEnt = NULL;
 	GameData::TNameFixup	FixupStyle;
 
 #ifdef MAPBASE
@@ -2511,6 +2554,109 @@ void CMapFile::MergeEntities( entity_t *pInstanceEntity, CMapFile *Instance, Vec
 
 	FixupStyle = ( GameData::TNameFixup )( IntForKey( pInstanceEntity, "fixup_style" ) );
 
+	for ( int i = 0; i < Instance->num_entities; i++ )
+	{
+		char *pEntity = ValueForKey( &Instance->entities[ i ], "classname" );
+		if ( Q_stricmp( pEntity, "func_instance_parms" ) == 0 )
+		{
+			pParmsEnt = &Instance->entities[ i ];
+			break;
+		}
+	}
+
+	if ( pParmsEnt != NULL )
+	{
+		int		nReplaceCount = 1;
+
+		for ( epair_t *epParms = pParmsEnt->epairs; epParms != NULL; epParms = epParms->next )
+		{
+			char	ParmTemp[ MAX_KEYVALUE_LEN ];
+			char	*pszParmVariable;
+			char	*pszParmDefaultValue;
+			bool	bFound = false;
+
+			if ( strnicmp( epParms->key, INSTANCE_PARM_KEY, strlen( INSTANCE_PARM_KEY ) ) != 0 )
+			{
+				continue;
+			}
+
+			strcpy( ParmTemp, epParms->value );
+
+			pszParmVariable = ParmTemp;
+
+			char *pPos = strchr( ParmTemp, ' ' );
+			if ( !pPos )
+			{
+				continue;
+			}
+
+			*pPos = 0;
+			pPos++;
+
+			pPos = strchr( pPos, ' ' );
+			if ( !pPos )
+			{
+				continue;
+			}
+
+			pPos++;
+			pszParmDefaultValue = pPos;
+
+			for ( epair_t *epInstance = pInstanceEntity->epairs; epInstance != NULL; epInstance = epInstance->next )
+			{
+				if ( strnicmp( epInstance->key, INSTANCE_VARIABLE_KEY, strlen( INSTANCE_VARIABLE_KEY ) ) == 0 )
+				{
+					char InstanceVariable[ MAX_KEYVALUE_LEN ];
+
+					strcpy( InstanceVariable, epInstance->value );
+
+					char *ValuePos = strchr( InstanceVariable, ' ' );
+					if ( !ValuePos )
+					{
+						continue;
+					}
+					*ValuePos = 0;
+					ValuePos++;
+
+					if ( strcmpi( pszParmVariable, InstanceVariable ) == 0 )
+					{
+						if ( strcmpi( ValuePos, "???" ) == 0 )
+						{
+							epInstance->key[ 0 ] = 0;
+							epInstance->value[ 0 ] = 0;
+						}
+						else
+						{
+							bFound = true;
+						}
+						break;
+					}
+				}
+			}
+
+			if ( !bFound )
+			{
+				char	ParmReplacementKey[ MAX_KEYVALUE_LEN ];
+				char	ParmReplacementValue[ MAX_KEYVALUE_LEN ];
+
+				sprintf( ParmReplacementKey, "%stemp%d", INSTANCE_VARIABLE_KEY, nReplaceCount );
+				nReplaceCount++;
+				sprintf( ParmReplacementValue, "%s %s", pszParmVariable, pszParmDefaultValue );
+
+				epair_t *pNewKV = new epair_t;
+
+				pNewKV->key = new char [ strlen( ParmReplacementKey ) + 1 ];
+				pNewKV->value = new char [ strlen( ParmReplacementValue ) + 1 ];
+
+				strcpy( pNewKV->key, ParmReplacementKey );
+				strcpy( pNewKV->value, ParmReplacementValue );
+
+				pNewKV->next = pInstanceEntity->epairs;
+				pInstanceEntity->epairs = pNewKV;
+			}
+		}
+	}
+
 	for( int i = 0; i < Instance->num_entities; i++ )
 	{
 		entities[ num_entities + i ] = Instance->entities[ i ];
@@ -2531,7 +2677,7 @@ void CMapFile::MergeEntities( entity_t *pInstanceEntity, CMapFile *Instance, Vec
 		char *pEntity = ValueForKey( entity, "classname" );
 		if ( strcmpi( pEntity, "worldspawn" ) == 0 )
 		{
-			WorldspawnEnt = entity;
+			pWorldspawnEnt = entity;
 		}
 		else
 		{
@@ -2542,7 +2688,7 @@ void CMapFile::MergeEntities( entity_t *pInstanceEntity, CMapFile *Instance, Vec
 			// this is done before entity fixup, so fixup may occur on the replaced value.  Not sure if this is a desired order of operation yet.
 			for ( epair_t *ep = entity->epairs; ep != NULL; ep = ep->next )
 			{
-				ReplaceInstancePair( ep, pInstanceEntity );
+				ReplaceInstancePair( ep, pInstanceEntity, pParmsEnt );
 			}
 
 #ifdef MERGE_INSTANCE_DEBUG_INFO
@@ -2627,7 +2773,7 @@ void CMapFile::MergeEntities( entity_t *pInstanceEntity, CMapFile *Instance, Vec
 		Msg( "Instance Entity %d remapped to %d\n", i, num_entities + i );
 		Msg( "   FirstBrush: from %d to %d\n", Instance->entities[ i ].firstbrush, entity->firstbrush );
 		Msg( "   KV Pairs:\n" );
-		for ( epair_t *ep = entity->epairs; ep->next != NULL; ep = ep->next )
+		for ( epair_t *ep = entity->epairs; ep != NULL; ep = ep->next )
 		{
 			Msg( "      %s %s\n", ep->key, ep->value );
 		}
@@ -2638,7 +2784,7 @@ void CMapFile::MergeEntities( entity_t *pInstanceEntity, CMapFile *Instance, Vec
 	// this is done before connection fix up, so fix up may occur on the replaced value.  Not sure if this is a desired order of operation yet.
 	for( CConnectionPairs *Connection = Instance->m_ConnectionPairs; Connection; Connection = Connection->m_Next )
 	{
-		ReplaceInstancePair( Connection->m_Pair, pInstanceEntity );
+		ReplaceInstancePair( Connection->m_Pair, pInstanceEntity, pParmsEnt );
 	}
 
 	for( CConnectionPairs *Connection = Instance->m_ConnectionPairs; Connection; Connection = Connection->m_Next )
@@ -2649,7 +2795,7 @@ void CMapFile::MergeEntities( entity_t *pInstanceEntity, CMapFile *Instance, Vec
 
 		oldValue = Connection->m_Pair->value;
 		strcpy( origValue, oldValue );
-		char *pos = strchr( origValue, ',' );
+		char *pos = strchr( origValue, VMF_IOPARAM_STRING_DELIMITER );
 		if ( pos )
 		{	// null terminate the first field
 			*pos = NULL;
@@ -2662,8 +2808,9 @@ void CMapFile::MergeEntities( entity_t *pInstanceEntity, CMapFile *Instance, Vec
 			strcpy( newValue, temp );
 			if ( pos )
 			{
-				strcat( newValue, "," );
-				strcat( newValue, pos + 1 );
+				int nSize = strlen( newValue );
+				newValue[ nSize ] = VMF_IOPARAM_STRING_DELIMITER;
+				strcpy( &newValue[ nSize + 1 ], pos + 1 );
 			}
 
 			Connection->m_Pair->value = newValue;
@@ -2725,17 +2872,17 @@ void CMapFile::MergeEntities( entity_t *pInstanceEntity, CMapFile *Instance, Vec
 		pLast->m_Next = Instance->m_ConnectionPairs;
 	}
 
-	MoveBrushesToWorldGeneral( WorldspawnEnt );
-	WorldspawnEnt->numbrushes = 0;
+	MoveBrushesToWorldGeneral( pWorldspawnEnt );
+	pWorldspawnEnt->numbrushes = 0;
 #ifdef MAPBASE
 	char *pIsTopLevel = ValueForKey( pInstanceEntity, "toplevel" );
 	if ( strcmp( pIsTopLevel, "1" ) == 0 )
 	{
-		g_ManifestWorldSpawn->epairs = WorldspawnEnt->epairs;
+		g_ManifestWorldSpawn->epairs = pWorldspawnEnt->epairs;
 	}
-	WorldspawnEnt->epairs = NULL;
+	pWorldspawnEnt->epairs = NULL;
 #else
-	WorldspawnEnt->epairs = NULL;
+	pWorldspawnEnt->epairs = NULL;
 #endif
 }
 
@@ -3070,6 +3217,7 @@ bool LoadMapFile( const char *pszFileName )
 		else
 		{
 			Error("Error opening %s: %s.\n", pszFileName, File.GetErrorText(eResult));
+			g_MapError.ReportError(File.GetErrorText(eResult));
 		}
 	}
 
@@ -3097,7 +3245,12 @@ bool LoadMapFile( const char *pszFileName )
 		OverlayTransition_UpdateSideLists( g_LoadingMap->m_StartMapWaterOverlays );
 
 		g_LoadingMap->CheckForInstances( pszFileName );
-
+		
+		if ( g_LoadingMap == g_MainMap )
+		{
+			g_LoadingMap->PostLoadInstances();
+		}
+		
 		if ( pMainManifest )
 		{
 			pMainManifest->CordonWorld();

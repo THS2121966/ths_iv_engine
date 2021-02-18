@@ -34,8 +34,6 @@ class CUtlBuffer;
 
 #define	TEXINFO_NODE		-1		// side is allready on a node
 
-#define VMF_IOPARAM_STRING_DELIMITER ','
-
 // this will output glview files for the given brushmodel.  Brushmodel 1 is the world, 2 is the first brush entity, etc.
 #define DEBUG_BRUSHMODEL 0
 
@@ -295,10 +293,11 @@ public:
 
 	void				CheckForInstances( const char *pszFileName );
 	void				MergeInstance( entity_t *pInstanceEntity, CMapFile *Instance );
+	void				PostLoadInstances( );
 	void				MergePlanes( entity_t *pInstanceEntity, CMapFile *Instance, Vector &InstanceOrigin, QAngle &InstanceAngle, matrix3x4_t &InstanceMatrix );
 	void				MergeBrushes( entity_t *pInstanceEntity, CMapFile *Instance, Vector &InstanceOrigin, QAngle &InstanceAngle, matrix3x4_t &InstanceMatrix );
 	void				MergeBrushSides( entity_t *pInstanceEntity, CMapFile *Instance, Vector &InstanceOrigin, QAngle &InstanceAngle, matrix3x4_t &InstanceMatrix );
-	void				ReplaceInstancePair( epair_t *pPair, entity_t *pInstanceEntity );
+	void				ReplaceInstancePair( epair_t *pPair, entity_t *pInstanceEntity, entity_t *pParmsEntity );
 	void				MergeEntities( entity_t *pInstanceEntity, CMapFile *Instance, Vector &InstanceOrigin, QAngle &InstanceAngle, matrix3x4_t &InstanceMatrix );
 	void				MergeOverlays( entity_t *pInstanceEntity, CMapFile *Instance, Vector &InstanceOrigin, QAngle &InstanceAngle, matrix3x4_t &InstanceMatrix );
 	void				MergeIOProxy( entity_t *pInstanceEntity, CMapFile *Instance, Vector &InstanceOrigin, QAngle &InstanceAngle, matrix3x4_t &InstanceMatrix );
