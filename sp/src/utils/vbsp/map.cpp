@@ -2873,6 +2873,12 @@ void CMapFile::MergeEntities( entity_t *pInstanceEntity, CMapFile *Instance, Vec
 	}
 
 	MoveBrushesToWorldGeneral( pWorldspawnEnt );
+	
+	if ( IntForKey( pInstanceEntity, "toplevel" ) == 1 )
+	{
+		entities[ 0 ].epairs = pWorldspawnEnt->epairs;
+	}
+	
 	pWorldspawnEnt->numbrushes = 0;
 #ifdef MAPBASE
 	char *pIsTopLevel = ValueForKey( pInstanceEntity, "toplevel" );
