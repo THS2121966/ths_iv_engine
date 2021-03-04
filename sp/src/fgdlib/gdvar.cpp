@@ -45,6 +45,8 @@ static TypeMap_t TypeMap[] =
 	{ ivFloat,				"float",				STRING },
 	{ ivMaterial,			"material",				STRING },
 	{ ivScene,				"scene",				STRING },
+	{ ivScript,				"script",				STRING },
+	{ ivScriptList,			"scriptlist",			STRING },
 	{ ivSide,				"side",					STRING },
 	{ ivSideList,			"sidelist",				STRING },
 	{ ivOrigin,				"origin",				STRING },
