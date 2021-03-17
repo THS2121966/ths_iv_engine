@@ -857,7 +857,7 @@ void CEventQueue::Dump( void )
 // Purpose: adds the action into the correct spot in the priority queue, targeting entity via string name
 //-----------------------------------------------------------------------------
 #ifdef MAPBASE_VSCRIPT
-intptr_t
+int
 #else
 void
 #endif
@@ -881,6 +881,7 @@ CEventQueue::AddEvent( const char *target, const char *targetInput, variant_t Va
 	AddEvent( newEvent );
 
 #ifdef MAPBASE_VSCRIPT
+	Assert( sizeof(EventQueuePrioritizedEvent_t*) == sizeof(int) );
 	return reinterpret_cast<intptr_t>(newEvent);  // POINTER_TO_INT
 #endif
 }
@@ -889,7 +890,7 @@ CEventQueue::AddEvent( const char *target, const char *targetInput, variant_t Va
 // Purpose: adds the action into the correct spot in the priority queue, targeting entity via pointer
 //-----------------------------------------------------------------------------
 #ifdef MAPBASE_VSCRIPT
-intptr_t
+int
 #else
 void
 #endif
@@ -913,6 +914,7 @@ CEventQueue::AddEvent( CBaseEntity *target, const char *targetInput, variant_t V
 	AddEvent( newEvent );
 
 #ifdef MAPBASE_VSCRIPT
+	Assert( sizeof(EventQueuePrioritizedEvent_t*) == sizeof(int) );
 	return reinterpret_cast<intptr_t>(newEvent); // POINTER_TO_INT
 #endif
 }
@@ -1300,7 +1302,7 @@ void CEventQueue::CancelEventsByInput( CBaseEntity *pTarget, const char *szInput
 	}
 }
 
-bool CEventQueue::RemoveEvent( intptr_t event )
+bool CEventQueue::RemoveEvent( int event )
 {
 	EventQueuePrioritizedEvent_t *pe = reinterpret_cast<EventQueuePrioritizedEvent_t*>(event); // INT_TO_POINTER
 
@@ -1317,7 +1319,7 @@ bool CEventQueue::RemoveEvent( intptr_t event )
 	return false;
 }
 
-float CEventQueue::GetTimeLeft( intptr_t event )
+float CEventQueue::GetTimeLeft( int event )
 {
 	EventQueuePrioritizedEvent_t *pe = reinterpret_cast<EventQueuePrioritizedEvent_t*>(event); // INT_TO_POINTER
 

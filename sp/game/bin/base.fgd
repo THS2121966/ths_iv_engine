@@ -80,10 +80,18 @@
 		0 : "No"
 		1 : "Yes"
 	]
+	
+	disableflashlight(choices) : "Disable flashlight" : 0 : "Used to disable flashlight/env_projectedtexture lighting and shadows on this entity." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
 
 	// Inputs
 	input DisableShadow(void) : "Turns shadow off."
 	input EnableShadow(void) : "Turns shadow on."
+	input DisableReceivingFlashlight(void) : "This object will not recieve light or shadows from projected textures (flashlights)."
+	input EnableReceivingFlashlight(void) : "This object may recieve light or shadows from projected textures (flashlights)."
 	input AlternativeSorting(bool) : "Used to attempt to fix sorting problems when rendering. True activates, false deactivates"
 	input SetModelScale(string) : "Takes two values separated by a space. The first is the target model scale. The second value is the number of seconds the change in scale will be spread over."
 	input SetBodyGroup(integer) : "Sets this model's body group (from 0 - n). You'd better know what you are doing!"
@@ -839,7 +847,7 @@
 	InitialSpeed(string) : "Initial Speed" : "0" : "Sets the helicopter's desired speed that it should try to reach as soon as it's spawned."
 	target(target_destination) : "Target path_track" : : "(Optional) The name of a path_track entity that this NPC will fly to after spawning."
 	
-	AllowsAnyDamage(Choices) : "Allows any damage" : 0 : "Allows this NPC to take any amount of any type of damage, including bullet or melee damage. This is supposed to allow this NPC to be taken down in a previously impossible way and should be used with an actual damage filter." =
+	AllowAnyDamage(Choices) : "Allows any damage" : 0 : "Allows this NPC to take any amount of any type of damage, including bullet or melee damage. This is supposed to allow this NPC to be taken down in a previously impossible way and should be used with an actual damage filter." =
 	[
 		0 : "No"
 		1 : "Yes"
@@ -1746,6 +1754,28 @@
 
 	input SetCycleType(integer) : "0 - random, 1 - forward, 2 - backward"
 	input SetNoListRepeat(bool) : "Sets if lists can be randomly picked twice in a row."
+]
+
+
+@PointClass base(Targetname, Angles, Parentname) studio("models/editor/axis_helper_thick.mdl") = vgui_movie_display : "Movie Display"
+[
+	displaytext(string) : "Display Text" : ""
+	moviefilename(string) : "Movie Filename" : "media/"
+	groupname(string) : "Group Name" : "default"
+
+	looping(choices) : "Loop Movie" : 0 =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	width(integer) : "Panel width" : 256 : "Width of the panel in units."
+	height(integer) : "Panel height" : 128 : "Height of the panel in units."
+
+	input Enable(void) : "Make movie visible."
+	input Disable(void) : "Make movie invisible."
+
+	input SetDisplayText(string) : "Sets the display text."
 ]
 
 //-------------------------------------------------------------------------
@@ -2954,6 +2984,45 @@
 	message(string) : "Localized Entity Message" : : "The message displayed by this entity. Use '/n' for newline."
 ]
 
+// worldtext()
+@PointClass base(Targetname, Parentname, Angles) studio("models/editor/axis_helper_thick.mdl") sphere(textsize) = vgui_text_display : 
+	"Displays a VGui text label oriented in the world. Can be considered Mapbase's equivalent of point_worldtext. The panel itself can be displayed with the 'r_vguitext_bg' cvar."
+[
+	spawnflags(flags) =
+	[
+		1: "Start Disabled" : 0
+	]
+
+	message(string) : "Entity Message"
+	alignment(choices) : "Text Alignment" : 7 : "The text's alignment in relation to the panel size. With 'South', the text will be centered between the origin and the sphere's left bound relative to the angles the text is facing." =
+	[
+		0 : "[0] Northwest"
+		1 : "[1] North"
+		2 : "[2] Northeast"
+		3 : "[3] West"
+		4 : "[4] Center"
+		5 : "[5] East"
+		6 : "[6] Southwest"
+		7 : "[7] South"
+		8 : "[8] Southeast"
+	]
+	font(string) : "Font" : : "The font to use from resource/ClientScheme.res. A blank value is equivalent to the default font. Not all fonts may function. Commonly defined fonts include 'DefaultSmall' and 'Trebuchet18'/'Trebuchet24'."
+	resolution(integer) : "Panel Resolution" : 200 : "The number of pixels available to the text. The higher the resolution is, the smaller the text will be. (NOTE: Changing the resolution with inputs later will scale the screen itself)"
+	textsize(float) : "Panel Size" : 100 : "The size of the text panel in the world. This is previewed with a sphere, but it actually extends 'north-west' relative to the direction it's facing. Due to the limited in-editor previewing abilities, it's recommended to use the 'SetPanelSize' input in-game with the 'ent_fire' command to fine-tune this value. Use 'r_vguitext_bg' to display the panel in-game."
+	
+	renderamt(integer) : "Alpha (0 - 255)" : 255 : "The FX amount is used by the selected Render Mode."
+	rendercolor(color255) : "Color" : "255 255 255"
+
+	// Inputs
+	input Enable(void) : "Start displaying the message text."
+	input Disable(void) : "Stop displaying the message text."
+	input Toggle(void) : "Toggle displaying the message text."
+	input SetMessage(string) : "Set the message text."
+	input SetTextAlignment(integer) : "Set text alignment by enum name."
+	input SetResolution(integer) : "Set the resolution. Might affect screen size."
+	input SetPanelSize(float) : "Set the text panel size."
+]
+
 @PointClass base(Targetname, Parentname, RenderFields, Angles, DXLevelChoice) studio("models/editor/cone_helper.mdl") = point_spotlight : 
 	"An entity to draw a spotlight. Will draw a beam when the player views it side on, and a halo when it's facing towards the player. "+
 	"Unless the 'No Dynamic Light' spawnflag is checked, it will also create a dynamic light wherever the end of the spotlight rests."
@@ -2968,6 +3037,10 @@
 	spotlightwidth(integer) : "Spotlight Width" : 50 : "Width of the spotlight beam."
 	rendercolor(color255) : "Color (R G B)" : "255 255 255"
 	HDRColorScale(float) : "HDR color scale." : "1.0" : "float value to multiply sprite color by when running in HDR mode."
+	HaloScale(float) : "Halo size scale." : "60" : "float value to determine the size of the halo."
+	
+	HaloMaterial(sprite) : "Halo material" : "sprites/light_glow03.vmt" : "Material to use for the halo."
+	SpotlightMaterial(sprite) : "Spotlight beam material" : "sprites/glow_test02.vmt" : "Material to use for the spotlight's beam."
 	
 	// Inputs
 	input LightOn(void) : "Turn the spotlight on."
@@ -3933,6 +4006,9 @@
 	]
 	_minlight(string) : "Minimum Light Level" : : "The minimum level of ambient light that hits this brush."
 	dmg(integer) : "Blocking Damage" : 0 : "Damage done to any entity that blocks the rotation, per frame."
+	
+	minpitch(integer) : "Minimum Sound Pitch" : 30 : "Minimum pitch for the rotating sound when it plays based on the speed of the rotating brush."
+	maxpitch(integer) : "Maximum Sound Pitch" : 100 : "Maximum pitch for the rotating sound when it plays based on the speed of the rotating brush."
 
 	solidbsp(choices) : "Solid Type" : 0 =
 	[
@@ -5273,6 +5349,7 @@
 	landmark(target_destination) : "Local Destination Landmark" : : "If specified, then sounds offset from the speaker by their initial offset from this landmark. Only applicable in Speaker mode."
 	
 	PitchScale(float) : "Pitch Scale" : "1.0" : "Scales the pitch of transmitted sounds. Only applicable in Speaker mode."
+	VolumeScale(float) : "Volume Scale" : "1.0" : "Scales the volume of transmitted sounds. Only applicable in Speaker mode."
 	
 	channel(choices) : "Channel" : 6 : "Sets the channel which sounds should transmit as. Only applicable in Speaker mode." =
 	[
@@ -5290,6 +5367,7 @@
 	input SetSpeakerName(target_destination) : "Set the microphone to output through a different speaker entity."
 	input SetDSPPreset(integer) : "Sets our DSP preset."
 	input SetPitchScale(float) : "Sets the pitch scale."
+	input SetVolumeScale(float) : "Sets the volume scale."
 	input SetChannel(integer) : "Sets the channel."
 
 	// Outputs
@@ -5476,6 +5554,33 @@
 	input Enable(void) : "Enable the entity"
 	input Disable(void) : "Enable the entity"
 ]
+
+@PointClass base(Targetname) iconsprite("editor/logic_playmovie.vmt") = logic_playmovie : "Plays a movie and allows for various playback options"
+[
+	MovieFilename(string) : "Movie to play" : "" : "Filename of the movie to play"
+	allowskip(choices) : "Allow User to Skip" : 0 : "Whether or not the user may skip the video with common keys" =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	loopvideo(choices) : "Loop Video" : 0 : "If set to true, the movie will loop forever" =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	mute(choices) : "Mute Video" : 0 : "If set to true, the movie will not produce any sound" =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	input PlayMovie(void) : "Play the movie."
+	input StopMovie(void) : "Stop the movie if it is currently playing."
+
+	// Outputs
+	output OnPlaybackFinished(void) : "Fired when the movie has completed playing back, was skipped by the user, or was stopped with StopMovie."
+]
+
 
 @PointClass base(Targetname) iconsprite("editor/point_template.vmt") = point_template : 
 	"Turns an entity, or set of entities, into a single template that can be instanced anywhere, and multiple times. "+
@@ -9093,6 +9198,8 @@
 [
 	SetMaxInputArmor(integer) : "Max Input Armor" : 100 : "Sets the maximum armor a player can receive from the AddArmor, RemoveArmor, and SetArmor inputs. This does NOT override how much armor a player can receive overall!"
 	
+	SetSuitZoomFOV(integer) : "Suit Zoom FOV" : 25 : "Sets the FOV value the player's suit zoom function should use."
+	
 	ResponseContext(string) : "Response Contexts" : "" : "Response system context(s) for the player. Format should be: 'key:value,key2:value2,etc'. Using inputs like AddContext on this player proxy will not carry it over to the player and should be done on the '!player' entity instead."
 	
 	HideSquadHUD(choices) : "Hide squad HUD" : 0 : "Hides the player's squad status HUD above the ammo display." =
@@ -9141,6 +9248,7 @@
 	input SetLocatorTargetEntity(target_destination) : "Set the entity that the HUD locator should track. (Usually a vehicle)"
 	
 	input SetMaxInputArmor(integer)			: "Sets the maximum armor value that could be set by armor inputs."
+	input SetSuitZoomFOV(integer)				: "Sets the FOV used by suit zoom."
 	
 	output OnPlayerSpawn(void) 				: "Fired when the player spawns or respawns, using the spawn point as the caller."
 ]
@@ -9723,17 +9831,6 @@
 	input Task2Urgency(integer) : "Set task 2 urgency (0-4)"
 	input Task3Urgency(integer) : "Set task 3 urgency (0-4)"
 	input Task4Urgency(integer) : "Set task 4 urgency (0-4)"
-]
-
-@PointClass base(Targetname) = logic_playmovie : "Plays a movie and allows for various playback options"
-[
-	MovieFilename(string) : "Movie to play" : "" : "Filename of the movie to play"
-	allowskip(boolean) : "Allow User to Skip" : 0 : "Whether or not the user may skip the video with common keys"
-
-	input PlayMovie(void) : "Play the movie."
-
-	// Outputs
-	output OnPlaybackFinished(void) : "Fired when the movie has completed playing back or was skipped by the user."
 ]
 
 @PointClass base(Targetname, Parentname, EnableDisable) iconsprite("editor/iv_dynamic_light.vmt") sphere(distance) size(-1 -1 -1, 1 1 1) = iv_dynamic_light : 

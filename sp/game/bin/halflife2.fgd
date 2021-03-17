@@ -735,6 +735,9 @@
 
 	input StartHangingFromCeiling(void) : "Start hanging from ceiling."
 	input DropFromCeiling(void) : "Drop if hanging from ceiling."
+	input Unburrow(void) : "Unburrow from the ground"
+	input Burrow(void) : "Burrow into the ground"
+	input BurrowImmediate(void) : "Burrow into the ground immediately"
 	
 	output OnLeap(void) : "Fires when the headcrab leaps at an enemy."
 ]
@@ -796,7 +799,7 @@
 ]
 
 
-@NPCClass base(Parentname, BaseNPC) size(-16 -16 -16, 16 16 16) color(255 150 0) = npc_enemyfinder : "EnemyFinder"
+@NPCClass base(Parentname, BaseNPC) size(-16 -16 -16, 16 16 16) color(255 150 0) sphere(MinSearchDist) sphere(MaxSearchDist) = npc_enemyfinder : "EnemyFinder"
 [
 	spawnflags(flags) =
 	[
@@ -1519,6 +1522,7 @@
 	input StopShootingMinigunForSeconds(float) : "Stop shooting the minigun for a period of time (specify seconds as parameter)"
 
 	input DisableCrouch(void) : "Prevent the Strider from crouching"
+	input EnableCrouch(void) : "Allow the Strider to crouch again if it was prevented before"
 	input DisableMoveToLOS(void) : "Prevent the Strider from seeking Line of Sight to target. (Hold position)"
 	
 	input DisableCollisionWith(target_destination) : "Disable collision with a given object."
@@ -4769,6 +4773,12 @@
 		16395 : "Default - Solid entities (MASK_SOLID_BRUSHONLY)"
 		16449 : "NPC LOS (MASK_BLOCKLOS)"
 	]
+	
+	SetUnavoidable(choices) : "Unavoidable" : 0 : "If true, this mine will not be avoided by companion NPCs." =
+	[
+		0: "No"
+		1: "Yes"
+	]
 
 	// Inputs
 	input Disarm(void) : "Disarm this mine (open hooks and shut off) if not placed by player."
@@ -4776,6 +4786,7 @@
 	input BounceAtTarget(target_destination) : "Causes this mine to bounce at the specified entity, regardless of distance."
 	input SetEnemyFilter(target_destination) : "Changes this mine's enemy filter to the named filter."
 	input SetFriendFilter(target_destination) : "Changes this mine's friend filter to the named filter."
+	input SetUnavoidable(bool) : "Sets whether this mine will not be avoided by companion NPCs."
 
 	// Outputs
 	output OnPulledUp(void) : "Fires when this mine is uprooted with a physgun."
