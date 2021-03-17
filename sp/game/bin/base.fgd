@@ -9904,6 +9904,15 @@
 [
 	distance(float)				: "Distance" : "10000" : "Height above the player where the projection originates from."
 	fov(float)					: "FOV" : "5.0" : "This is the field of view that the sunlight casts in. Use lower values to simulate a more distant sun and sharper shadows."
+	enableshadows(Choices) : "Enable Shadows" : 2048 : "Enables shadows. If shadows are disabled, light may appear to go through objects. Disabling shadows may be ideal for lower-detail environments due to being less expensive." =
+	[
+		1024 : "1024x1024 - Min"
+		2048 : "2048x2048"
+		4096 : "4096x4096 - Max"
+	]
+	
+	IVGlightShadowFilterSize(float)				: "[IV] Shadow Filter Size" : "0.7" : "Height above the player where the projection originates from."
+	IVGlightShadowAtten(float)			: "[IV] Shadow Atten" : "1.0" : "The attenuation of the shadows, or how much the shadows should fade into the light of the projected texture, if at all. The player's flashlight uses 0.35 by default, although higher values may be needed for a visible effect."
 	nearz(float)				: "NearZ" : "512" : "Distance from the player where the near Z plane is. Anything closer to the projection origin"
 	northoffset(float)			: "North Offset" : "200" : "This offsets the from the player position where the sun is attached. (???)"	
 	
