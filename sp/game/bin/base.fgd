@@ -9904,6 +9904,22 @@
 [
 	distance(float)				: "Distance" : "10000" : "Height above the player where the projection originates from."
 	fov(float)					: "FOV" : "5.0" : "This is the field of view that the sunlight casts in. Use lower values to simulate a more distant sun and sharper shadows."
+	IVGlightShadowRes(Choices) : "[IV] Glight Shadow Res" : 2048 : "This parm changes IV Global Light Shadow Resolution." =
+	[
+		1024 : "1024x1024 - Min"
+		2048 : "2048x2048"
+		4096 : "4096x4096 - Max"
+	]
+	
+	IVGlightShadowFilterSize(float)				: "[IV] Shadow Filter Size" : "0.7" : "Height above the player where the projection originates from."
+
+	AutoCalculateShadowFilterSize(Choices) : "[IV] Set Glight Filter Size Mode" : 1 : "Auto Calculate Glight Shadow Filter Size. Change it to manual if you want to set own value." =
+	[
+		0 : "Manual"
+		1 : "Auto"
+	]
+
+	IVGlightShadowAtten(float)			: "[IV] Shadow Atten" : "1.0" : "The attenuation of the shadows, or how much the shadows should fade into the light of the projected texture, if at all. The player's flashlight uses 0.35 by default, although higher values may be needed for a visible effect."
 	nearz(float)				: "NearZ" : "512" : "Distance from the player where the near Z plane is. Anything closer to the projection origin"
 	northoffset(float)			: "North Offset" : "200" : "This offsets the from the player position where the sun is attached. (???)"	
 	
@@ -9928,6 +9944,11 @@
 
 	// Inputs
 	input SetFOV(float)		: "Set the field of view the sun casts."
+	input SetIVGlightShadowRes(float)		: "Set Glight Shadow Res."
+	input SetIVGlightShadowFilterSize(float)		: "Set Glight Shadow Filter Size."
+	input SetIVGlightShadowAtten(float)		: "Set Glight Shadow Atten."
+	input AutoCalculateGlightShadowFSize(void)		: "Set to Auto Calculate Shadow Filter Size Mode."
+	input ManualGlightShadowFSize(void)		: "Set to Manual Calculate Shadow Filter Size Mode."
 	input SetTexture(string)		: "Set the texture cookie of the sunlight."
 	input EnableShadows(bool)		: "Set whether shadow maps are enabled"
 	input LightColor(color255)		: "Set the light color."

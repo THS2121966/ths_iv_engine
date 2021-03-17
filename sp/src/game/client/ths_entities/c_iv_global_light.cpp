@@ -51,6 +51,7 @@ public:
 private:
 	Vector m_shadowDirection;
 	bool m_bEnabled;
+	bool m_bAutoCalculateGlightShadowFSize;
 	char m_TextureName[ MAX_PATH ];
 #ifdef MAPBASE
 	int m_nSpotlightTextureFrame;
@@ -66,6 +67,9 @@ private:
 	float m_flColorTransitionTime;
 	float m_flSunDistance;
 	float m_flFOV;
+	float IVGLShadowRes;
+	float IVGLShadowFSize;
+	float IVGLShadowAtten;
 	float m_flNearZ;
 	float m_flNorthOffset;
 #ifdef MAPBASE
@@ -86,6 +90,7 @@ ClientShadowHandle_t C_IVGlobalLight::m_LocalFlashlightHandle = CLIENTSHADOW_INV
 IMPLEMENT_CLIENTCLASS_DT(C_IVGlobalLight, DT_IVGlobalLight, CIVGlobalLight)
 	RecvPropVector(RECVINFO(m_shadowDirection)),
 	RecvPropBool(RECVINFO(m_bEnabled)),
+	RecvPropBool(RECVINFO(m_bAutoCalculateGlightShadowFSize)),
 	RecvPropString(RECVINFO(m_TextureName)),
 #ifdef MAPBASE
 	RecvPropInt(RECVINFO(m_nSpotlightTextureFrame)),
@@ -98,6 +103,9 @@ IMPLEMENT_CLIENTCLASS_DT(C_IVGlobalLight, DT_IVGlobalLight, CIVGlobalLight)
 	RecvPropFloat(RECVINFO(m_flColorTransitionTime)),
 	RecvPropFloat(RECVINFO(m_flSunDistance)),
 	RecvPropFloat(RECVINFO(m_flFOV)),
+	RecvPropFloat(RECVINFO(IVGLShadowRes)),
+	RecvPropFloat(RECVINFO(IVGLShadowFSize)),
+	RecvPropFloat(RECVINFO(IVGLShadowAtten)),
 	RecvPropFloat(RECVINFO(m_flNearZ)),
 	RecvPropFloat(RECVINFO(m_flNorthOffset)),
 #ifdef MAPBASE
@@ -266,6 +274,26 @@ void C_IVGlobalLight::ClientThink()
 		state.m_FarZ = m_flSunDistance * 2.0f;
 		state.m_fBrightnessScale = 2.0f;
 		state.m_bGlobalLight = true;
+		
+		//thsdev_new_glight_parms
+		state.m_flShadowMapResolution = IVGLShadowRes;
+		if(m_bAutoCalculateGlightShadowFSize == false)
+		{
+		state.m_flShadowFilterSize = IVGLShadowFSize;
+		}
+		else if(IVGLShadowRes <= 1024)
+		{
+			state.m_flShadowFilterSize = 1.0f;
+		}
+		else if(IVGLShadowRes == 2048)
+		{
+			state.m_flShadowFilterSize = 0.7f;
+		}
+		else if(IVGLShadowRes >= 4096)
+		{
+			state.m_flShadowFilterSize = 0.56f;
+		}
+		state.m_flShadowAtten = IVGLShadowAtten;
 
 #ifdef MAPBASE
 		float flOrthoSize = m_flOrthoSize;

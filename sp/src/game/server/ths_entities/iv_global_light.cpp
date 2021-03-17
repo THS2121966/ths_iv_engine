@@ -33,6 +33,8 @@ public:
 	// Inputs
 	void	InputSetAngles( inputdata_t &inputdata );
 	void	InputEnable( inputdata_t &inputdata );
+	void	InputAutoCalculateGlightShadowFSize( inputdata_t &inputdata );
+	void	InputManualGlightShadowFSize( inputdata_t &inputdata );
 	void	InputDisable( inputdata_t &inputdata );
 	void	InputSetTexture( inputdata_t &inputdata );
 	void	InputSetEnableShadows( inputdata_t &inputdata );
@@ -45,6 +47,9 @@ public:
 	void	InputSetOrthoSize( inputdata_t &inputdata ) { m_flOrthoSize = inputdata.value.Float(); }
 	void	InputSetDistance( inputdata_t &inputdata ) { m_flSunDistance = inputdata.value.Float(); }
 	void	InputSetFOV( inputdata_t &inputdata ) { m_flFOV = inputdata.value.Float(); }
+	void	InputSetIVGLShadowRes( inputdata_t &inputdata ) { IVGLShadowRes = inputdata.value.Float(); }
+	void	InputSetIVGLShadowFSize( inputdata_t &inputdata ) { IVGLShadowFSize = inputdata.value.Float(); }
+	void	InputSetIVGLShadowAtten( inputdata_t &inputdata ) { IVGLShadowAtten = inputdata.value.Float(); }
 	void	InputSetNearZDistance( inputdata_t &inputdata ) { m_flNearZ = inputdata.value.Float(); }
 	void	InputSetNorthOffset( inputdata_t &inputdata ) { m_flNorthOffset = inputdata.value.Float(); }
 #endif
@@ -58,6 +63,7 @@ private:
 	CNetworkVector( m_shadowDirection );
 
 	CNetworkVar( bool, m_bEnabled );
+	CNetworkVar( bool, m_bAutoCalculateGlightShadowFSize );
 
 	CNetworkString( m_TextureName, MAX_PATH );
 #ifdef MAPBASE
@@ -70,6 +76,9 @@ private:
 	CNetworkVar( float, m_flColorTransitionTime );
 	CNetworkVar( float, m_flSunDistance );
 	CNetworkVar( float, m_flFOV );
+	CNetworkVar( float, IVGLShadowRes );
+	CNetworkVar( float, IVGLShadowFSize );
+	CNetworkVar( float, IVGLShadowAtten );
 	CNetworkVar( float, m_flNearZ );
 	CNetworkVar( float, m_flNorthOffset );
 #ifdef MAPBASE
@@ -85,12 +94,16 @@ LINK_ENTITY_TO_CLASS(iv_global_light, CIVGlobalLight);
 BEGIN_DATADESC( CIVGlobalLight )
 
 	DEFINE_KEYFIELD( m_bEnabled,		FIELD_BOOLEAN, "enabled" ),
+	DEFINE_KEYFIELD( m_bAutoCalculateGlightShadowFSize,		FIELD_BOOLEAN, "AutoCalculateShadowFilterSize" ),
 	DEFINE_AUTO_ARRAY_KEYFIELD( m_TextureName, FIELD_CHARACTER, "texturename" ),
 #ifdef MAPBASE
 	DEFINE_KEYFIELD( m_nSpotlightTextureFrame, FIELD_INTEGER, "textureframe" ),
 #endif
 	DEFINE_KEYFIELD( m_flSunDistance,	FIELD_FLOAT, "distance" ),
 	DEFINE_KEYFIELD( m_flFOV,	FIELD_FLOAT, "fov" ),
+	DEFINE_KEYFIELD( IVGLShadowRes,	FIELD_FLOAT, "IVGlightShadowRes" ),
+	DEFINE_KEYFIELD( IVGLShadowFSize,	FIELD_FLOAT, "IVGlightShadowFilterSize" ),
+	DEFINE_KEYFIELD( IVGLShadowAtten,	FIELD_FLOAT, "IVGlightShadowAtten" ),
 	DEFINE_KEYFIELD( m_flNearZ,	FIELD_FLOAT, "nearz" ),
 	DEFINE_KEYFIELD( m_flNorthOffset,	FIELD_FLOAT, "northoffset" ),
 #ifdef MAPBASE
@@ -114,6 +127,9 @@ BEGIN_DATADESC( CIVGlobalLight )
 	DEFINE_INPUTFUNC( FIELD_FLOAT, "SetOrthoSize", InputSetOrthoSize ),
 	DEFINE_INPUTFUNC( FIELD_FLOAT, "SetDistance", InputSetDistance ),
 	DEFINE_INPUTFUNC( FIELD_FLOAT, "SetFOV", InputSetFOV ),
+	DEFINE_INPUTFUNC( FIELD_FLOAT, "SetIVGlightShadowRes", InputSetIVGLShadowRes ),
+	DEFINE_INPUTFUNC( FIELD_FLOAT, "SetIVGlightShadowFilterSize", InputSetIVGLShadowFSize ),
+	DEFINE_INPUTFUNC( FIELD_FLOAT, "SetIVGlightShadowAtten", InputSetIVGLShadowAtten ),
 	DEFINE_INPUTFUNC( FIELD_FLOAT, "SetNearZDistance", InputSetNearZDistance ),
 	DEFINE_INPUTFUNC( FIELD_FLOAT, "SetNorthOffset", InputSetNorthOffset ),
 #else
@@ -126,6 +142,8 @@ BEGIN_DATADESC( CIVGlobalLight )
 	DEFINE_INPUTFUNC( FIELD_COLOR32, "LightColor", InputSetLightColor ),
 	DEFINE_INPUTFUNC( FIELD_STRING, "SetAngles", InputSetAngles ),
 	DEFINE_INPUTFUNC( FIELD_VOID, "Enable", InputEnable ),
+	DEFINE_INPUTFUNC( FIELD_VOID, "AutoCalculateGlightShadowFSize", InputAutoCalculateGlightShadowFSize ),
+	DEFINE_INPUTFUNC( FIELD_VOID, "ManualGlightShadowFSize", InputManualGlightShadowFSize ),
 	DEFINE_INPUTFUNC( FIELD_VOID, "Disable", InputDisable ),
 	DEFINE_INPUTFUNC( FIELD_STRING, "SetTexture", InputSetTexture ),
 	DEFINE_INPUTFUNC( FIELD_BOOLEAN, "EnableShadows", InputSetEnableShadows ),
@@ -140,6 +158,7 @@ END_DATADESC()
 IMPLEMENT_SERVERCLASS_ST_NOBASE(CIVGlobalLight, DT_IVGlobalLight)
 	SendPropVector(SENDINFO(m_shadowDirection), -1,  SPROP_NOSCALE ),
 	SendPropBool(SENDINFO(m_bEnabled) ),
+	SendPropBool(SENDINFO(m_bAutoCalculateGlightShadowFSize) ),
 	SendPropString(SENDINFO(m_TextureName)),
 #ifdef MAPBASE
 	SendPropInt(SENDINFO(m_nSpotlightTextureFrame)),
@@ -152,6 +171,9 @@ IMPLEMENT_SERVERCLASS_ST_NOBASE(CIVGlobalLight, DT_IVGlobalLight)
 	SendPropFloat( SENDINFO( m_flColorTransitionTime ) ),
 	SendPropFloat(SENDINFO(m_flSunDistance), 0, SPROP_NOSCALE ),
 	SendPropFloat(SENDINFO(m_flFOV), 0, SPROP_NOSCALE ),
+	SendPropFloat(SENDINFO(IVGLShadowRes), 0, SPROP_NOSCALE ),
+	SendPropFloat(SENDINFO(IVGLShadowFSize), 0, SPROP_NOSCALE ),
+	SendPropFloat(SENDINFO(IVGLShadowAtten), 0, SPROP_NOSCALE ),
 	SendPropFloat(SENDINFO(m_flNearZ), 0, SPROP_NOSCALE ),
 	SendPropFloat(SENDINFO(m_flNorthOffset), 0, SPROP_NOSCALE ),
 #ifdef MAPBASE
@@ -178,6 +200,9 @@ CIVGlobalLight::CIVGlobalLight()
 	m_flColorTransitionTime = 0.5f;
 	m_flSunDistance = 10000.0f;
 	m_flFOV = 5.0f;
+	IVGLShadowRes = 2048.0f;
+	IVGLShadowFSize = 0.7f;
+	IVGLShadowAtten = 1.0f;
 	m_bEnableShadows = false;
 #ifdef MAPBASE
 	m_nSpotlightTextureFrame = 0;
@@ -185,6 +210,7 @@ CIVGlobalLight::CIVGlobalLight()
 	m_flOrthoSize = 1000.0f;
 #endif
 	m_bEnabled = true;
+	m_bAutoCalculateGlightShadowFSize = true;
 }
 
 
@@ -306,6 +332,16 @@ void CIVGlobalLight::InputEnable( inputdata_t &inputdata )
 void CIVGlobalLight::InputDisable( inputdata_t &inputdata )
 {
 	m_bEnabled = false;
+}
+
+void CIVGlobalLight::InputAutoCalculateGlightShadowFSize( inputdata_t &inputdata )
+{
+	m_bAutoCalculateGlightShadowFSize = true;
+}
+
+void CIVGlobalLight::InputManualGlightShadowFSize( inputdata_t &inputdata )
+{
+	m_bAutoCalculateGlightShadowFSize = false;
 }
 
 void CIVGlobalLight::InputSetTexture( inputdata_t &inputdata )
