@@ -102,7 +102,7 @@ IMPLEMENT_CLIENTCLASS_DT(C_IVGlobalLight, DT_IVGlobalLight, CIVGlobalLight)
 	RecvPropFloat(RECVINFO(m_flSunDistance)),
 	RecvPropFloat(RECVINFO(m_flFOV)),
 	RecvPropFloat(RECVINFO(IVGLShadowRes)),
-	RecvPropFloat(RECVINFO(IVGLShadowRes)),
+	RecvPropFloat(RECVINFO(IVGLShadowFSize)),
 	RecvPropFloat(RECVINFO(IVGLShadowAtten)),
 	RecvPropFloat(RECVINFO(m_flNearZ)),
 	RecvPropFloat(RECVINFO(m_flNorthOffset)),
