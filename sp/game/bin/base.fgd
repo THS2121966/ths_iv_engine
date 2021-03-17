@@ -9904,7 +9904,7 @@
 [
 	distance(float)				: "Distance" : "10000" : "Height above the player where the projection originates from."
 	fov(float)					: "FOV" : "5.0" : "This is the field of view that the sunlight casts in. Use lower values to simulate a more distant sun and sharper shadows."
-	enableshadows(Choices) : "Enable Shadows" : 2048 : "Enables shadows. If shadows are disabled, light may appear to go through objects. Disabling shadows may be ideal for lower-detail environments due to being less expensive." =
+	IVGlightShadowRes(Choices) : "[IV] Glight Shadow Res" : 2048 : "This parm changes IV Global Light Shadow Resolution." =
 	[
 		1024 : "1024x1024 - Min"
 		2048 : "2048x2048"
