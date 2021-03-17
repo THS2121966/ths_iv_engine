@@ -33,6 +33,8 @@ public:
 	// Inputs
 	void	InputSetAngles( inputdata_t &inputdata );
 	void	InputEnable( inputdata_t &inputdata );
+	void	InputAutoCalculateGlightShadowFSize( inputdata_t &inputdata );
+	void	InputManualGlightShadowFSize( inputdata_t &inputdata );
 	void	InputDisable( inputdata_t &inputdata );
 	void	InputSetTexture( inputdata_t &inputdata );
 	void	InputSetEnableShadows( inputdata_t &inputdata );
@@ -61,6 +63,7 @@ private:
 	CNetworkVector( m_shadowDirection );
 
 	CNetworkVar( bool, m_bEnabled );
+	CNetworkVar( bool, m_bAutoCalculateGlightShadowFSize );
 
 	CNetworkString( m_TextureName, MAX_PATH );
 #ifdef MAPBASE
@@ -91,6 +94,7 @@ LINK_ENTITY_TO_CLASS(iv_global_light, CIVGlobalLight);
 BEGIN_DATADESC( CIVGlobalLight )
 
 	DEFINE_KEYFIELD( m_bEnabled,		FIELD_BOOLEAN, "enabled" ),
+	DEFINE_KEYFIELD( m_bAutoCalculateGlightShadowFSize,		FIELD_BOOLEAN, "AutoCalculateShadowFilterSize" ),
 	DEFINE_AUTO_ARRAY_KEYFIELD( m_TextureName, FIELD_CHARACTER, "texturename" ),
 #ifdef MAPBASE
 	DEFINE_KEYFIELD( m_nSpotlightTextureFrame, FIELD_INTEGER, "textureframe" ),
@@ -138,6 +142,8 @@ BEGIN_DATADESC( CIVGlobalLight )
 	DEFINE_INPUTFUNC( FIELD_COLOR32, "LightColor", InputSetLightColor ),
 	DEFINE_INPUTFUNC( FIELD_STRING, "SetAngles", InputSetAngles ),
 	DEFINE_INPUTFUNC( FIELD_VOID, "Enable", InputEnable ),
+	DEFINE_INPUTFUNC( FIELD_VOID, "AutoCalculateGlightShadowFSize", InputAutoCalculateGlightShadowFSize ),
+	DEFINE_INPUTFUNC( FIELD_VOID, "ManualGlightShadowFSize", InputManualGlightShadowFSize ),
 	DEFINE_INPUTFUNC( FIELD_VOID, "Disable", InputDisable ),
 	DEFINE_INPUTFUNC( FIELD_STRING, "SetTexture", InputSetTexture ),
 	DEFINE_INPUTFUNC( FIELD_BOOLEAN, "EnableShadows", InputSetEnableShadows ),
@@ -152,6 +158,7 @@ END_DATADESC()
 IMPLEMENT_SERVERCLASS_ST_NOBASE(CIVGlobalLight, DT_IVGlobalLight)
 	SendPropVector(SENDINFO(m_shadowDirection), -1,  SPROP_NOSCALE ),
 	SendPropBool(SENDINFO(m_bEnabled) ),
+	SendPropBool(SENDINFO(m_bAutoCalculateGlightShadowFSize) ),
 	SendPropString(SENDINFO(m_TextureName)),
 #ifdef MAPBASE
 	SendPropInt(SENDINFO(m_nSpotlightTextureFrame)),
@@ -203,6 +210,7 @@ CIVGlobalLight::CIVGlobalLight()
 	m_flOrthoSize = 1000.0f;
 #endif
 	m_bEnabled = true;
+	m_bAutoCalculateGlightShadowFSize = true;
 }
 
 
@@ -324,6 +332,16 @@ void CIVGlobalLight::InputEnable( inputdata_t &inputdata )
 void CIVGlobalLight::InputDisable( inputdata_t &inputdata )
 {
 	m_bEnabled = false;
+}
+
+void CIVGlobalLight::InputAutoCalculateGlightShadowFSize( inputdata_t &inputdata )
+{
+	m_bAutoCalculateGlightShadowFSize = true;
+}
+
+void CIVGlobalLight::InputManualGlightShadowFSize( inputdata_t &inputdata )
+{
+	m_bAutoCalculateGlightShadowFSize = false;
 }
 
 void CIVGlobalLight::InputSetTexture( inputdata_t &inputdata )
