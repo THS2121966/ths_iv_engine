@@ -123,14 +123,14 @@ BEGIN_DATADESC( CIVGlobalLight )
 	DEFINE_INPUTFUNC( FIELD_FLOAT, "SetOrthoSize", InputSetOrthoSize ),
 	DEFINE_INPUTFUNC( FIELD_FLOAT, "SetDistance", InputSetDistance ),
 	DEFINE_INPUTFUNC( FIELD_FLOAT, "SetFOV", InputSetFOV ),
+	DEFINE_INPUTFUNC( FIELD_FLOAT, "SetIVGlightShadowRes", InputSetIVGLShadowRes ),
+	DEFINE_INPUTFUNC( FIELD_FLOAT, "SetIVGlightShadowFilterSize", InputSetIVGLShadowFSize ),
+	DEFINE_INPUTFUNC( FIELD_FLOAT, "SetIVGlightShadowAtten", InputSetIVGLShadowAtten ),
 	DEFINE_INPUTFUNC( FIELD_FLOAT, "SetNearZDistance", InputSetNearZDistance ),
 	DEFINE_INPUTFUNC( FIELD_FLOAT, "SetNorthOffset", InputSetNorthOffset ),
 #else
 	DEFINE_INPUT( m_flSunDistance,		FIELD_FLOAT, "SetDistance" ),
 	DEFINE_INPUT( m_flFOV,				FIELD_FLOAT, "SetFOV" ),
-	DEFINE_INPUT( IVGLShadowRes,				FIELD_FLOAT, "SetIVGlightShadowRes" ),
-	DEFINE_INPUT( IVGLShadowFSize,				FIELD_FLOAT, "SetIVGlightShadowFilterSize" ),
-	DEFINE_INPUT( IVGLShadowAtten,				FIELD_FLOAT, "SetIVGlightShadowAtten" ),
 	DEFINE_INPUT( m_flNearZ,			FIELD_FLOAT, "SetNearZDistance" ),
 	DEFINE_INPUT( m_flNorthOffset,			FIELD_FLOAT, "SetNorthOffset" ),
 #endif
