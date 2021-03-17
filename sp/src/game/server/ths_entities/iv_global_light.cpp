@@ -45,6 +45,9 @@ public:
 	void	InputSetOrthoSize( inputdata_t &inputdata ) { m_flOrthoSize = inputdata.value.Float(); }
 	void	InputSetDistance( inputdata_t &inputdata ) { m_flSunDistance = inputdata.value.Float(); }
 	void	InputSetFOV( inputdata_t &inputdata ) { m_flFOV = inputdata.value.Float(); }
+	void	InputSetIVGLShadowRes( inputdata_t &inputdata ) { IVGLShadowRes = inputdata.value.Float(); }
+	void	InputSetIVGLShadowFSize( inputdata_t &inputdata ) { IVGLShadowFSize = inputdata.value.Float(); }
+	void	InputSetIVGLShadowAtten( inputdata_t &inputdata ) { IVGLShadowAtten = inputdata.value.Float(); }
 	void	InputSetNearZDistance( inputdata_t &inputdata ) { m_flNearZ = inputdata.value.Float(); }
 	void	InputSetNorthOffset( inputdata_t &inputdata ) { m_flNorthOffset = inputdata.value.Float(); }
 #endif
@@ -70,6 +73,9 @@ private:
 	CNetworkVar( float, m_flColorTransitionTime );
 	CNetworkVar( float, m_flSunDistance );
 	CNetworkVar( float, m_flFOV );
+	CNetworkVar( float, IVGLShadowRes );
+	CNetworkVar( float, IVGLShadowFSize );
+	CNetworkVar( float, IVGLShadowAtten );
 	CNetworkVar( float, m_flNearZ );
 	CNetworkVar( float, m_flNorthOffset );
 #ifdef MAPBASE
@@ -91,6 +97,9 @@ BEGIN_DATADESC( CIVGlobalLight )
 #endif
 	DEFINE_KEYFIELD( m_flSunDistance,	FIELD_FLOAT, "distance" ),
 	DEFINE_KEYFIELD( m_flFOV,	FIELD_FLOAT, "fov" ),
+	DEFINE_KEYFIELD( IVGLShadowRes,	FIELD_FLOAT, "IVGlightShadowRes" ),
+	DEFINE_KEYFIELD( IVGLShadowFSize,	FIELD_FLOAT, "IVGlightShadowFilterSize" ),
+	DEFINE_KEYFIELD( IVGLShadowAtten,	FIELD_FLOAT, "IVGlightShadowAtten" ),
 	DEFINE_KEYFIELD( m_flNearZ,	FIELD_FLOAT, "nearz" ),
 	DEFINE_KEYFIELD( m_flNorthOffset,	FIELD_FLOAT, "northoffset" ),
 #ifdef MAPBASE
@@ -119,6 +128,9 @@ BEGIN_DATADESC( CIVGlobalLight )
 #else
 	DEFINE_INPUT( m_flSunDistance,		FIELD_FLOAT, "SetDistance" ),
 	DEFINE_INPUT( m_flFOV,				FIELD_FLOAT, "SetFOV" ),
+	DEFINE_INPUT( IVGLShadowRes,				FIELD_FLOAT, "SetIVGlightShadowRes" ),
+	DEFINE_INPUT( IVGLShadowFSize,				FIELD_FLOAT, "SetIVGlightShadowFilterSize" ),
+	DEFINE_INPUT( IVGLShadowAtten,				FIELD_FLOAT, "SetIVGlightShadowAtten" ),
 	DEFINE_INPUT( m_flNearZ,			FIELD_FLOAT, "SetNearZDistance" ),
 	DEFINE_INPUT( m_flNorthOffset,			FIELD_FLOAT, "SetNorthOffset" ),
 #endif
@@ -152,6 +164,9 @@ IMPLEMENT_SERVERCLASS_ST_NOBASE(CIVGlobalLight, DT_IVGlobalLight)
 	SendPropFloat( SENDINFO( m_flColorTransitionTime ) ),
 	SendPropFloat(SENDINFO(m_flSunDistance), 0, SPROP_NOSCALE ),
 	SendPropFloat(SENDINFO(m_flFOV), 0, SPROP_NOSCALE ),
+	SendPropFloat(SENDINFO(IVGLShadowRes), 0, SPROP_NOSCALE ),
+	SendPropFloat(SENDINFO(IVGLShadowFSize), 0, SPROP_NOSCALE ),
+	SendPropFloat(SENDINFO(IVGLShadowAtten), 0, SPROP_NOSCALE ),
 	SendPropFloat(SENDINFO(m_flNearZ), 0, SPROP_NOSCALE ),
 	SendPropFloat(SENDINFO(m_flNorthOffset), 0, SPROP_NOSCALE ),
 #ifdef MAPBASE
@@ -178,6 +193,9 @@ CIVGlobalLight::CIVGlobalLight()
 	m_flColorTransitionTime = 0.5f;
 	m_flSunDistance = 10000.0f;
 	m_flFOV = 5.0f;
+	IVGLShadowRes = 2048.0f;
+	IVGLShadowFSize = 0.7f;
+	IVGLShadowAtten = 1.0f;
 	m_bEnableShadows = false;
 #ifdef MAPBASE
 	m_nSpotlightTextureFrame = 0;

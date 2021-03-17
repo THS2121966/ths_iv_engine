@@ -66,6 +66,9 @@ private:
 	float m_flColorTransitionTime;
 	float m_flSunDistance;
 	float m_flFOV;
+	float IVGLShadowRes;
+	float IVGLShadowFSize;
+	float IVGLShadowAtten;
 	float m_flNearZ;
 	float m_flNorthOffset;
 #ifdef MAPBASE
@@ -98,6 +101,9 @@ IMPLEMENT_CLIENTCLASS_DT(C_IVGlobalLight, DT_IVGlobalLight, CIVGlobalLight)
 	RecvPropFloat(RECVINFO(m_flColorTransitionTime)),
 	RecvPropFloat(RECVINFO(m_flSunDistance)),
 	RecvPropFloat(RECVINFO(m_flFOV)),
+	RecvPropFloat(RECVINFO(IVGLShadowRes)),
+	RecvPropFloat(RECVINFO(IVGLShadowRes)),
+	RecvPropFloat(RECVINFO(IVGLShadowAtten)),
 	RecvPropFloat(RECVINFO(m_flNearZ)),
 	RecvPropFloat(RECVINFO(m_flNorthOffset)),
 #ifdef MAPBASE
@@ -266,6 +272,11 @@ void C_IVGlobalLight::ClientThink()
 		state.m_FarZ = m_flSunDistance * 2.0f;
 		state.m_fBrightnessScale = 2.0f;
 		state.m_bGlobalLight = true;
+		
+		//thsdev_new_glight_parms
+		state.m_flShadowMapResolution = IVGLShadowRes;
+		state.m_flShadowFilterSize = IVGLShadowFSize;
+		state.m_flShadowAtten = IVGLShadowAtten;
 
 #ifdef MAPBASE
 		float flOrthoSize = m_flOrthoSize;
