@@ -915,8 +915,8 @@ void C_OP_RenderSprites::RenderSpriteCard( CMeshBuilder &meshBuilder, C_OP_Rende
 
 	Assert( IsFinite(r) && IsFinite(g) && IsFinite(b) );
 	Assert( (r >= -1e-6f) && (g >= -1e-6f) && (b >= -1e-6f) );
-	if ( !HushAsserts() )
-		Assert( (r <= 1.0f) && (g <= 1.0f) && (b <= 1.0f) );
+//	if ( !HushAsserts() )
+	Assert( (r <= 1.0f) && (g <= 1.0f) && (b <= 1.0f) );
 
 	unsigned char rc = FastFToC( r );
 	unsigned char gc = FastFToC( g );
@@ -1556,8 +1556,9 @@ void C_OP_RenderSpritesTrail::Render( IMatRenderContext *pRenderContext, CPartic
 	}
 
 	// Right now we only have a meshbuilder version!
-	if ( !HushAsserts() )
-		Assert( pMaterial->IsSpriteCard() == false );
+//	if ( !HushAsserts() )
+	Assert( pMaterial->IsSpriteCard() == false );
+
 	if ( pMaterial->IsSpriteCard() )
 		return;
 		 
