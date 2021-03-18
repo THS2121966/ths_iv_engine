@@ -62,6 +62,7 @@ $Group "everything"
 //	"launcher_main"
 //	"sdklauncher"
 	"vtf"
+	"particles"
 }
 
 $Group "dedicated"
